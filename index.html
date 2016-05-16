@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample index file for final project </title>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.min.js"></script>
+
+
+</head>
+<body>
+<script>
+
+    d3.json("dataFULL.txt", function(data) {
+        console.log(data)
+
+        a = JSON.parse(data, math.json.reviver);
+        matrixData = math.matrix(a);
+        sizeMatrix = matrixData.size();
+        numFreqs = sizeMatrix[0];
+        numLocs = sizeMatrix[1];
+
+        freq1 = 1;
+        freq2 = 4;
+
+        freqRange = math.range(freq1,freq2);
+        locsRange = math.range(0,numLocs);
+        numsRange = math.range(0,2);
+        index = math.index(freqRange,locsRange,locsRange,numsRange);
+
+        subsetMatrix = matrixData.subset(index);
+
+        c = math.flatten(matrixData);
+
+
+
+
+
+    });
+
+    d3.csv("dataFULLlist.txt", function(data) {
+
+        z = data;
+
+    });
+
+</script>
+</body>
+</html>
