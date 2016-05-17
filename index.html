@@ -53,6 +53,12 @@
     <option value="AbsVal">Absolute Value</option>
 </select>
 
+<form id = "showSelf">
+    <label><input type="radio" name="selfConn" value="showSelf"> Show self connections </label>
+    <label><input type="radio" name="selfConn" value="NOshowSelf" checked > Exclude self connections </label>
+
+</form>
+
 <br>
 <br>
 
@@ -70,6 +76,7 @@
     var f2 =  d3.select("#freq2").node().value;
     var typeNum = d3.select("#opts").node().value;
     var numsRange = math.range(0,1);
+    var showSelf = d3.select('input[name="selfConn"]:checked').node().value;
 
     // define button
     var button = d3.select("#option");
@@ -132,6 +139,12 @@
 
             matrixMeanArray = matrixMean.valueOf();
 
+            if(showSelf == "NOshowSelf"){
+                for (i = 0; i < 64; i++){
+                    matrixMeanArray[i][i] = 0;
+                }
+            }
+
 
         };
 
@@ -140,6 +153,8 @@
                     f1 = d3.select("#freq1").node().value;
                     f2 = d3.select("#freq2").node().value;
                     typeNum = d3.select("#opts").node().value;
+                    showSelf = d3.select('input[name="selfConn"]:checked').node().value;
+
                     update();
                 });
     update();
