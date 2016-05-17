@@ -220,7 +220,11 @@
                     .style("fill", function(d) { return fill(d.target.index); })
                     .style("opacity", 1);
 
-            svg.exit().remove()
+            var paths = d3.selectAll("path");
+
+            ticks.exit().remove()
+            paths.exit().remove()
+
 
 
         };
