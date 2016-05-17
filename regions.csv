@@ -44,3 +44,22 @@ temporal pole: superior temporal gyrus,TPOsup,#003AFD
 middle temporal gyrus,MTG,#0022FD
 temporal pole: middle temporal gyrus,TPOmid,#000AFE
 inferior temporal gyrus,ITG,#0C00FF
+precentral gyrus,2PreCG,#E50012
+superior frontal gyrus-dorsolateral,2SFGdor,#E50200
+superior frontal gyrus-orbital part,2ORBsup,#E61800
+middle frontal gyrus,2MFG,#E62D00
+middle frontal gyrus-orbital part,2ORBmid,#E74300
+inferior frontal gyrus-opercular part,2IFGoperc,#E75900
+inferior frontal gyrus-triangular part,2IFGtriang,#E86F00
+inferior frontal gyrus-orbital part,2ORBinf,#E98500
+rolandic operculum,2ROL,#E99C00
+supplementary motor area,2SMA,#EAB200
+olfactory cortex,2OLF,#EAC900
+superior frontal gyrus-medial,2SFGmed,#EBDF00
+superior frontal gyrus-medial orbital,2ORBsupmed,#E1EC00
+gyrus rectus,2REC,#CBEC00
+insula,2INS,#B6ED00
+anterior cingulate and paracingulate gyri,2ACG,#A0ED00
+median cingulate and paracingulate gyri,2DCG,#8AEE00
+posterior cingulate gyrus,2PCG,#74EF00
+
