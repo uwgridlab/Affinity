@@ -21,6 +21,26 @@
         stroke-width: .5px;
     }
 
+    /*
+    try histogram
+    http://bl.ocks.org/mbostock/3048450
+    */
+
+    .bar rect {
+        fill: steelblue;
+        shape-rendering: crispEdges;
+    }
+
+    .bar text {
+        fill: #fff;
+    }
+
+    .axis path, .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
 </style>
 <body>
 
@@ -81,6 +101,18 @@ Use the slider to select the threshold value for which you want to cut off the d
     <input type="range" min="0" max="1" step = "0.01" id="thresh">
 </p>
 
+<br>
+Temporary - input channel of interest!
+<br>
+
+<p>
+    <label for="chan"
+           style="display: inline-block; width: 140px; text-align: left">
+        Channel to plot = <span id="chan-value"></span>
+    </label>
+    <input type="number" min="0" max="65" step="1" value="30" id="chan">
+</p>
+
 
 <script>
     // initialize values
@@ -96,6 +128,9 @@ Use the slider to select the threshold value for which you want to cut off the d
 
     // define slide
     var slide = d3.select("#thresh");
+
+    // define channel to plot
+    var channel = d3.select("#chan").node().value;
 
     // function to decide type
     var decideType = function() {
@@ -131,6 +166,7 @@ Use the slider to select the threshold value for which you want to cut off the d
     d3.select("thresh").on("input", function() {
         updateSlide(+this.value);
     });
+
 
 
 
@@ -176,6 +212,71 @@ Use the slider to select the threshold value for which you want to cut off the d
                 }
             }
 
+            valuesToPlot = matrixMeanArray[channel];
+
+            // Generate a histogram using twenty uniformly-spaced bins.
+            // HISTOGRAM PART
+
+
+            // A formatter for counts.
+            formatCount = d3.format(",.0f");
+
+            margin = {top: 10, right: 30, bottom: 30, left: 30},
+                    width = 960 - margin.left - margin.right,
+                    height = 500 - margin.top - margin.bottom;
+
+            x = d3.scale.linear()
+                    .domain([-1, 1])
+                    .range([0, width]);
+
+            svg = d3.select("body").append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            //
+            // put this data part into the update?
+            var data = d3.layout.histogram()
+                    .bins(x.ticks(20))
+                    (valuesToPlot);
+
+            y = d3.scale.linear()
+                    .domain([0, d3.max(data, function(d) { return d.y; })])
+                    .range([height, 0]);
+
+            xAxis = d3.svg.axis()
+                    .scale(x)
+                    .orient("bottom");
+
+
+            bar = svg.selectAll(".bar")
+                    .data(data)
+                    .enter().append("g")
+                    .attr("class", "bar")
+                    .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+
+            bar.append("rect")
+                    .attr("x", 1)
+                    .attr("width", x(data[0].dx) - 1)
+                    .attr("height", function(d) { return height - y(d.y); });
+
+            bar.append("text")
+                    .attr("dy", ".75em")
+                    .attr("y", 6)
+                    .attr("x", x(data[0].dx) / 2)
+                    .attr("text-anchor", "middle")
+                    .text(function(d) { return formatCount(d.y); });
+
+            // EXIT DOESNT WORK!
+           // bar.exit().remove();
+
+
+            svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+
 
         };
 
@@ -184,6 +285,7 @@ Use the slider to select the threshold value for which you want to cut off the d
                 .on("click", function() {
                     f1 = d3.select("#freq1").node().value;
                     f2 = d3.select("#freq2").node().value;
+                    channel = d3.select("#chan").node().value;
                     typeNum = d3.select("#opts").node().value;
                     showSelf = d3.select('input[name="selfConn"]:checked').node().value;
 
