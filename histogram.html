@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample index file for final project </title>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.min.js"></script>
+
+
+</head>
+
+<style>
+
+    body {
+        font: 10px sans-serif;
+    }
+
+    .chord path {
+        fill-opacity: .67;
+        stroke: #000;
+        stroke-width: .5px;
+    }
+
+    /*
+    try histogram
+    http://bl.ocks.org/mbostock/3048450
+    */
+
+    .bar rect {
+        fill: steelblue;
+        shape-rendering: crispEdges;
+    }
+
+    .bar text {
+        fill: #fff;
+    }
+
+    .axis path, .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+</style>
+<body>
+<script>
+// Generate a histogram using twenty uniformly-spaced bins.
+// HISTOGRAM PART
+
+// Generate a Bates distribution of 10 random variables.
+var valuesToPlot = d3.range(1000).map(d3.random.bates(10));
+
+// A formatter for counts.
+formatCount = d3.format(",.0f");
+
+margin = {top: 10, right: 30, bottom: 30, left: 30},
+width = 960 - margin.left - margin.right,
+height = 500 - margin.top - margin.bottom;
+
+x = d3.scale.linear()
+.domain([0, 1])
+.range([0, width]);
+
+svg = d3.select("body").append("svg")
+.attr("width", width + margin.left + margin.right)
+.attr("height", height + margin.top + margin.bottom)
+.append("g")
+.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+//
+// put this data part into the update?
+var data = d3.layout.histogram()
+.bins(x.ticks(20))
+(valuesToPlot);
+
+y = d3.scale.linear()
+.domain([0, d3.max(data, function(d) { return d.y; })])
+.range([height, 0]);
+
+xAxis = d3.svg.axis()
+.scale(x)
+.orient("bottom");
+
+
+bar = svg.selectAll(".bar")
+.data(data)
+.enter().append("g")
+.attr("class", "bar")
+.attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+
+bar.append("rect")
+.attr("x", 1)
+.attr("width", x(data[0].dx) - 1)
+.attr("height", function(d) { return height - y(d.y); });
+
+bar.append("text")
+.attr("dy", ".75em")
+.attr("y", 6)
+.attr("x", x(data[0].dx) / 2)
+.attr("text-anchor", "middle")
+.text(function(d) { return formatCount(d.y); });
+
+// EXIT DOESNT WORK!
+// bar.exit().remove();
+
+
+svg.append("g")
+.attr("class", "x axis")
+.attr("transform", "translate(0," + height + ")")
+.call(xAxis);
+
+</script>
+</body>
+</html>

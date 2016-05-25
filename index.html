@@ -102,16 +102,32 @@ Use the slider to select the threshold value for which you want to cut off the d
 </p>
 
 <br>
-Temporary - input channel of interest!
+Temporary - input channels of interest!
 <br>
 
 <p>
-    <label for="chan"
+    <label for="chan1"
            style="display: inline-block; width: 140px; text-align: left">
-        Channel to plot = <span id="chan-value"></span>
+        1st Channel to plot across frequencies= <span id="chan1-value"></span>
     </label>
-    <input type="number" min="0" max="65" step="1" value="30" id="chan">
+    <input type="number" min="0" max="65" step="1" value="30" id="chan1">
 </p>
+<p>
+    <label for="chan2"
+           style="display: inline-block; width: 140px; text-align: left">
+        2nd Channel to plot across frequencie = <span id="chan2-value"></span>
+    </label>
+    <input type="number" min="0" max="65" step="1" value="31" id="chan2">
+</p>
+
+<div id="plotFreqs">
+    <input name="updateButton"
+           type="button"
+           value="Click here to plot freqs"
+    />
+</div>
+
+
 
 
 <script>
@@ -129,8 +145,12 @@ Temporary - input channel of interest!
     // define slide
     var slide = d3.select("#thresh");
 
-    // define channel to plot
-    var channel = d3.select("#chan").node().value;
+    // define channels to plot
+    var channel_1 = d3.select("#chan1").node().value;
+    var channel_2 = d3.select("#chan2").node().value;
+
+    // define button to click to plot
+    var buttonFreq = d3.select("#plotFreqs");
 
     // function to decide type
     var decideType = function() {
@@ -163,6 +183,45 @@ Temporary - input channel of interest!
 
     };
 
+    //function to update the frequency plot based off of two channels of interest
+    var updateFreqsPlot = function () {
+
+        freqRangeTotal = math.range(0,numFreqs);
+        locsRangeSelect = [parseInt(channel_1), parseInt(channel_2)];
+        indexFreqs= math.index(freqRangeTotal,locsRangeSelect,locsRangeSelect,numsRange);
+
+        subsetMatrixFreqs = matrixData.subset(indexFreqs);
+        freqValuesToPlot = matrixMeanArray.valueOf();
+
+
+    };
+
+    // overall update function
+    var update = function() {
+        decideType();
+        freqRange = math.range(f1,f2);
+        locsRange = math.range(0,numLocs);
+        index = math.index(freqRange,locsRange,locsRange,numsRange);
+
+        subsetMatrix = matrixData.subset(index);
+        if (typeNum == "AbsVal"){
+            absValCalc()
+        };
+        matrixMean = math.squeeze(math.mean(subsetMatrix,0));
+
+        matrixMeanArray = matrixMean.valueOf();
+
+        if(showSelf == "NOshowSelf"){
+            for (i = 0; i < 64; i++){
+                matrixMeanArray[i][i] = 0;
+            }
+        }
+
+
+
+    };
+
+
     d3.select("thresh").on("input", function() {
         updateSlide(+this.value);
     });
@@ -192,100 +251,13 @@ Temporary - input channel of interest!
 
         subsetMatrix = matrixData.subset(index);
 
-        var update = function() {
-            decideType();
-            freqRange = math.range(f1,f2);
-            locsRange = math.range(0,numLocs);
-            index = math.index(freqRange,locsRange,locsRange,numsRange);
-
-            subsetMatrix = matrixData.subset(index);
-            if (typeNum == "AbsVal"){
-                absValCalc()
-            };
-            matrixMean = math.squeeze(math.mean(subsetMatrix,0));
-
-            matrixMeanArray = matrixMean.valueOf();
-
-            if(showSelf == "NOshowSelf"){
-                for (i = 0; i < 64; i++){
-                    matrixMeanArray[i][i] = 0;
-                }
-            }
-
-            valuesToPlot = matrixMeanArray[channel];
-
-            // Generate a histogram using twenty uniformly-spaced bins.
-            // HISTOGRAM PART
-
-
-            // A formatter for counts.
-            formatCount = d3.format(",.0f");
-
-            margin = {top: 10, right: 30, bottom: 30, left: 30},
-                    width = 960 - margin.left - margin.right,
-                    height = 500 - margin.top - margin.bottom;
-
-            x = d3.scale.linear()
-                    .domain([-1, 1])
-                    .range([0, width]);
-
-            svg = d3.select("body").append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
-                    .append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-            //
-            // put this data part into the update?
-            var data = d3.layout.histogram()
-                    .bins(x.ticks(20))
-                    (valuesToPlot);
-
-            y = d3.scale.linear()
-                    .domain([0, d3.max(data, function(d) { return d.y; })])
-                    .range([height, 0]);
-
-            xAxis = d3.svg.axis()
-                    .scale(x)
-                    .orient("bottom");
-
-
-            bar = svg.selectAll(".bar")
-                    .data(data)
-                    .enter().append("g")
-                    .attr("class", "bar")
-                    .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
-
-            bar.append("rect")
-                    .attr("x", 1)
-                    .attr("width", x(data[0].dx) - 1)
-                    .attr("height", function(d) { return height - y(d.y); });
-
-            bar.append("text")
-                    .attr("dy", ".75em")
-                    .attr("y", 6)
-                    .attr("x", x(data[0].dx) / 2)
-                    .attr("text-anchor", "middle")
-                    .text(function(d) { return formatCount(d.y); });
-
-            // EXIT DOESNT WORK!
-           // bar.exit().remove();
-
-
-            svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(xAxis);
-
-
-        };
 
         // update button on click
         button
                 .on("click", function() {
                     f1 = d3.select("#freq1").node().value;
                     f2 = d3.select("#freq2").node().value;
-                    channel = d3.select("#chan").node().value;
+                    //channel = d3.select("#chan").node().value;
                     typeNum = d3.select("#opts").node().value;
                     showSelf = d3.select('input[name="selfConn"]:checked').node().value;
 
@@ -298,6 +270,16 @@ Temporary - input channel of interest!
                     updateSlide(+this.value);
 
                 });
+
+        buttonFreq
+                .on("click",function(){
+                    channel_1 = d3.select("#chan1").node().value;
+                    channel_2 = d3.select("#chan2").node().value;
+
+                    updateFreqsPlot();
+                });
+
+
 
         update();
         updateSlide(0);
