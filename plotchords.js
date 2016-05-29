@@ -32,35 +32,44 @@ function ready(error, regions, allfreqmean) {
 
   chordlayout.matrix(allfreqmean);
 
-  var pair = svg.selectAll(".pair")
+  // Region class define
+  var region = svg.selectAll(".region")
       .data(chordlayout.groups)
     .enter().append("g")
-      .attr("class", "pair")
+      .attr("class", "region")
       .on("mouseover", mouseover);
 
-  pair.append("title").text(function(d, i) {
-    return regions[i].name + ": " + formatPercent(d.value) + " of origins";
+  // Region mouseover
+  region.append("title").text(function(d, i) {
+    return regions[i].fullname + ": " + formatPercent(d.value) + " of origins";
   });
 
-  var pairPath = pair.append("path")
-      .attr("id", function(d, i) { return "pair" + i; })
+  // Region labeling
+  var regionText = region.append("text")
+      .each(function(d) { d.angle = (d.startAngle + d.endAngle)/2; })
+//      .attr("x", 8)
+      .attr("dy", ".35em")
+      .attr("transform", function(d) {
+          return "rotate(" + (d.angle*180 / Math.PI-90) + ")"
+          + "translate(" + (outerRadius+5) + ")"
+          + (d.angle > Math.PI ? "rotate(180)" : "");
+      })
+      .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
+      .text(function(d, i) { return regions[i].name; });
+
+  // Region draw
+  var regionPath = region.append("path")
+      .attr("id", function(d, i) { return "region" + i; })
       .attr("d", d3.svg.arc()
               .innerRadius(innerRadius).outerRadius(outerRadius))
       .style("fill", function(d, i) { return regions[i].color; });
       //.style("stroke") // if needed
 
-  var pairText = pair.append("text")
-      .attr("x", 6)
-      .attr("dy", 15);
-
-  pairText.append("textPath")
-      .attr("xlink:href", function(d, i) { return "#pair" + i; })
-      .text(function(d, i) { return regions[i].name; });
-
   /*
   groupText.filter(function(d, i) { return groupPath[0][i].getTotalLength() / 2 - 16 < this.getComputedTextLength(); })
       .remove();*/
 
+  // Pair chord drawing
   var chord = svg.selectAll(".chord")
       .data(chordlayout.chords)
     .enter().append("path")
@@ -69,6 +78,7 @@ function ready(error, regions, allfreqmean) {
       .attr("d", d3.svg.chord()
               .radius(innerRadius));
 
+  // Pair chord mouseover
   chord.append("title").text(function(d) {
     return regions[d.source.index].name
         + " → " + regions[d.target.index].name
@@ -78,6 +88,7 @@ function ready(error, regions, allfreqmean) {
         + ": " + formatPercent(d.target.value);
   });
 
+  // Pair chord fade nonhighlight
   function mouseover(d, i) {
     chord.classed("fade", function(p) {
       return p.source.index != i
