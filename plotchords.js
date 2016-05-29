@@ -1,23 +1,16 @@
-// Starting with Mike Bostok's version @ https://bost.ocks.org/mike/uberdata/
+// Merge Mike Bostok's version @ http://bl.ocks.org/mbostock/1046712 
 
-var width = 1200,
-    height = 1200,
-    outerRadius = Math.min(width, height) / 2 - 10,
+var width = 1000,
+    height = 1000,
+    outerRadius = Math.min(width, height) / 2 - 100,
     innerRadius = outerRadius - 30;
 
 var formatPercent = d3.format(".3%");
 
-var arc = d3.svg.arc()
-    .innerRadius(innerRadius)
-    .outerRadius(outerRadius);
-
-var layout = d3.layout.chord()
+var chordlayout = d3.layout.chord()
     .padding(.04)
     .sortSubgroups(d3.descending)
     .sortChords(d3.ascending);
-
-var path = d3.svg.chord()
-    .radius(innerRadius);
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -37,29 +30,31 @@ queue()
 function ready(error, regions, allfreqmean) {
   if (error) throw error;
 
-  layout.matrix(allfreqmean);
+  chordlayout.matrix(allfreqmean);
 
-  var group = svg.selectAll(".group")
-      .data(layout.groups)
+  var pair = svg.selectAll(".pair")
+      .data(chordlayout.groups)
     .enter().append("g")
-      .attr("class", "group")
+      .attr("class", "pair")
       .on("mouseover", mouseover);
 
-  group.append("title").text(function(d, i) {
+  pair.append("title").text(function(d, i) {
     return regions[i].name + ": " + formatPercent(d.value) + " of origins";
   });
 
-  var groupPath = group.append("path")
-      .attr("id", function(d, i) { return "group" + i; })
-      .attr("d", arc)
+  var pairPath = pair.append("path")
+      .attr("id", function(d, i) { return "pair" + i; })
+      .attr("d", d3.svg.arc()
+              .innerRadius(innerRadius).outerRadius(outerRadius))
       .style("fill", function(d, i) { return regions[i].color; });
+      //.style("stroke") // if needed
 
-  var groupText = group.append("text")
+  var pairText = pair.append("text")
       .attr("x", 6)
       .attr("dy", 15);
 
-  groupText.append("textPath")
-      .attr("xlink:href", function(d, i) { return "#group" + i; })
+  pairText.append("textPath")
+      .attr("xlink:href", function(d, i) { return "#pair" + i; })
       .text(function(d, i) { return regions[i].name; });
 
   /*
@@ -67,11 +62,12 @@ function ready(error, regions, allfreqmean) {
       .remove();*/
 
   var chord = svg.selectAll(".chord")
-      .data(layout.chords)
+      .data(chordlayout.chords)
     .enter().append("path")
       .attr("class", "chord")
       .style("fill", function(d) { return regions[d.source.index].color; })
-      .attr("d", path);
+      .attr("d", d3.svg.chord()
+              .radius(innerRadius));
 
   chord.append("title").text(function(d) {
     return regions[d.source.index].name
