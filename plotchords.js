@@ -1,3 +1,4 @@
+// Define chord visualization
 var widthcircle = 1000,
     heightcircle = 1000,
     outerRadius = Math.min(widthcircle, heightcircle) / 2 - 100,
@@ -10,7 +11,7 @@ var chordlayout = d3.layout.chord()
     .sortSubgroups(d3.descending)
     .sortChords(d3.ascending);
 
-// initialize visualization area
+// Initialize chord visualization area
 var svgcircle = d3.select("body").append("svg")
     .attr("width", widthcircle)
     .attr("height", heightcircle)
@@ -18,18 +19,20 @@ var svgcircle = d3.select("body").append("svg")
     .attr("id", "circle")
     .attr("transform", "translate(" + widthcircle / 2 + "," + heightcircle / 2 + ")");
 
-// transparent circle to capture mouse events
-svgcircle.append("circle")
-    .attr("r", outerRadius);
+    // transparent circle to capture mouse events
+    svgcircle.append("circle")
+        .attr("r", outerRadius);
 
+// Load and pre-process data
 var renderData = function(error, regions, allfreqmean) {
   if (error) throw error;
 
-  // additional data manipulation layer here
+  /* filter reserved for later
+  groupText.filter(function(d, i) { return groupPath[0][i].getTotalLength() / 2 - 16 < this.getComputedTextLength(); })
+      .remove();*/
 
   renderChord(regions, allfreqmean);
 }
-
 d3_queue.queue()
     .defer(d3.csv, "regions.csv")
     .defer(d3.json, "allfreqmean.json")
@@ -40,30 +43,23 @@ var renderChord = function(regions, allfreqmean) {
 
   chordlayout.matrix(allfreqmean);
 
-  // Region class define
+  // Neural regions define
   var region = svgcircle.selectAll(".region")
-      .data(chordlayout.groups())
-    .enter().append("g")
+      .data(chordlayout.groups(),
+              function(d) {return d.index;}); // disambiguate
+
+  // Exit
+  region.exit()
+      .transition()
+      .duration(500)
+      .attr("opacity", 0)
+      .remove();
+
+  // Enter
+  var newregions = region
+      .enter().append("g")
       .attr("class", "region")
       .on("mouseover", mouseover);
-
-  // Region mouseover
-  region.append("title").text(function(d, i) {
-    return regions[i].fullname + ": " + formatPercent(d.value) + " of origins";
-  });
-
-  // Region labeling
-  var regionText = region.append("text")
-      .each(function(d) { d.angle = (d.startAngle + d.endAngle)/2; })
-//      .attr("x", 8)
-      .attr("dy", ".35em")
-      .attr("transform", function(d) {
-          return "rotate(" + (d.angle*180 / Math.PI-90) + ")"
-          + "translate(" + (outerRadius+5) + ")"
-          + (d.angle > Math.PI ? "rotate(180)" : "");
-      })
-      .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
-      .text(function(d, i) { return regions[i].name; });
 
   // Region draw
   var regionPath = region.append("path")
@@ -73,9 +69,30 @@ var renderChord = function(regions, allfreqmean) {
       .style("fill", function(d, i) { return regions[i].color; });
       //.style("stroke") // if needed
 
-  /*
-  groupText.filter(function(d, i) { return groupPath[0][i].getTotalLength() / 2 - 16 < this.getComputedTextLength(); })
-      .remove();*/
+  // Region mouseover
+  newregions.append("title");
+  // Update all mouseovers inc. new
+  region.append("title").text(function(d, i) {
+    return regions[i].fullname + ": " + formatPercent(d.value) + " of origins";
+  });
+
+  // Region label
+  newregions.append("text")
+      .attr("xlink:href", function(d) { return "#region" + d.index; })
+      .attr("dy", ".35em")
+      .text(function(d, i) { return regions[i].name; });
+
+  // Update all region labeling
+  region.select("text")
+      .transition().duration(500)
+      .attr("transform", function(d) {
+          d.angle = (d.startAngle + d.endAngle)/2;
+          return "rotate(" + (d.angle*180 / Math.PI-90) + ")"
+          + "translate(" + (outerRadius+5) + ")"
+          + (d.angle > Math.PI ? "rotate(180)" : "");
+      })
+      .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : "begin"; });
+      //.text(function(d, i) { return regions[i].name; }); // name unlikely to change within instantiation
 
   // Pair chord drawing
   var chord = svgcircle.selectAll(".chord")
