@@ -4,10 +4,12 @@ var widthcircle = 1000,
     outerRadius = Math.min(widthcircle, heightcircle) / 2 - 100,
     innerRadius = outerRadius - 30;
 
-// Define arc
+// Define arc & chord path
 var arc = d3.svg.arc()
     .innerRadius(innerRadius)
     .outerRadius(outerRadius);
+var cpath = d3.svg.chord()
+    .radius(innerRadius);
 
 // Define vanilla layout
 var generatelayout = function() {
@@ -58,18 +60,17 @@ var renderChord = function(regions, allfreqmean) {
       .data(chordlayout.groups(),
               function(d) {return d.index;}); // disambiguate
 
+  // Enter if any
+  var newregions = region
+      .enter().append("g")
+      .attr("class", "region")
+
   // Exit if any
   region.exit()
       .transition()
       .duration(500)
       .attr("opacity", 0)
       .remove();
-
-  // Enter if any
-  var newregions = region
-      .enter().append("g")
-      .attr("class", "region")
-      .on("mouseover", mouseover);
 
   // ----MOUSEOVERS----
   // Add new mouseovers
@@ -98,7 +99,7 @@ var renderChord = function(regions, allfreqmean) {
       .text(function(d) { return regions[d.index].name; });
   // Update all region labeling
   region.select("text")
-      .transition().duration(500)
+//      .transition().duration(500)
       .attr("transform", function(d) {
           d.angle = (d.startAngle + d.endAngle)/2;
           return "rotate(" + (d.angle*180 / Math.PI-90) + ")"
@@ -114,6 +115,8 @@ var renderChord = function(regions, allfreqmean) {
   // Update chord binding definitions
   var chord = svgcircle.selectAll(".chord")
       .data(chordlayout.chords(), chordKey);
+
+  // Enter, if any
   // Add new chords if any
   var newchords = chord
       .enter().append("path")
@@ -127,22 +130,24 @@ var renderChord = function(regions, allfreqmean) {
       .attr("opacity", 0)
       .remove();
 
-
+  chord.transition().duration(500)
       .style("fill", function(d) { return regions[d.source.index].color; })
-      .attr("d", d3.svg.chord()
-              .radius(innerRadius));
+      .attrTween("d", chordTween(layout_old));
 
   // Pair chord mouseover
-  chord.append("title").text(function(d) {
-    return regions[d.source.index].name
-        + " → " + regions[d.target.index].name
-        + ": " + formatPercent(d.source.value)
-        + "\n" + regions[d.target.index].name
-        + " → " + regions[d.source.index].name
-        + ": " + formatPercent(d.target.value);
+  chord.select("title").text(function(d) {
+  //    if (regions[d.source.index].name !== regions[d.target.index].name) {
+          return regions[d.source.index].name
+      + " → " + regions[d.target.index].name
+      + ": " + formatPercent(d.source.value)
+      + "\n" + regions[d.target.index].name
+      + " → " + regions[d.source.index].name
+      + ": " + formatPercent(d.target.value);
+   //   }
   });
 
   // Pair chord fade nonhighlight
+  region.on("mouseover", mouseover);
   function mouseover(d, i) {
     chord.classed("fade", function(p) {
       return p.source.index != i
@@ -157,4 +162,4 @@ var renderChord = function(regions, allfreqmean) {
 // from https://jsfiddle.net/KjrGF/12/ 
 function chordKey(e){return e.source.index<e.target.index?e.source.index+"-"+e.target.index:e.target.index+"-"+e.source.index}
 function arcTween(e){var r={};return e&&e.groups().forEach(function(e){r[e.index]=e}),function(e,t){var n,a=r[e.index];if(a)n=d3.interpolate(a,e);else{var o={startAngle:e.startAngle,endAngle:e.startAngle};n=d3.interpolate(o,e)}return function(e){return arc(n(e))}}}
-function chordTween(e){var r={};return e&&e.chords().forEach(function(e){r[chordKey(e)]=e}),function(e,t){var n,a=r[chordKey(e)];if(a)e.source.index!=a.source.index&&(a={source:a.target,target:a.source}),n=d3.interpolate(a,e);else{var o={source:{startAngle:e.source.startAngle,endAngle:e.source.startAngle},target:{startAngle:e.target.startAngle,endAngle:e.target.startAngle}};n=d3.interpolate(o,e)}return function(e){return path(n(e))}}}
+function chordTween(e){var r={};return e&&e.chords().forEach(function(e){r[chordKey(e)]=e}),function(e,t){var n,a=r[chordKey(e)];if(a)e.source.index!=a.source.index&&(a={source:a.target,target:a.source}),n=d3.interpolate(a,e);else{var o={source:{startAngle:e.source.startAngle,endAngle:e.source.startAngle},target:{startAngle:e.target.startAngle,endAngle:e.target.startAngle}};n=d3.interpolate(o,e)}return function(e){return cpath(n(e))}}}
