@@ -4,12 +4,21 @@ var widthcircle = 1000,
     outerRadius = Math.min(widthcircle, heightcircle) / 2 - 100,
     innerRadius = outerRadius - 30;
 
-var formatPercent = d3.format(".3%");
+// Define arc
+var arc = d3.svg.arc()
+    .innerRadius(innerRadius)
+    .outerRadius(outerRadius);
 
-var chordlayout = d3.layout.chord()
-    .padding(.04)
-    .sortSubgroups(d3.descending)
-    .sortChords(d3.ascending);
+// Define vanilla layout
+var generatelayout = function() {
+    return d3.layout.chord()
+        .padding(.04)
+        .sortSubgroups(d3.descending)
+        .sortChords(d3.ascending);
+}
+
+var formatPercent = d3.format(".3%");
+var layout_old;
 
 // Initialize chord visualization area
 var svgcircle = d3.select("body").append("svg")
@@ -41,6 +50,7 @@ d3_queue.queue()
 // Create and Update function
 var renderChord = function(regions, allfreqmean) {
 
+  chordlayout = generatelayout();
   chordlayout.matrix(allfreqmean);
 
   // Neural regions define
@@ -48,40 +58,44 @@ var renderChord = function(regions, allfreqmean) {
       .data(chordlayout.groups(),
               function(d) {return d.index;}); // disambiguate
 
-  // Exit
+  // Exit if any
   region.exit()
       .transition()
       .duration(500)
       .attr("opacity", 0)
       .remove();
 
-  // Enter
+  // Enter if any
   var newregions = region
       .enter().append("g")
       .attr("class", "region")
       .on("mouseover", mouseover);
 
-  // Region draw
-  var regionPath = region.append("path")
-      .attr("id", function(d, i) { return "region" + i; })
-      .attr("d", d3.svg.arc()
-              .innerRadius(innerRadius).outerRadius(outerRadius))
-      .style("fill", function(d, i) { return regions[i].color; });
-      //.style("stroke") // if needed
-
-  // Region mouseover
+  // ----MOUSEOVERS----
+  // Add new mouseovers
   newregions.append("title");
-  // Update all mouseovers inc. new
-  region.append("title").text(function(d, i) {
+  // Update all mouseovers
+  region.select("title").text(function(d, i) {
     return regions[i].fullname + ": " + formatPercent(d.value) + " of origins";
   });
 
-  // Region label
+  // ----REGION ARCS----
+  // Add new arcs
+  newregions.append("path")
+      .attr("id", function(d) { return "region" + d.index; })
+      .style("fill", function(d) { return regions[d.index].color; });
+  // Update all arcs
+  region.select("path")
+      .transition().duration(500)
+      .attrTween("d", arcTween(layout_old));
+      //.style("stroke") // if needed
+
+  // ----REGION LABELS----
+  // Add new labels
   newregions.append("text")
       .attr("xlink:href", function(d) { return "#region" + d.index; })
       .attr("dy", ".35em")
-      .text(function(d, i) { return regions[i].name; });
-
+      .text(function(d) { return regions[d.index].name; });
   // Update all region labeling
   region.select("text")
       .transition().duration(500)
@@ -92,13 +106,28 @@ var renderChord = function(regions, allfreqmean) {
           + (d.angle > Math.PI ? "rotate(180)" : "");
       })
       .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : "begin"; });
-      //.text(function(d, i) { return regions[i].name; }); // name unlikely to change within instantiation
+      //.text(function(d, i) { return regions[i].name; });
+      // name highly unlikely to change within instantiation
+      // update ability held in reserve
 
-  // Pair chord drawing
+  // ----PAIRED CHORDS----
+  // Update chord binding definitions
   var chord = svgcircle.selectAll(".chord")
-      .data(chordlayout.chords)
-    .enter().append("path")
-      .attr("class", "chord")
+      .data(chordlayout.chords(), chordKey);
+  // Add new chords if any
+  var newchords = chord
+      .enter().append("path")
+      .attr("class", "chord");
+  // Add captions
+  newchords.append("title");
+
+  // Exit, if any
+  chord.exit().transition()
+      .duration(500)
+      .attr("opacity", 0)
+      .remove();
+
+
       .style("fill", function(d) { return regions[d.source.index].color; })
       .attr("d", d3.svg.chord()
               .radius(innerRadius));
@@ -120,4 +149,12 @@ var renderChord = function(regions, allfreqmean) {
           && p.target.index != i;
     });
   }
+
+  layout_old = chordlayout;
 }
+
+// JSCompress of element-disambiguating tween functions
+// from https://jsfiddle.net/KjrGF/12/ 
+function chordKey(e){return e.source.index<e.target.index?e.source.index+"-"+e.target.index:e.target.index+"-"+e.source.index}
+function arcTween(e){var r={};return e&&e.groups().forEach(function(e){r[e.index]=e}),function(e,t){var n,a=r[e.index];if(a)n=d3.interpolate(a,e);else{var o={startAngle:e.startAngle,endAngle:e.startAngle};n=d3.interpolate(o,e)}return function(e){return arc(n(e))}}}
+function chordTween(e){var r={};return e&&e.chords().forEach(function(e){r[chordKey(e)]=e}),function(e,t){var n,a=r[chordKey(e)];if(a)e.source.index!=a.source.index&&(a={source:a.target,target:a.source}),n=d3.interpolate(a,e);else{var o={source:{startAngle:e.source.startAngle,endAngle:e.source.startAngle},target:{startAngle:e.target.startAngle,endAngle:e.target.startAngle}};n=d3.interpolate(o,e)}return function(e){return path(n(e))}}}
