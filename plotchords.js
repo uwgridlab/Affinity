@@ -7,22 +7,27 @@ var width = 1000,
 
 var formatPercent = d3.format(".3%");
 
-var chordlayout = d3.layout.chord()
-    .padding(.04)
-    .sortSubgroups(d3.descending)
-    .sortChords(d3.ascending);
+//var createChord = function() {
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-  .append("g")
-    .attr("id", "circle")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    var chordlayout = d3.layout.chord()
+        .padding(.04)
+        .sortSubgroups(d3.descending)
+        .sortChords(d3.ascending);
 
-svg.append("circle")
-    .attr("r", outerRadius);
+    // initialize visualization area
+    var svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("id", "circle")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-queue()
+    // transparent circle to capture mouse events
+    svg.append("circle")
+        .attr("r", outerRadius);
+//}
+
+d3_queue.queue()
     .defer(d3.csv, "regions.csv")
     .defer(d3.json, "allfreqmean.json")
     .await(ready);
