@@ -7,7 +7,19 @@ var width = 1000,
 
 var formatPercent = d3.format(".3%");
 
-//var createChord = function() {
+d3_queue.queue()
+    .defer(d3.csv, "regions.csv")
+    .defer(d3.json, "allfreqmean.json")
+    .await(renderData);
+
+// must be declared via hoisting
+function renderData(error, regions, allfreqmean) {
+  if (error) throw error;
+
+  renderChord(regions, allfreqmean);
+}
+
+var renderChord = function(regions, allfreqmean) {
 
     var chordlayout = d3.layout.chord()
         .padding(.04)
@@ -15,7 +27,7 @@ var formatPercent = d3.format(".3%");
         .sortChords(d3.ascending);
 
     // initialize visualization area
-    var svg = d3.select("body").append("svg")
+    var svgcircle = d3.select("body").append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
@@ -23,23 +35,15 @@ var formatPercent = d3.format(".3%");
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     // transparent circle to capture mouse events
-    svg.append("circle")
+    svgcircle.append("circle")
         .attr("r", outerRadius);
-//}
 
-d3_queue.queue()
-    .defer(d3.csv, "regions.csv")
-    .defer(d3.json, "allfreqmean.json")
-    .await(ready);
-
-function ready(error, regions, allfreqmean) {
-  if (error) throw error;
 
   chordlayout.matrix(allfreqmean);
 
   // Region class define
-  var region = svg.selectAll(".region")
-      .data(chordlayout.groups)
+  var region = svgcircle.selectAll(".region")
+      .data(chordlayout.groups())
     .enter().append("g")
       .attr("class", "region")
       .on("mouseover", mouseover);
@@ -75,7 +79,7 @@ function ready(error, regions, allfreqmean) {
       .remove();*/
 
   // Pair chord drawing
-  var chord = svg.selectAll(".chord")
+  var chord = svgcircle.selectAll(".chord")
       .data(chordlayout.chords)
     .enter().append("path")
       .attr("class", "chord")
