@@ -1,43 +1,42 @@
-// Merge Mike Bostok's version @ http://bl.ocks.org/mbostock/1046712 
-
-var width = 1000,
-    height = 1000,
-    outerRadius = Math.min(width, height) / 2 - 100,
+var widthcircle = 1000,
+    heightcircle = 1000,
+    outerRadius = Math.min(widthcircle, heightcircle) / 2 - 100,
     innerRadius = outerRadius - 30;
 
 var formatPercent = d3.format(".3%");
+
+var chordlayout = d3.layout.chord()
+    .padding(.04)
+    .sortSubgroups(d3.descending)
+    .sortChords(d3.ascending);
+
+// initialize visualization area
+var svgcircle = d3.select("body").append("svg")
+    .attr("width", widthcircle)
+    .attr("height", heightcircle)
+    .append("g")
+    .attr("id", "circle")
+    .attr("transform", "translate(" + widthcircle / 2 + "," + heightcircle / 2 + ")");
+
+// transparent circle to capture mouse events
+svgcircle.append("circle")
+    .attr("r", outerRadius);
+
+var renderData = function(error, regions, allfreqmean) {
+  if (error) throw error;
+
+  // additional data manipulation layer here
+
+  renderChord(regions, allfreqmean);
+}
 
 d3_queue.queue()
     .defer(d3.csv, "regions.csv")
     .defer(d3.json, "allfreqmean.json")
     .await(renderData);
 
-// must be declared via hoisting
-function renderData(error, regions, allfreqmean) {
-  if (error) throw error;
-
-  renderChord(regions, allfreqmean);
-}
-
+// Create and Update function
 var renderChord = function(regions, allfreqmean) {
-
-    var chordlayout = d3.layout.chord()
-        .padding(.04)
-        .sortSubgroups(d3.descending)
-        .sortChords(d3.ascending);
-
-    // initialize visualization area
-    var svgcircle = d3.select("body").append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("id", "circle")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-    // transparent circle to capture mouse events
-    svgcircle.append("circle")
-        .attr("r", outerRadius);
-
 
   chordlayout.matrix(allfreqmean);
 
