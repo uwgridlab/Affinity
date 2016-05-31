@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <title>Generate Pairwise Interactive Circle Networks</title>
     <link rel="stylesheet" href="styles.css">
+    <!--Load D3-->
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="//d3js.org/d3-queue.v2.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <!--Load jQuery for slider controls-->
     <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <!--Load math.js for matrix manipulation-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.min.js"></script>
 </head>
 
@@ -42,16 +45,9 @@
     </select>
     </p>
 
-    <div id="option">
-        <input name="updateButton"
-            type="button"
-            value="Re-slice matrix and render (slow)"
-        />
-    </div>
+    <input id="rerender" type="button" value="Re-slice matrix and render (slow)" />
 
-    <p>
-    Use the slider to select the threshold value for which you want to hide connection strengths. (instant)
-    </p>
+    <p>Use the slider to select the threshold value for which you want to hide connection strengths. (instant)</p>
 
     <p>
         <label for="thresh"

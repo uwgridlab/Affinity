@@ -2,7 +2,7 @@
 var numFreqs, numLocs;
 
 // update function for slider
-var updateSlide = function(thresh) {
+var updateThreshSlide = function(thresh) {
 
     // adjust the text on the range slider
     // of note, it looksl ike thresh.value is a STRING, might need to be converted to a floating point for calculations 
@@ -56,13 +56,13 @@ d3.json("dataFULL.txt", function(data) {
     numLocs = sizeMatrix[1];
 
     // update button on click
-    d3.select("#option")
+    d3.select("#rerender")
         .on("click", update);
 
     // update slider on input to slider
     d3.select("#thresh")
         .on("input", function() {
-            updateSlide(+this.value);
+            updateThreshSlide(+this.value);
             threshChords(+this.value);
         });
 
