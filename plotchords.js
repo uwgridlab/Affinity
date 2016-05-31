@@ -19,7 +19,7 @@ var generatelayout = function() {
         .sortChords(d3.ascending);
 }
 
-var formatPercent = d3.format(".3%");
+var formatPrecision = d3.format(".3f");
 var layout_old;
 
 // Initialize chord visualization area
@@ -77,7 +77,7 @@ var renderChord = function(regions, allfreqmean) {
   newregions.append("title");
   // Update all mouseovers
   region.select("title").text(function(d, i) {
-    return regions[i].fullname + ": " + formatPercent(d.value) + " of origins";
+    return regions[i].fullname + ": " + formatPrecision(d.value) + " of origins";
   });
 
   // ----REGION ARCS----
@@ -143,10 +143,10 @@ var renderChord = function(regions, allfreqmean) {
   //    if (regions[d.source.index].name !== regions[d.target.index].name) {
           return regions[d.source.index].name
       + " → " + regions[d.target.index].name
-      + ": " + formatPercent(d.source.value)
+      + ": " + formatPrecision(d.source.value)
       + "\n" + regions[d.target.index].name
       + " → " + regions[d.source.index].name
-      + ": " + formatPercent(d.target.value);
+      + ": " + formatPrecision(d.target.value);
    //   }
   });
 
