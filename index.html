@@ -11,15 +11,13 @@
             fill: none;
             pointer-events: all;
         }
-        .group path {
-            fill-opacity: .5;
-        }
-        .path.chord {
+        path.chord {
             stroke: #000;
             stroke-width: .25px;
+            transition: opacity 0.2s;
         }
         #circle:hover path.fade {
-            display: none;
+            opacity: 0;
         }
     </style>
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>

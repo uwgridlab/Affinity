@@ -120,8 +120,9 @@ var renderChord = function(regions, allfreqmean) {
   // Add new chords if any
   var newchords = chord
       .enter().append("path")
+      .attr("opacity", 0)
       .attr("class", "chord");
-  // Add captions
+  // Add captions to new
   newchords.append("title");
 
   // Exit, if any
@@ -130,8 +131,11 @@ var renderChord = function(regions, allfreqmean) {
       .attr("opacity", 0)
       .remove();
 
-  chord.transition().duration(500)
+  // Update all chords
+  chord
       .style("fill", function(d) { return regions[d.source.index].color; })
+      .transition().duration(500)
+      .attr("opacity", 1)
       .attrTween("d", chordTween(layout_old));
 
   // Pair chord mouseover
