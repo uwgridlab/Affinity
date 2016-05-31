@@ -196,6 +196,46 @@ d3.select("thresh").on("input", function() {
         updateSlide(+this.value);
     });
 
+// set up chart
+// from https://bl.ocks.org/RandomEtc/cff3610e7dd47bef2d01
+// Mike Bostock "margin conventions"
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// D3 scales = just math
+// x is a function that transforms from "domain" (data) into "range" (usual pixels)
+// domain gets set after the data loads
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+// create an SVG element (appended to body)
+// set size
+// add a "g" element (think "group")
+// annoying d3 gotcha - the 'svg' variable here is a 'g' element
+// the final line sets the transform on <g>, not on <svg>
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+
+svg.append("g")
+    .attr("class", "y axis")
+  .append("text") // just for the title (ticks are automatic)
+    .attr("transform", "rotate(-90)") // rotate the text!
+    .attr("y", 6)
+    .attr("dy", ".71em")
+    .style("text-anchor", "end")
+    .text("Frequency");
+
     //function to update the frequency plot based off of two channels of interest
     var updateFreqsPlot = function () {
 
@@ -215,24 +255,22 @@ d3.select("thresh").on("input", function() {
         // set dataset to freqValuesToPlot for time being
         // squeeze it too!
         dataset = math.squeeze(freqValuesToPlot);
-        dataset = [1, 2, 3 ,4, 5]
-
-        var xScale = d3.scale.ordinal()
-                        .domain(d3.range(dataset.length))
-                        .rangeRoundBands([0, w], 0.05);
-
-            yScale = d3.scale.linear()
-                            .domain([0, d3.max(dataset)])
-                            .range([0, h]);
 
         //Select…
-        bars = svg.selectAll("rect")
+        var bars = svg.selectAll(".bar")
             .data(dataset);
 
+        // get the old bars out 
+        bars.exit()
+        .transition()
+        .duration(300)
+        .remove();
 
         
         //Create bars
-        bars.enter()
+        bars.enter().append("rect")
+        .attr("class","bar")
+        .attr("y",height-y(0));
             .append("rect")
             .attr("x", w)
             .attr("y", function(d) {
