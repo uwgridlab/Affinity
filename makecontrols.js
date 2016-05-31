@@ -18,8 +18,10 @@ var updateSlide = function(thresh) {
 // overall update function
 var update = function() {
     // Regrab controls values
-    var f1 = d3.select("#freq1").node().value,
-        f2 = d3.select("#freq2").node().value,
+    var freqrange = d3.select("#freqrange").property("value").split(" - ");
+    
+    var f1 = freqrange[0],
+        f2 = freqrange[1],
         typeNum = d3.select("#opts").node().value,
         showSelf = d3.select('#showSelf').node().value;
                 
