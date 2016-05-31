@@ -7,12 +7,7 @@ var updateSlide = function(thresh) {
     // adjust the text on the range slider
     // of note, it looksl ike thresh.value is a STRING, might need to be converted to a floating point for calculations 
     d3.select("#thresh-value").text(thresh);
-    d3.select("#thresh").property("value", thresh);
-
-    // so redefine slideVal as float , redefine slide 
-    slide = d3.select("#thresh");
-    slideVal = parseFloat(slide.node().value)
-
+    slideVal = parseFloat(thresh)
 };
 
 // overall update function

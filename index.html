@@ -27,7 +27,7 @@
         });
     </script>
     <label for="freqrange">Frequency bin range:</label>
-    <input type="text" id="freqrange" readonly style="border: none;">
+    <input type="text" id="freqrange" readonly style="border: none;" />
     <div id="freqslider"></div>
     
     <p>
@@ -49,23 +49,17 @@
         />
     </div>
 
-    <br>
-    Use the slider to select the threshold value for which you want to cut off the diagram <br>
-    <br>
+    <p>
+    Use the slider to select the threshold value for which you want to hide connection strengths. (instant)
+    </p>
 
     <p>
         <label for="thresh"
             style="display: inline-block; width: 100px; text-align: left">
-            cutff = <span id="thresh-value">0</span>
+            cutoff = <span id="thresh-value">0</span>
         </label>
         <input type="range" min="0" max="1" step="0.01" value="0" id="thresh">
     </p>
-    <!--<div id="plotFreqs">
-        <input name="updateButton"
-            type="button"
-            value="Click here to plot freqs"
-        />
-    </div>-->
 
 </div>
 
