@@ -54,9 +54,6 @@
 
     };
 
-d3.select("thresh").on("input", function() {
-        updateSlide(+this.value);
-    });
 
     // overall update function
     var update = function() {
@@ -125,6 +122,9 @@ d3.select("thresh").on("input", function() {
                 .on("input", function() {
                     updateSlide(+this.value);
 
+                })
+                .on("change", function() {
+                    threshChords(+this.value);
                 });
 
         buttonFreq

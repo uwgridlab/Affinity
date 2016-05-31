@@ -163,6 +163,21 @@ var renderChord = function(regions, allfreqmean) {
   layout_old = chordlayout;
 }
 
+var threshChords = function(threshslide) {
+  var threshval = threshslide * math.max(
+          chordlayout.chords().map(function(d) {return d.source.value}))
+  var chord = svgcircle.selectAll(".chord")
+      .data(chordlayout.chords(), chordKey);
+  chord
+      .transition().duration(500)
+      .attr("opacity", function(d) {
+          if (d.source.value < threshval)
+            return 0;
+          else
+            return 1;
+      });
+}
+
 // JSCompress of element-disambiguating tween functions
 // from https://jsfiddle.net/KjrGF/12/ 
 function chordKey(e){return e.source.index<e.target.index?e.source.index+"-"+e.target.index:e.target.index+"-"+e.source.index}
