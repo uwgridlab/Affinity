@@ -15,11 +15,6 @@
     // define slider value
     var slideVal = parseFloat(slide.node().value)
 
-    // define channels to plot
-    // these are currently defined as strings 
-    var channel_1 = d3.select("#chan1").node().value;
-    var channel_2 = d3.select("#chan2").node().value;
-
     // define button to click to plot
     var buttonFreq = d3.select("#plotFreqs");
 
@@ -63,80 +58,6 @@ d3.select("thresh").on("input", function() {
         updateSlide(+this.value);
     });
 
-    //function to update the frequency plot based off of two channels of interest
-    var updateFreqsPlot = function () {
-
-        freqRangeTotal = math.range(0,numFreqs);
-        //locsRangeSelect = [parseInt(channel_1), parseInt(channel_2)];
-
-        // i believe we just want to select one channel in the 2 and 3rd dimension rather than a range, as the graph data is currently undirected . use parseInt to convert string to int
-
-        locs_1 = parseInt(channel_1);
-        locs_2 = parseInt(channel_2);
-        indexFreqs= math.index(freqRangeTotal,locs_1,locs_2,numsRange);
-
-        subsetMatrixFreqs = matrixData.subset(indexFreqs);
-        freqValuesToPlot = subsetMatrixFreqs.valueOf();
-
-        // try and plot it! 
-        // set dataset to freqValuesToPlot for time being
-        // squeeze it too!
-        dataset = math.squeeze(freqValuesToPlot);
-        dataset = [1, 2, 3 ,4, 5]
-
-        var xScale = d3.scale.ordinal()
-                        .domain(d3.range(dataset.length))
-                        .rangeRoundBands([0, w], 0.05);
-
-            yScale = d3.scale.linear()
-                            .domain([0, d3.max(dataset)])
-                            .range([0, h]);
-
-        //Select…
-        bars = svg.selectAll("rect")
-            .data(dataset);
-
-
-        
-        //Create bars
-        bars.enter()
-            .append("rect")
-            .attr("x", w)
-            .attr("y", function(d) {
-                return h - yScale(d.value);
-            })
-            .attr("width", xScale.rangeBand())
-            .attr("height", function(d) {
-                return yScale(d.value);
-            })
-            .attr("fill", function(d) {
-                return "rgb(0, 0, " + (d.value * 10) + ")";
-            });
-
-        //Update…
-        bars.transition()
-            .duration(500)
-            .attr("x", function(d, i) {
-                return xScale(i);
-            })
-            .attr("y", function(d) {
-                return h - yScale(d.value);
-            })
-            .attr("width", xScale.rangeBand())
-            .attr("height", function(d) {
-                return yScale(d.value);
-            });
-
-        //Exit…
-        bars.exit()
-            .transition()
-            .duration(500)
-            .attr("x", -xScale.rangeBand())
-            .remove();
-
-
-    };
-
     // overall update function
     var update = function() {
         decideType();
@@ -158,23 +79,11 @@ d3.select("thresh").on("input", function() {
             }
         }
 
+        renderChord(regions_global, matrixMeanArray);
+
 
 
     };
-
-
-
-
-    //make the svg element for the bar graph 
-    var w = 600;
-    var h = 250;
-            
-     //Create SVG element
-    var svg = d3.select("body")
-        .append("svg")
-        .attr("width", w)
-        .attr("height", h);
-
 
     // read in data, using initial guys
     d3.json("dataFULL.txt", function(data) {
@@ -228,7 +137,9 @@ d3.select("thresh").on("input", function() {
 
 
 
+        /*
         update();
         updateSlide(0);
+        */
 
     });

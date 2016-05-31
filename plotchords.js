@@ -21,6 +21,7 @@ var generatelayout = function() {
 
 var formatPrecision = d3.format(".3f");
 var layout_old;
+var regions_global;
 
 // Initialize chord visualization area
 var svgcircle = d3.select("body").append("svg")
@@ -35,14 +36,14 @@ var svgcircle = d3.select("body").append("svg")
         .attr("r", outerRadius);
 
 // Load and pre-process data
-var renderData = function(error, regions, allfreqmean) {
+var renderData = function(error, regions_in, allfreqmean) {
   if (error) throw error;
 
   /* filter reserved for later
   groupText.filter(function(d, i) { return groupPath[0][i].getTotalLength() / 2 - 16 < this.getComputedTextLength(); })
       .remove();*/
-
-  renderChord(regions, allfreqmean);
+  regions_global = regions_in;
+  renderChord(regions_global, allfreqmean);
 }
 d3_queue.queue()
     .defer(d3.csv, "regions.csv")
