@@ -1,22 +1,5 @@
-// initialize values
-var f1 =  d3.select("#freq1").node().value;
-var f2 =  d3.select("#freq2").node().value;
-
-var typeNum = d3.select("#opts").node().value;
-var numsRange = math.range(0,1);
-var showSelf = d3.select("#showSelf").node().value;
-
-// define button
-var button = d3.select("#option");
-
-// define slide
-var slide = d3.select("#thresh");
-
-// define slider value
-var slideVal = parseFloat(slide.node().value)
-
-// // define button to click to plot
-// var buttonFreq = d3.select("#plotFreqs");
+// initialize global parameter values
+var numFreqs, numLocs;
 
 // update function for slider
 var updateSlide = function(thresh) {
@@ -34,6 +17,12 @@ var updateSlide = function(thresh) {
 
 // overall update function
 var update = function() {
+    // Regrab controls values
+    var f1 = d3.select("#freq1").node().value,
+        f2 = d3.select("#freq2").node().value,
+        typeNum = d3.select("#opts").node().value,
+        showSelf = d3.select('#showSelf').node().value;
+                
     freqRange = math.range(f1,f2);
     locsRange = math.range(0,numLocs);
     indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
@@ -43,11 +32,8 @@ var update = function() {
 
     if (typeNum == "AbsVal")
         subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
-    else if (typeNum = "Angle"){
+    else if (typeNum = "Angle")
         subsetMatrix = math.add(math.atan2(matrixI, matrixR), 2*math.pi);
-        
-    }
-
 
     matrixMean = math.squeeze(math.mean(subsetMatrix,0));
     matrixMeanArray = matrixMean.valueOf();
@@ -72,27 +58,16 @@ d3.json("dataFULL.txt", function(data) {
     numFreqs = sizeMatrix[0];
     numLocs = sizeMatrix[1];
 
-    freqRange = math.range(f1,f2);
-    locsRange = math.range(0,numLocs);
-
     // update button on click
-    button
-            .on("click", function() {
-                f1 = d3.select("#freq1").node().value;
-                f2 = d3.select("#freq2").node().value;
-                //channel = d3.select("#chan").node().value;
-                typeNum = d3.select("#opts").node().value;
-                showSelf = d3.select('#showSelf').node().value;
-
-                update();
-            });
+    d3.select("#option")
+        .on("click", update);
 
     // update slider on input to slider
-    slide
-            .on("input", function() {
-                updateSlide(+this.value);
-                threshChords(+this.value);
-            });
+    d3.select("#thresh")
+        .on("input", function() {
+            updateSlide(+this.value);
+            threshChords(+this.value);
+        });
 
     // buttonFreq
     //         .on("click",function(){
