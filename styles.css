@@ -1,0 +1,23 @@
+body {
+    font-family: "Helvetica Neue", "Roboto Light", sans-serif;
+    font-size: 12px;
+}
+div.box {
+    max-width: 300px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    padding: 1em;
+}
+#circle circle {
+    fill: none;
+    pointer-events: all;
+}
+path.chord {
+    stroke: #000;
+    stroke-width: .25px;
+    transition: opacity 0.2s;
+}
+#circle:hover path.fade {
+    opacity: 0;
+}

@@ -27,6 +27,7 @@ var regions_global;
 var svgcircle = d3.select("body").append("svg")
     .attr("width", widthcircle)
     .attr("height", heightcircle)
+    .attr("id", "svgcirc")
     .append("g")
     .attr("id", "circle")
     .attr("transform", "translate(" + widthcircle / 2 + "," + heightcircle / 2 + ")");
@@ -78,7 +79,7 @@ var renderChord = function(regions, allfreqmean) {
   newregions.append("title");
   // Update all mouseovers
   region.select("title").text(function(d, i) {
-    return regions[i].fullname + ": " + formatPrecision(d.value) + " of origins";
+    return regions[i].fullname + ": " + formatPrecision(d.value) + " sum of mean";
   });
 
   // ----REGION ARCS----
