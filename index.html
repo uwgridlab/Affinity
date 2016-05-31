@@ -196,45 +196,7 @@ d3.select("thresh").on("input", function() {
         updateSlide(+this.value);
     });
 
-// set up chart
-// from https://bl.ocks.org/RandomEtc/cff3610e7dd47bef2d01
-// Mike Bostock "margin conventions"
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
 
-// D3 scales = just math
-// x is a function that transforms from "domain" (data) into "range" (usual pixels)
-// domain gets set after the data loads
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
-
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-// create an SVG element (appended to body)
-// set size
-// add a "g" element (think "group")
-// annoying d3 gotcha - the 'svg' variable here is a 'g' element
-// the final line sets the transform on <g>, not on <svg>
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-
-svg.append("g")
-    .attr("class", "y axis")
-  .append("text") // just for the title (ticks are automatic)
-    .attr("transform", "rotate(-90)") // rotate the text!
-    .attr("y", 6)
-    .attr("dy", ".71em")
-    .style("text-anchor", "end")
-    .text("Frequency");
 
     //function to update the frequency plot based off of two channels of interest
     var updateFreqsPlot = function () {
@@ -255,56 +217,43 @@ svg.append("g")
         // set dataset to freqValuesToPlot for time being
         // squeeze it too!
         dataset = math.squeeze(freqValuesToPlot);
+                dataset = [5,4,3,2,1]
 
-        //Select…
-        var bars = svg.selectAll(".bar")
-            .data(dataset);
 
-        // get the old bars out 
-        bars.exit()
-        .transition()
-        .duration(300)
-        .remove();
+        // set up chart
+// from https://bl.ocks.org/RandomEtc/cff3610e7dd47bef2d01
+// Mike Bostock "margin conventions"
 
-        
-        //Create bars
-        bars.enter().append("rect")
-        .attr("class","bar")
-        .attr("y",height-y(0));
-            .append("rect")
-            .attr("x", w)
-            .attr("y", function(d) {
-                return h - yScale(d.value);
-            })
-            .attr("width", xScale.rangeBand())
-            .attr("height", function(d) {
-                return yScale(d.value);
-            })
-            .attr("fill", function(d) {
-                return "rgb(0, 0, " + (d.value * 10) + ")";
-            });
+//Width and height
+            var w = 600;
+            var h = 250;
 
-        //Update…
-        bars.transition()
-            .duration(500)
-            .attr("x", function(d, i) {
-                return xScale(i);
-            })
-            .attr("y", function(d) {
-                return h - yScale(d.value);
-            })
-            .attr("width", xScale.rangeBand())
-            .attr("height", function(d) {
-                return yScale(d.value);
-            });
 
-        //Exit…
-        bars.exit()
-            .transition()
-            .duration(500)
-            .attr("x", -xScale.rangeBand())
-            .remove();
+            var xScale = d3.scale.ordinal()
+                            .domain(d3.range(dataset.length))
+                            .rangeRoundBands([0, w], 0.05);
 
+            var yScale = d3.scale.linear()
+                            .domain([0, d3.max(dataset)])
+                            .range([0, h]);
+
+        //Update all rects
+                    svg.selectAll("rect")
+                       .data(dataset)
+                       .transition()
+                       .delay(function(d, i) {
+                           return i / dataset.length * 1000;
+                       })
+                       .duration(500)
+                       .attr("y", function(d) {
+                            return h - yScale(d);
+                       })
+                       .attr("height", function(d) {
+                            return yScale(d);
+                       })
+                       .attr("fill", function(d) {
+                            return "rgb(0, 0, " + (d * 10) + ")";
+                       });
 
     };
 
@@ -334,19 +283,6 @@ svg.append("g")
     };
 
 
-
-
-    //make the svg element for the bar graph 
-    var w = 600;
-    var h = 250;
-            
-     //Create SVG element
-    var svg = d3.select("body")
-        .append("svg")
-        .attr("width", w)
-        .attr("height", h);
-
-
     // read in data, using initial guys
     d3.json("dataFULL.txt", function(data) {
 
@@ -368,6 +304,70 @@ svg.append("g")
         index = math.index(freqRange,locsRange,locsRange,numsRange);
 
         subsetMatrix = matrixData.subset(index);
+
+        // draw bars first 
+
+        // generate this data on first pass
+
+
+        freqRangeTotal = math.range(0,numFreqs);
+        //locsRangeSelect = [parseInt(channel_1), parseInt(channel_2)];
+
+        // i believe we just want to select one channel in the 2 and 3rd dimension rather than a range, as the graph data is currently undirected . use parseInt to convert string to int
+
+        locs_1 = parseInt(channel_1);
+        locs_2 = parseInt(channel_2);
+        indexFreqs= math.index(freqRangeTotal,locs_1,locs_2,numsRange);
+
+        subsetMatrixFreqs = matrixData.subset(indexFreqs);
+        freqValuesToPlot = subsetMatrixFreqs.valueOf();
+
+        // try and plot it! 
+        // set dataset to freqValuesToPlot for time being
+        // squeeze it too!
+        dataset = math.squeeze(freqValuesToPlot);
+        dataset = [1,2,3,4,5]
+
+           // set up chart
+// from https://bl.ocks.org/RandomEtc/cff3610e7dd47bef2d01
+// Mike Bostock "margin conventions"
+
+//Width and height
+            var w = 600;
+            var h = 250;
+
+            var xScale = d3.scale.ordinal()
+                            .domain(d3.range(dataset.length))
+                            .rangeRoundBands([0, w], 0.05);
+
+            var yScale = d3.scale.linear()
+                            .domain([0, d3.max(dataset)])
+                            .range([0, h]);
+
+
+            //Create SVG element
+            svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+        svg.selectAll("rect")
+               .data(dataset)
+               .enter()
+               .append("rect")
+               .attr("x", function(d, i) {
+                    return xScale(i);
+               })
+               .attr("y", function(d) {
+                    return h - yScale(d);
+               })
+               .attr("width", xScale.rangeBand())
+               .attr("height", function(d) {
+                    return yScale(d);
+               })
+               .attr("fill", function(d) {
+                    return "rgb(0, 0, " + (d * 10) + ")";
+               });
 
 
         // update button on click
