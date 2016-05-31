@@ -107,7 +107,7 @@ var renderChord = function(regions, allfreqmean) {
           + "translate(" + (outerRadius+5) + ")"
           + (d.angle > Math.PI ? "rotate(180)" : "");
       })
-      .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : "begin"; });
+      .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : "start"; });
       //.text(function(d, i) { return regions[i].name; });
       // name highly unlikely to change within instantiation
       // update ability held in reserve
@@ -180,7 +180,7 @@ var threshChords = function(threshslide) {
 }
 
 // JSCompress of element-disambiguating tween functions
-// from https://jsfiddle.net/KjrGF/12/ 
+// Modified from https://jsfiddle.net/KjrGF/12/
 function chordKey(e){return e.source.index<e.target.index?e.source.index+"-"+e.target.index:e.target.index+"-"+e.source.index}
 function arcTween(e){var r={};return e&&e.groups().forEach(function(e){r[e.index]=e}),function(e,t){var n,a=r[e.index];if(a)n=d3.interpolate(a,e);else{var o={startAngle:e.startAngle,endAngle:e.startAngle};n=d3.interpolate(o,e)}return function(e){return arc(n(e))}}}
 function chordTween(e){var r={};return e&&e.chords().forEach(function(e){r[chordKey(e)]=e}),function(e,t){var n,a=r[chordKey(e)];if(a)e.source.index!=a.source.index&&(a={source:a.target,target:a.source}),n=d3.interpolate(a,e);else{var o={source:{startAngle:e.source.startAngle,endAngle:e.source.startAngle},target:{startAngle:e.target.startAngle,endAngle:e.target.startAngle}};n=d3.interpolate(o,e)}return function(e){return cpath(n(e))}}}
