@@ -165,11 +165,12 @@ var renderChord = function(regions, allfreqmean) {
 
 var threshChords = function(threshslide) {
   var threshval = threshslide * math.max(
-          chordlayout.chords().map(function(d) {return d.source.value}))
-  var chord = svgcircle.selectAll(".chord")
-      .data(chordlayout.chords(), chordKey);
-  chord
-      .transition().duration(500)
+          chordlayout.chords()
+          .map(function(d)
+              {return d.source.value}
+              ))
+  chord = svgcircle.selectAll(".chord")
+      .data(chordlayout.chords(), chordKey)
       .attr("opacity", function(d) {
           if (d.source.value < threshval)
             return 0;

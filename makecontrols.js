@@ -121,9 +121,6 @@
         slide
                 .on("input", function() {
                     updateSlide(+this.value);
-
-                })
-                .on("change", function() {
                     threshChords(+this.value);
                 });
 
