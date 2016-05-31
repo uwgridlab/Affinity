@@ -4,7 +4,7 @@ var f2 =  d3.select("#freq2").node().value;
 
 var typeNum = d3.select("#opts").node().value;
 var numsRange = math.range(0,1);
-var showSelf = d3.select('input[name="selfConn"]:checked').node().value;
+var showSelf = d3.select("#showSelf").node().value;
 
 // define button
 var button = d3.select("#option");
@@ -111,7 +111,7 @@ d3.json("dataFULL.txt", function(data) {
                 f2 = d3.select("#freq2").node().value;
                 //channel = d3.select("#chan").node().value;
                 typeNum = d3.select("#opts").node().value;
-                showSelf = d3.select('input[name="selfConn"]:checked').node().value;
+                showSelf = d3.select('#showSelf').node().value;
 
                 update();
             });
