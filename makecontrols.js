@@ -32,13 +32,6 @@
 
     };
 
-    // function to calculate absolute value of data matrix
-    var absValCalc = function(){
-        indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
-        indexI =  math.index(freqRange,locsRange,locsRange,math.range(1,2));
-        subsetMatrix = math.sqrt(math.add(math.square(matrixData.subset(indexR)),math.square(matrixData.subset(indexI))));
-
-    };
     // update function for slider
 
     var updateSlide = function(thresh) {
@@ -60,12 +53,16 @@
         decideType();
         freqRange = math.range(f1,f2);
         locsRange = math.range(0,numLocs);
-        index = math.index(freqRange,locsRange,locsRange,numsRange);
+        indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
+        indexI =  math.index(freqRange,locsRange,locsRange,math.range(1,2));
+        matrixR = matrixData.subset(indexR);
+        matrixI = matrixData.subset(indexI);
 
-        subsetMatrix = matrixData.subset(index);
-        if (typeNum == "AbsVal"){
-            absValCalc()
-        };
+        if (typeNum == "AbsVal")
+            subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
+        else if (typeNum = "Angle")
+            subsetMatrix = math.add(math.atan2(matrixI, matrixR), 2*math.pi);
+
         matrixMean = math.squeeze(math.mean(subsetMatrix,0));
 
         matrixMeanArray = matrixMean.valueOf();
@@ -98,11 +95,13 @@
         freqRange = math.range(f1,f2);
         locsRange = math.range(0,numLocs);
 
+        /*
         decideType();
 
         index = math.index(freqRange,locsRange,locsRange,numsRange);
 
         subsetMatrix = matrixData.subset(index);
+        */
 
 
         // update button on click
