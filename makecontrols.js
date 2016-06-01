@@ -1,5 +1,5 @@
 // initialize global parameter values
-var numFreqs, numLocs;
+var numFreqs, numLocs, regions_seq = [], regions_file;
 var matrixMeanArray;
 
 // update function for slider
@@ -56,6 +56,15 @@ d3.json("dataFULL.txt", function(data) {
     numFreqs = sizeMatrix[0];
     numLocs = sizeMatrix[1];
 
+    // construct number sequence as labeling option
+    for (var i = 0; i < numLocs; i++){
+        regions_seq.push({
+            color: "#ff0000",
+            fullname: i,
+            name: i
+        });
+    }
+    
     // update button on click
     d3.select("#rerender")
         .on("click", update);
@@ -68,7 +77,9 @@ d3.json("dataFULL.txt", function(data) {
         });
     
     d3.select("#labelmode")
-        .on("input", labelregion);
+        .on("input", function() {
+            labelRegion(this.value);
+        });
 
     // buttonFreq
     //         .on("click",function(){

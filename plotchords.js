@@ -37,13 +37,15 @@ var svgcircle = d3.select("body").append("svg")
         .attr("r", outerRadius);
 
 // Load and pre-process data
-var renderData = function(error, regions_file, allfreqmean) {
+var renderData = function(error, regions_in, allfreqmean) {
   if (error) throw error;
 
   /* filter reserved for later
   groupText.filter(function(d, i) { return groupPath[0][i].getTotalLength() / 2 - 16 < this.getComputedTextLength(); })
       .remove();*/
+  regions_file = regions_in;
   matrixMeanArray = allfreqmean;
+  
   regions_global = regions_file;
   renderChord(regions_global, matrixMeanArray);
 }
@@ -98,8 +100,7 @@ var renderChord = function(regions, allfreqmean) {
   // Add new labels
   newregions.append("text")
       .attr("xlink:href", function(d) { return "#region" + d.index; })
-      .attr("dy", ".35em")
-      .text(function(d) { return regions[d.index].name; });
+      .attr("dy", ".35em");
   // Update all region labeling
   region.select("text")
 //      .transition().duration(500)
@@ -109,10 +110,8 @@ var renderChord = function(regions, allfreqmean) {
           + "translate(" + (outerRadius+5) + ")"
           + (d.angle > Math.PI ? "rotate(180)" : "");
       })
-      .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : "start"; });
-      //.text(function(d, i) { return regions[i].name; });
-      // name highly unlikely to change within instantiation
-      // update ability held in reserve
+      .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : "start"; })
+      .text(function(d) { return regions[d.index].name; });
 
   // ----PAIRED CHORDS----
   // Update chord binding definitions
@@ -193,7 +192,11 @@ var threshChords = function(threshslide) {
 }
 
 var labelRegion = function(labelmode) {
-    
+    if (labelmode == "labelnums")
+        regions_global = regions_seq;
+    else
+        regions_global = regions_file;
+    renderChord(regions_global, matrixMeanArray);
 }
 
 // JSCompress of element-disambiguating tween functions
