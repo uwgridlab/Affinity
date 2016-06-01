@@ -18,17 +18,6 @@
 <body>
 <div class="box" id="controlpanel">
     <p>Input a lower and upper frequency bin range of interest and select a metric from the dropdown box.</p>
-    <script>
-        $(function() {
-            $( "#freqslider" ).slider({
-            range: true, min: 0, max: 65, step: 1, values: [ 0, 65 ],
-            slide: function( event, ui ) {
-                $( "#freqrange" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] ); }
-            });
-            $( "#freqrange" ).val($( "#freqslider" ).slider( "values", 0 ) +
-            " - " + $( "#freqslider" ).slider( "values", 1 ) );
-        });
-    </script>
     <label for="freqrange">Frequency bin range:</label>
     <input type="text" id="freqrange" readonly style="border: none;" />
     <div id="freqslider"></div>

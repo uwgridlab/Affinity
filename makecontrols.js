@@ -1,6 +1,6 @@
 // initialize global parameter values
-var numFreqs, numLocs, regions_seq = [], regions_file;
-var matrixMeanArray;
+var numFreqs, numLocs;
+var matrixMeanArray, regions_seq = [], regions_file;
 
 // update function for slider
 var updateThreshSlide = function(thresh) {
@@ -22,19 +22,18 @@ var update = function() {
         showSelf = d3.select('#showSelf').node().value;
                 
     freqRange = math.range(f1,f2);
-    locsRange = math.range(0,numLocs);
-    indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
-    indexI =  math.index(freqRange,locsRange,locsRange,math.range(1,2));
-    matrixR = matrixData.subset(indexR);
-    matrixI = matrixData.subset(indexI);
+    var locsRange = math.range(0,numLocs);
+    var indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
+    var indexI =  math.index(freqRange,locsRange,locsRange,math.range(1,2));
+    var matrixR = matrixData.subset(indexR);
+    var matrixI = matrixData.subset(indexI);
 
     if (typeNum == "AbsVal")
         subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
     else if (typeNum = "Angle")
         subsetMatrix = math.add(math.atan2(matrixI, matrixR), 2*math.pi);
 
-    matrixMean = math.squeeze(math.mean(subsetMatrix,0));
-    matrixMeanArray = matrixMean.valueOf();
+    matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
 
     if(showSelf == "NOshowSelf"){
         for (i = 0; i < 64; i++){
@@ -80,6 +79,17 @@ d3.json("dataFULL.txt", function(data) {
         .on("input", function() {
             labelRegion(this.value);
         });
+        
+    // Dynamic slider generation
+    $(function() {
+        $( "#freqslider" ).slider({
+        range: true, min: 0, max: numFreqs, step: 1, values: [ 0, numFreqs ],
+        slide: function( event, ui ) {
+            $( "#freqrange" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] ); }
+        });
+        $( "#freqrange" ).val($( "#freqslider" ).slider( "values", 0 ) +
+        " - " + $( "#freqslider" ).slider( "values", 1 ) );
+    });
 
     // buttonFreq
     //         .on("click",function(){
