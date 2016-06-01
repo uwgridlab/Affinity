@@ -37,7 +37,7 @@ var svgcircle = d3.select("body").append("svg")
         .attr("r", outerRadius);
 
 // Create and Update function
-var renderChord = function(regions, allfreqmean) {
+var renderChord = function(regions, allfreqmean, colormode) {
 
   chordlayout = generatelayout();
   chordlayout.matrix(allfreqmean);
@@ -70,10 +70,18 @@ var renderChord = function(regions, allfreqmean) {
   // ----REGION ARCS----
   // Add new arcs
   newregions.append("path")
-      .attr("id", function(d) { return "region" + d.index; })
-      .style("fill", function(d) { return regions[d.index].color; });
+      .attr("id", function(d) { return "region" + d.index; });
   // Update all arcs
   region.select("path")
+      .style("fill", function(d) {
+          if (colormode == "colorfile")
+            return regions[d.index].color;
+          else if (colormode == "colorseq"){
+              console.log(colormap.domain() + "   " + +d.index);
+                          return colormap(d.index);
+          }
+
+        })
       .transition().duration(500)
       .attrTween("d", arcTween(layout_old));
       //.style("stroke") // if needed
@@ -117,7 +125,12 @@ var renderChord = function(regions, allfreqmean) {
 
   // Update all chords
   chord
-      .style("fill", function(d) { return regions[d.source.index].color; })
+      .style("fill", function(d) {
+                    if (colormode == "colorfile")
+                        return regions[d.source.index].color;
+                    else if (colormode == "colorseq")
+                        return colormap(d.source.index);
+                    })
       .transition().duration(500)
       .attr("opacity", 1)
       .attrTween("d", chordTween(layout_old));
@@ -160,7 +173,7 @@ var threshChords = function(threshslide) {
             return e >= threshval ? e : 0;
         })
     });
-    renderChord(regions_global, matrixprune);
+    renderChord(regions_global, matrixprune, colormode);
     
     /*
 //   FADE METHOD: preserve as feature maybe
@@ -179,7 +192,7 @@ var labelRegion = function(labelmode) {
         regions_global = regions_seq;
     else if (labelmode == "labelfile")
         regions_global = regions_file;
-    renderChord(regions_global, matrixMeanArray);
+    renderChord(regions_global, matrixMeanArray, colormode);
 }
 
 // JSCompress of element-disambiguating tween functions

@@ -1,8 +1,11 @@
 // initialize global parameter values
 var numFreqs, numLocs;
-var matrixMeanArray, regions_seq = [], regions_file;
+var matrixMeanArray, matrixAngleArray;
+var regions_seq = [], regions_file;
 // Define generic color scale
 var colormap = d3.scale.linear();
+var colormapangle = d3.scale.linear();
+var colormode = "colorfile"
 
 // update function for slider
 var updateThreshSlide = function(thresh) {
@@ -30,19 +33,21 @@ var update = function() {
     var matrixR = matrixData.subset(indexR);
     var matrixI = matrixData.subset(indexI);
 
-    if (typeNum == "AbsVal")
-        subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
-    else if (typeNum = "Angle")
-        subsetMatrix = math.add(math.atan2(matrixI, matrixR), 2*math.pi);
-
+    // if (typeNum == "AbsVal")
+    var subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
     matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
+    
+    if (typeNum = "Angle"){
+        var subsetMatrixAngle = math.atan2(matrixI, matrixR);
+        matrixAngleArray = math.squeeze(math.mean(subsetMatrixAngle,0)).valueOf();
+    }
 
     if(showSelf == "NOshowSelf"){
         for (i = 0; i < 64; i++){
             matrixMeanArray[i][i] = 0;
         }
     }
-    renderChord(regions_global, matrixMeanArray);
+    renderChord(regions_global, matrixMeanArray, colormode);
 };
 
 // read in data, using initial guys
@@ -74,10 +79,15 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
     
     // construct default color map
     colormap
-        .domain([0, numLocs])
+        .domain(math.multiply(
+            [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+            numLocs).valueOf())
         .range(["#FF5C63","#FF9958","#FFE155",
             "#D1FF51","#84FF4E","#4AFF61",
-            "#47FFAE","#43FFFE","#40ACFF","#3D57FF"]);
+            "#47FFAE","#43FFFE","#40ACFF","#3D57FF","#D140FF"]);
+    colormapangle
+        .domain([-math.pi, 0, math.pi])
+        .range(["lightred", "white", "lightblue"]);
     
     // update button on click
     d3.select("#rerender")
@@ -96,7 +106,8 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
         });
     d3.select("#colormode")
         .on("input", function() {
-            colorRegion(this.value);
+            colormode = this.value;
+            renderChord(regions_global, matrixMeanArray, colormode);
         });
         
     // Dynamic slider generation
@@ -110,7 +121,7 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
         " - " + $( "#freqslider" ).slider( "values", 1 ) );
     });
     
-    renderChord(regions_global, matrixMeanArray);
+    renderChord(regions_global, matrixMeanArray, colormode);
 
     // buttonFreq
     //         .on("click",function(){
