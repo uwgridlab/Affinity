@@ -1,5 +1,6 @@
 // initialize global parameter values
 var numFreqs, numLocs;
+var matrixMeanArray;
 
 // update function for slider
 var updateThreshSlide = function(thresh) {
@@ -65,6 +66,9 @@ d3.json("dataFULL.txt", function(data) {
             updateThreshSlide(+this.value);
             threshChords(+this.value);
         });
+    
+    d3.select("#labelmode")
+        .on("input", labelregion);
 
     // buttonFreq
     //         .on("click",function(){

@@ -37,14 +37,15 @@ var svgcircle = d3.select("body").append("svg")
         .attr("r", outerRadius);
 
 // Load and pre-process data
-var renderData = function(error, regions_in, allfreqmean) {
+var renderData = function(error, regions_file, allfreqmean) {
   if (error) throw error;
 
   /* filter reserved for later
   groupText.filter(function(d, i) { return groupPath[0][i].getTotalLength() / 2 - 16 < this.getComputedTextLength(); })
       .remove();*/
-  regions_global = regions_in;
-  renderChord(regions_global, allfreqmean);
+  matrixMeanArray = allfreqmean;
+  regions_global = regions_file;
+  renderChord(regions_global, matrixMeanArray);
 }
 d3_queue.queue()
     .defer(d3.csv, "regions.csv")
@@ -170,14 +171,29 @@ var threshChords = function(threshslide) {
           .map(function(d)
               {return d.source.value}
               ))
-  chord = svgcircle.selectAll(".chord")
-      .data(chordlayout.chords(), chordKey)
-      .attr("opacity", function(d) {
-          if (d.source.value < threshval)
-            return 0;
-          else
-            return 1;
-      });
+
+  // PRUNE METHOD
+  var matrixprune =
+    matrixMeanArray.map(function(d) { 
+        return d.map(function(e) {
+            return e >= threshval ? e : 0;
+        })
+    });
+    renderChord(regions_global, matrixprune);
+    
+    // FADE METHOD: preserve as feature maybe
+//   chord = svgcircle.selectAll(".chord")
+//       .data(chordlayout.chords(), chordKey)
+//       .attr("opacity", function(d) {
+//           if (d.source.value < threshval)
+//             return 0;
+//           else
+//             return 1;
+//       });
+}
+
+var labelRegion = function(labelmode) {
+    
 }
 
 // JSCompress of element-disambiguating tween functions
