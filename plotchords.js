@@ -36,24 +36,6 @@ var svgcircle = d3.select("body").append("svg")
     svgcircle.append("circle")
         .attr("r", outerRadius);
 
-// Load and pre-process data
-var renderData = function(error, regions_in, allfreqmean) {
-  if (error) throw error;
-
-  /* filter reserved for later
-  groupText.filter(function(d, i) { return groupPath[0][i].getTotalLength() / 2 - 16 < this.getComputedTextLength(); })
-      .remove();*/
-  regions_file = regions_in;
-  matrixMeanArray = allfreqmean;
-  
-  regions_global = regions_file;
-  renderChord(regions_global, matrixMeanArray);
-}
-d3_queue.queue()
-    .defer(d3.csv, "regions.csv")
-    .defer(d3.json, "allfreqmean.json")
-    .await(renderData);
-
 // Create and Update function
 var renderChord = function(regions, allfreqmean) {
 

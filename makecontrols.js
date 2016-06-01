@@ -1,6 +1,8 @@
 // initialize global parameter values
 var numFreqs, numLocs;
 var matrixMeanArray, regions_seq = [], regions_file;
+// Define generic color scale
+var colormap = d3.scale.linear();
 
 // update function for slider
 var updateThreshSlide = function(thresh) {
@@ -44,10 +46,17 @@ var update = function() {
 };
 
 // read in data, using initial guys
-d3.json("dataFULL.txt", function(data) {
-
+var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
+    if (error) throw error;
+    
+    regions_file = regions_in;
+    regions_global = regions_file;
+    
+    matrixMeanArray = allfreqmean;
+    renderChord(regions_global, matrixMeanArray);
+    
     //parse the JSON with the math.js reviver
-    a = JSON.parse(data, math.json.reviver);
+    a = JSON.parse(fulldata, math.json.reviver);
 
     // use math.js to make a matrix
     matrixData = math.matrix(a);
@@ -63,6 +72,12 @@ d3.json("dataFULL.txt", function(data) {
             name: i
         });
     }
+    
+    // construct default color map
+    colormap.domain([0, numLocs])
+    .range(["#FF5C63","#FF9958","#FFE155",
+        "#D1FF51","#84FF4E","#4AFF61",
+        "#47FFAE","#43FFFE","#40ACFF","#3D57FF"]);
     
     // update button on click
     d3.select("#rerender")
@@ -99,4 +114,4 @@ d3.json("dataFULL.txt", function(data) {
     //             updateFreqsPlot();
     //         });
 
-});
+}
