@@ -1,7 +1,7 @@
 // initialize global parameter values
 var numFreqs, numLocs;
 var matrixMeanArray, matrixAngleArray;
-var regions_seq = [], regions_file;
+var regions_seq = [], regions_file, regions_global;
 // Define generic color scale
 var colormap = d3.scale.linear();
 var colormapangle = d3.scale.linear();

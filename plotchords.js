@@ -18,10 +18,8 @@ var generatelayout = function() {
         .sortSubgroups(d3.descending)
         .sortChords(d3.ascending);
 }
-
+var chordlayout, layout_old;
 var formatPrecision = d3.format(".3f");
-var layout_old;
-var regions_global;
 
 // Initialize chord visualization area
 var svgcircle = d3.select("body").append("svg")
@@ -41,7 +39,7 @@ var renderChord = function(regions, allfreqmean, colormode) {
 
   chordlayout = generatelayout();
   chordlayout.matrix(allfreqmean);
-
+  
   // Neural regions define
   var region = svgcircle.selectAll(".region")
       .data(chordlayout.groups(),
@@ -76,11 +74,10 @@ var renderChord = function(regions, allfreqmean, colormode) {
       .style("fill", function(d) {
           if (colormode == "colorfile")
             return regions[d.index].color;
-          else if (colormode == "colorseq"){
-              console.log(colormap.domain() + "   " + +d.index);
-                          return colormap(d.index);
-          }
-
+          else if (colormode == "colorseq")
+            return colormap(d.index);
+          else if (colormode == "colorangle")
+            return regions[d.index].color;
         })
       .transition().duration(500)
       .attrTween("d", arcTween(layout_old));
@@ -130,6 +127,8 @@ var renderChord = function(regions, allfreqmean, colormode) {
                         return regions[d.source.index].color;
                     else if (colormode == "colorseq")
                         return colormap(d.source.index);
+                    else if (colormode == "colorangle")
+                        return colormap(d.index);
                     })
       .transition().duration(500)
       .attr("opacity", 1)
