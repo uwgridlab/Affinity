@@ -22,7 +22,8 @@ var chordlayout, layout_old;
 var formatPrecision = d3.format(".3f");
 
 // Initialize chord visualization area
-var svgcircle = d3.select("body").append("svg")
+var svgcircle = d3.select("body").select("div.rightchart")
+    .append("svg")
     .attr("width", widthcircle)
     .attr("height", heightcircle)
     .attr("id", "svgcirc")
