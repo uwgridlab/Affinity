@@ -53,7 +53,6 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
     regions_global = regions_file;
     
     matrixMeanArray = allfreqmean;
-    renderChord(regions_global, matrixMeanArray);
     
     //parse the JSON with the math.js reviver
     a = JSON.parse(fulldata, math.json.reviver);
@@ -74,10 +73,11 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
     }
     
     // construct default color map
-    colormap.domain([0, numLocs])
-    .range(["#FF5C63","#FF9958","#FFE155",
-        "#D1FF51","#84FF4E","#4AFF61",
-        "#47FFAE","#43FFFE","#40ACFF","#3D57FF"]);
+    colormap
+        .domain([0, numLocs])
+        .range(["#FF5C63","#FF9958","#FFE155",
+            "#D1FF51","#84FF4E","#4AFF61",
+            "#47FFAE","#43FFFE","#40ACFF","#3D57FF"]);
     
     // update button on click
     d3.select("#rerender")
@@ -94,6 +94,10 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
         .on("input", function() {
             labelRegion(this.value);
         });
+    d3.select("#colormode")
+        .on("input", function() {
+            colorRegion(this.value);
+        });
         
     // Dynamic slider generation
     $(function() {
@@ -105,6 +109,8 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
         $( "#freqrange" ).val($( "#freqslider" ).slider( "values", 0 ) +
         " - " + $( "#freqslider" ).slider( "values", 1 ) );
     });
+    
+    renderChord(regions_global, matrixMeanArray);
 
     // buttonFreq
     //         .on("click",function(){

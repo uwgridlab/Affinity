@@ -162,21 +162,22 @@ var threshChords = function(threshslide) {
     });
     renderChord(regions_global, matrixprune);
     
-    // FADE METHOD: preserve as feature maybe
-//   chord = svgcircle.selectAll(".chord")
-//       .data(chordlayout.chords(), chordKey)
-//       .attr("opacity", function(d) {
-//           if (d.source.value < threshval)
-//             return 0;
-//           else
-//             return 1;
-//       });
+    /*
+//   FADE METHOD: preserve as feature maybe
+  chord = svgcircle.selectAll(".chord")
+      .data(chordlayout.chords(), chordKey)
+      .attr("opacity", function(d) {
+          if (d.source.value < threshval)
+            return 0;
+          else
+            return 1;
+      });*/
 }
 
 var labelRegion = function(labelmode) {
-    if (labelmode == "labelnums")
+    if (labelmode == "labelseq")
         regions_global = regions_seq;
-    else
+    else if (labelmode == "labelfile")
         regions_global = regions_file;
     renderChord(regions_global, matrixMeanArray);
 }
