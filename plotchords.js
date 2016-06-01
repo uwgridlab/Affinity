@@ -128,7 +128,7 @@ var renderChord = function(regions, allfreqmean, colormode) {
                     else if (colormode == "colorseq")
                         return colormap(d.source.index);
                     else if (colormode == "colorangle")
-                        return colormap(d.index);
+                        return colormapangle(matrixAngleArray[d.source.index][d.target.index]);                        
                     })
       .transition().duration(500)
       .attr("opacity", 1)

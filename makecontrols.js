@@ -5,7 +5,7 @@ var regions_seq = [], regions_file, regions_global;
 // Define generic color scale
 var colormap = d3.scale.linear();
 var colormapangle = d3.scale.linear();
-var colormode = "colorfile"
+var colormode = "colorfile";
 
 // update function for slider
 var updateThreshSlide = function(thresh) {
@@ -36,10 +36,16 @@ var update = function() {
     // if (typeNum == "AbsVal")
     var subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
     matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
-    
-    if (typeNum = "Angle"){
+
+    if (typeNum == "Angle") {
+        d3.select("#colorangle").property("disabled", false);
+        d3.select("#colorblurb").attr("style", "display: none;");
         var subsetMatrixAngle = math.atan2(matrixI, matrixR);
         matrixAngleArray = math.squeeze(math.mean(subsetMatrixAngle,0)).valueOf();
+    }
+    else {
+        d3.select("#colorblurb").attr("style", "color: red;");
+        d3.select("#colorangle").property("disabled", true);
     }
 
     if(showSelf == "NOshowSelf"){
@@ -67,15 +73,6 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
     sizeMatrix = matrixData.size();
     numFreqs = sizeMatrix[0];
     numLocs = sizeMatrix[1];
-
-    // construct number sequence as labeling option
-    for (var i = 0; i < numLocs; i++){
-        regions_seq.push({
-            color: "#ff0000",
-            fullname: i,
-            name: i
-        });
-    }
     
     // construct default color map
     colormap
@@ -87,7 +84,16 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
             "#47FFAE","#43FFFE","#40ACFF","#3D57FF","#D140FF"]);
     colormapangle
         .domain([-math.pi, 0, math.pi])
-        .range(["lightred", "white", "lightblue"]);
+        .range(["blue", "white", "red"]);
+        
+    // construct number sequence as labeling option
+    for (var i = 0; i < numLocs; i++){
+        regions_seq.push({
+            color: colormap(i),
+            fullname: i,
+            name: i
+        });
+    }
     
     // update button on click
     d3.select("#rerender")

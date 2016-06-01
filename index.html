@@ -24,13 +24,13 @@
     
     <p>
     <select id = "opts">
-        <option value="AbsVal" selected="selected">Absolute magnitude</option>
+        <option value="AbsVal" selected>Absolute magnitude</option>
         <option value="Angle">Magnitude + Angle</option>
     </select>
 
     <select id = "showSelf">
         <option value="showSelf">Show self</option>
-        <option value="NOshowSelf" selected="selected">Exclude self</option>
+        <option value="NOshowSelf" selected>Exclude self</option>
     </select>
     </p>
 
@@ -49,14 +49,17 @@
     <p>
     <select id = "labelmode">
         <option value="labelseq">Label with seq</option>
-        <option value="labelfile" selected="selected">Label from file</option>
+        <option value="labelfile" selected>Label from file</option>
     </select>
 
     <select id = "colormode">
         <option value="colorseq">Color from seq</option>
-        <option value="colorfile" selected="selected">Color from file</option>
-        <option value="colorangle">Color with angle</option>
+        <option value="colorfile" selected>Color from file</option>
+        <option value="colorangle" id="colorangle" disabled>Color with angle</option>
     </select>
+    </p>
+    <p id="colorblurb" style="color: red">
+    To "color with angle", first compute the angle mean matrices by selecting "Magnitude + Angle" above and click re-slice.
     </p>
 
 </div>
