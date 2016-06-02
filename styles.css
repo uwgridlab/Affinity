@@ -41,6 +41,11 @@ path.chord {
     shape-rendering: crispEdges;
 }
 
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
 .x.axis path {
     display: none;
 }

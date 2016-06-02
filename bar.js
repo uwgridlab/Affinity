@@ -1,9 +1,10 @@
 // define bar graph
 
 // Define bar visualization
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
+var margin = {top: 40, right: 40, bottom: 60, left: 40},
     width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    height = 300 - margin.top - margin.bottom,
+    padding = 30;
 
 var svgbar = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -33,7 +34,9 @@ var tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(function(d) {
-        return "<strong>Connectivity </strong> <span style='color:red'>" + d + "</span>";
+        // fix the number of decimal points
+        n = d.toFixed(3);
+        return "<strong>Connectivity </strong> <span style='color:red'>" + n + "</span>";
     });
 
 // call the tip
@@ -49,42 +52,56 @@ svgbar.append("g")
     .attr("class", "y axis")
     .call(yAxis);
 
+
+// append axis title - from https://bl.ocks.org/RandomEtc/cff3610e7dd47bef2d01 and http://bl.ocks.org/phoebebright/3061203
+svgbar.append("g")
+    .attr("class", "y axis")
+    .append("text") // just for the title (ticks are automatic)
+    .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+    .attr("transform", "translate("+ (padding/2) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+    .style("font-size", "14px")
+    .text("Connectivity");
+
+// append axis title
+
+svgbar.append("g")
+    .attr("class", "x axis")
+    .append("text") // just for the title (ticks are automatic)
+    .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+    .attr("transform", "translate("+ (width/2) +","+(height+padding+10)+")")  // centre below axis
+    .style("font-size", "14px")
+    .text("Frequency bins");
+
+// add a title
+var title = svgbar.append("g")
+    .attr("class", "title")
+    .append("text")
+    .attr("x", (width / 2))
+    .attr("y", 0 - (margin.top / 2))
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+    .style("text-decoration", "underline");
+
 var plotBars = function(dataset,si,ti){
+// put a title on it
 
-    console.log(si);
-    console.log(ti);
-    var freqRangeTotal_b = math.range(0,numFreqs);
-    //locsRangeSelect = [parseInt(channel_1), parseInt(channel_2)];
+    title
+        .text("Connectivity strengths across frequencies for Channels " + si + " and " + ti);
 
-    // i believe we just want to select one channel in the 2 and 3rd dimension rather than a range, as the graph data is currently undirected . use parseInt to convert string to int
 
-    // locs_1 = math.range(parseInt(si),parseInt(si)+1);
-     // locs_2 = math.range(parseInt(ti),parseInt(ti)+1);
-     si_t = parseInt(si)
-     ti_t = parseInt(ti)
-      indexFreqR_b= math.index(math.range(0,numFreqs),si_t,ti_t,0);
-     indexFreqI_b= math.index(math.range(0,numFreqs),si_t,ti_t,1);
-     matrixR_b = dataset.subset(indexFreqR_b);
-    matrixI_b = dataset.subset(indexFreqI_b);
+    var indexFreqR_b= math.index(math.range(0,numFreqs),si,ti,0);
+    var indexFreqI_b= math.index(math.range(0,numFreqs),si,ti,1);
+    var matrixR_b = dataset.subset(indexFreqR_b);
+    var matrixI_b = dataset.subset(indexFreqI_b);
 
     // if (typeNum == "AbsVal")
-    subsetMatrix_b = math.sqrt(math.add(math.square(matrixR_b),math.square(matrixI_b)));
-    freqValuesToPlot_b = math.squeeze(subsetMatrix_b.valueOf());
+    var subsetMatrix_b = math.sqrt(math.add(math.square(matrixR_b),math.square(matrixI_b)));
+    var freqValuesToPlot_b = math.squeeze(subsetMatrix_b.valueOf());
 
-    var dataset = [];                        //Initialize empty array
-    for (var i = 0; i < 25; i++) {           //Loop 25 times
-        var newNumber = Math.random() * 30;  //New random number (0-30)
-        dataset.push(newNumber);             //Add new number to array
-    }
-
-    //freqValuesToPlot_b = dataset;
-
-console.log(freqValuesToPlot_b);
-    // try and plot it!
-    // set dataset to freqValuesToPlot for time being
-    // squeeze it too!
-
-    x.domain(freqValuesToPlot_b.map(function(d,i) { return i; }));
+    //change xDom here to show 1-65 rather than 0-64 for frequencies
+    xDom = freqValuesToPlot_b.map(function(d,i) { return i; });
+    xDom = math.add(xDom,1);
+    x.domain(xDom);
     y.domain([0, d3.max(freqValuesToPlot_b)]);
 
     //Update X axis
@@ -119,7 +136,8 @@ console.log(freqValuesToPlot_b);
 
 
     bars.transition().duration(300)
-        .attr("x", function(d,i) { return (x(i)); }).transition().duration(300)
+        // x(i+1) to start plotting at frequency 1 rather than frequency 0
+        .attr("x", function(d,i) { return (x(i+1)); }).transition().duration(300)
         .attr("width", x.rangeBand()).transition().duration(300)
         .attr("y", function(d) { return y(d); })
         .attr("height", function(d) { return height - y(d); });

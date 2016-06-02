@@ -1,6 +1,6 @@
 // Define chord visualization
-var widthcircle = 800,
-    heightcircle = 800,
+var widthcircle = 700,
+    heightcircle = 700,
     outerRadius = Math.min(widthcircle, heightcircle) / 2 - 100,
     innerRadius = outerRadius - 30;
 
