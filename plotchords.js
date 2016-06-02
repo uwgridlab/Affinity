@@ -147,6 +147,15 @@ var renderChord = function(regions, allfreqmean, colormode) {
    //   }
   });
 
+    // add on click
+
+    chord
+        .on("click", function(d){
+
+            plotbars(regions[d.source.index],regions[d.target.index])
+
+        });
+
   // Pair chord fade nonhighlight
   region.on("mouseover", mouseover);
   function mouseover(d, i) {
