@@ -42,7 +42,7 @@ var renderChord = function(regions, allfreqmean, colormode) {
   chordlayout.matrix(allfreqmean);
   
   // Neural regions define
-  var region = svgcircle.selectAll(".region")
+  region = svgcircle.selectAll(".region")
       .data(chordlayout.groups(),
               function(d) {return d.index;}); // disambiguate
 
@@ -148,11 +148,10 @@ var renderChord = function(regions, allfreqmean, colormode) {
   });
 
     // add on click
-
     chord
         .on("click", function(d){
 
-            plotbars(regions[d.source.index],regions[d.target.index])
+            plotBars(matrixData,regions[d.source.index],regions[d.target.index])
 
         });
 

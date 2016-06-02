@@ -129,6 +129,13 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
     
     renderChord(regions_global, matrixMeanArray, colormode);
 
+    //temporary values to initialize bar
+    var temp_bar = math.zeros(numLocs).valueOf();
+    var temp_si = 30;
+    var temp_ti = 31;
+    //plot bar
+    plotBars(temp_bar,temp_si,temp_ti);
+
     // buttonFreq
     //         .on("click",function(){
     //             channel_1 = d3.select("#chan1").node().value;
@@ -137,4 +144,4 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
     //             updateFreqsPlot();
     //         });
 
-}
+};
