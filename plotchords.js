@@ -151,7 +151,7 @@ var renderChord = function(regions, allfreqmean, colormode) {
     chord
         .on("click", function(d){
 
-            plotBars(matrixData,regions[d.source.index],regions[d.target.index])
+            plotBars(matrixData,d.source.index,d.target.index)
 
         });
 

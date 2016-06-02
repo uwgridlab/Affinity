@@ -13,6 +13,29 @@ var svgbar = d3.select("body").append("svg")
 
 var plotBars = function(dataset,si,ti){
 
+     freqRangeTotal = math.range(0,numFreqs);
+    //locsRangeSelect = [parseInt(channel_1), parseInt(channel_2)];
+
+    // i believe we just want to select one channel in the 2 and 3rd dimension rather than a range, as the graph data is currently undirected . use parseInt to convert string to int
+
+    locs_1 = math.range(parseInt(si),parseInt(si)+1);
+     locs_2 = math.range(parseInt(ti),parseInt(ti)+1);
+    data_temp = dataset;
+     indexFreqR= math.index(freqRangeTotal,locs_1,locs_2,math.range(0,1));
+     indexFreqI= math.index(freqRangeTotal,locs_1,locs_2,math.range(1,2));
+     matrixR = dataset.subset(indexFreqR);
+    matrixI = dataset.subset(indexFreqI);
+
+    // if (typeNum == "AbsVal")
+    subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
+
+   // subsetMatrixFreqs = matrixData.subset(indexFreqs);
+    freqValuesToPlot = math.squeeze(subsetMatrix.valueOf());
+
+    // try and plot it!
+    // set dataset to freqValuesToPlot for time being
+    // squeeze it too!
+    dataset = math.squeeze(freqValuesToPlot);
 
     var x = d3.scale.ordinal()
         .rangeRoundBands([0, width], .1);
@@ -44,6 +67,12 @@ var plotBars = function(dataset,si,ti){
 
     var bars = svgbar.selectAll(".bar")
         .data(dataset);
+
+    bars
+        .exit().transition()
+        .duration(500)
+        .attr("opacity", 0)
+        .remove();
 
     bars
         .transition()
