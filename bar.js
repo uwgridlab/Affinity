@@ -60,14 +60,16 @@ var plotBars = function(dataset,si,ti){
 
     // locs_1 = math.range(parseInt(si),parseInt(si)+1);
      // locs_2 = math.range(parseInt(ti),parseInt(ti)+1);
-      indexFreqR_b= math.index(freqRangeTotal_b,si,ti,0);
-     indexFreqI_b= math.index(freqRangeTotal_b,si,ti,1);
+     si_t = parseInt(si)
+     ti_t = parseInt(ti)
+      indexFreqR_b= math.index(math.range(0,numFreqs),si_t,ti_t,0);
+     indexFreqI_b= math.index(math.range(0,numFreqs),si_t,ti_t,1);
      matrixR_b = dataset.subset(indexFreqR_b);
     matrixI_b = dataset.subset(indexFreqI_b);
 
     // if (typeNum == "AbsVal")
     subsetMatrix_b = math.sqrt(math.add(math.square(matrixR_b),math.square(matrixI_b)));
-    var freqValuesToPlot_b = math.squeeze(subsetMatrix_b.valueOf());
+    freqValuesToPlot_b = math.squeeze(subsetMatrix_b.valueOf());
 
     var dataset = [];                        //Initialize empty array
     for (var i = 0; i < 25; i++) {           //Loop 25 times
@@ -75,7 +77,7 @@ var plotBars = function(dataset,si,ti){
         dataset.push(newNumber);             //Add new number to array
     }
 
-    freqValuesToPlot_b = dataset;
+    //freqValuesToPlot_b = dataset;
 
 console.log(freqValuesToPlot_b);
     // try and plot it!
@@ -110,6 +112,8 @@ console.log(freqValuesToPlot_b);
 
     bars
         .enter().append("rect")
+        //make sure it's of class bar
+        .attr("class", "bar")
         .transition()
         .duration(1000);
 
