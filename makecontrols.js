@@ -130,7 +130,7 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
     renderChord(regions_global, matrixMeanArray, colormode);
 
     //temporary values to initialize bar
-    temp_bar = math.ones(numFreqs,numLocs,numLocs,2);
+    temp_bar = math.zeros(numFreqs,numLocs,numLocs,2);
     var temp_si = 30;
     var temp_ti = 31;
     //plot bar
