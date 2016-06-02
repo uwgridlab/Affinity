@@ -13,4 +13,4 @@ http://cse512-16s.github.io/fp-davidjuliancaldwell-jamesbrains/
 
 ## Visualization of Brain Connectivity 
 
-![Thumbnail](vispreview)
+![Thumbnail](vizpreview.png)
