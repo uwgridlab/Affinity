@@ -1,14 +1,17 @@
 body {
     font-family: "Helvetica Neue", "Roboto Light", sans-serif;
     font-size: 12px;
-    background-color: #f0f0f0;
 }
-div.box {
-    max-width: 250px;
-    background-color: white;
-    padding: 1em;
-    float: left;
+.box {
+    width: 800px;
+    padding: 0em 1em;
+    display: block;
 }
+.subbox {
+    padding: 0em 1em;
+    width: 200px;
+}
+
 #circle circle {
     fill: none;
     pointer-events: all;

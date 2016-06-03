@@ -13,7 +13,6 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <!--Load math.js for matrix manipulation-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.min.js"></script>
-
     <!--for tip -->
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
@@ -21,34 +20,40 @@
 
 <body>
 <div class="box" id="controlpanel">
-    <p>Input a lower and upper frequency bin range of interest and select a metric from the dropdown box.</p>
-    <label for="freqrange">Frequency bin range:</label>
-    <input type="text" id="freqrange" readonly style="border: none;" />
-    <div id="freqslider"></div>
+    <table>
+        
+    <tr>
+        <th class="slow">Frequency</th>
+        <th class="slow">Metric</th>
+        <th>Prune threshold</th>
+    </tr>
     
-    <p>
-    <select id = "opts">
-        <option value="AbsVal" selected>Absolute magnitude</option>
-        <option value="Angle">Magnitude + Angle</option>
-    </select>
-
-    <select id = "showSelf">
-        <option value="showSelf">Show self</option>
-        <option value="NOshowSelf" selected>Exclude self</option>
-    </select>
-    </p>
-
-    <input id="rerender" type="button" value="Re-slice matrix and render (slow)" />
-
-    <p>Use the slider to select the threshold value for which you want to hide connection strengths. (instant)</p>
-
-    <p>
-        <label for="thresh"
-            style="display: inline-block; width: 100px; text-align: left">
-            cutoff = <span id="thresh-value">0</span>
-        </label>
-        <input type="range" min="0" max="1" step="0.01" value="0" id="thresh">
-    </p>
+    <tr>
+    <td class="slow subbox">
+        <input type="text" id="freqrange" readonly style="border: none;" />
+        <div id="freqslider"></div>
+    </td>
+    
+    <td class="slow subbox">
+        <select id = "opts">
+            <option value="AbsVal" selected>Absolute magnitude</option>
+            <option value="Angle">Magnitude + Angle</option>
+        </select>
+        <select id = "showSelf">
+            <option value="showSelf">Show self</option>
+            <option value="NOshowSelf" selected>Exclude self</option>
+        </select>
+        <p><input id="rerender" type="button" value="Re-slice matrix and render (slow)" /></p>
+    </td>
+    
+    <td class="right subbox">
+        <p>
+            <label for="thresh"
+                style="display: inline-block; text-align: left">
+                cutoff = <span id="thresh-value">0</span>
+            </label>
+            <input type="range" min="0" max="1" step="0.01" value="0" id="thresh">
+        </p>
     
     <p>
     <select id = "labelmode">
@@ -62,13 +67,20 @@
         <option value="colorangle" id="colorangle" disabled>Color with angle</option>
     </select>
     </p>
-    <p id="colorblurb" style="color: red">
+    </td>
+    </tr>
+    <tr>
+        <td colspan="2"><span id="colorblurb" style="color: red">
     To "color with angle", first compute the angle mean matrices by selecting "Magnitude + Angle" above and click re-slice.
-    </p>
-
+    </span>
+    </td>
+    <td></td>
+    </tr>
+    </table>
 </div>
-<div class="rightchart"></div>
-<div class=".chart"></div>
+
+<div class="circlechart"></div>
+<div class="barchart"></div>
 <script src="makecontrols.js"></script>
 <script src="plotchords.js"></script>
 <script src="bar.js"></script>
@@ -81,7 +93,6 @@ d3_queue.queue()
     .defer(d3.json, "dataFULL.txt")
     .await(initializeRender);
 </script>
-
 
 
 </body>

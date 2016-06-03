@@ -1,7 +1,7 @@
 // Define chord visualization
-var widthcircle = 700,
-    heightcircle = 700,
-    outerRadius = Math.min(widthcircle, heightcircle) / 2 - 100,
+var widthcircle = 680,
+    heightcircle = 680,
+    outerRadius = Math.min(widthcircle, heightcircle) / 2 - 60,
     innerRadius = outerRadius - 30;
 
 // Define arc & chord path
@@ -22,7 +22,7 @@ var chordlayout, layout_old;
 var formatPrecision = d3.format(".3f");
 
 // Initialize chord visualization area
-var svgcircle = d3.select("body").select("div.rightchart")
+var svgcircle = d3.select("body").select("div.circlechart")
     .append("svg")
     .attr("width", widthcircle)
     .attr("height", heightcircle)

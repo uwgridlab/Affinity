@@ -2,11 +2,11 @@
 
 // Define bar visualization
 var margin = {top: 40, right: 40, bottom: 60, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom,
+    width = 800 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom,
     padding = 30;
 
-var svgbar = d3.select("body").append("svg")
+var svgbar = d3.select("body").select("div.barchart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
