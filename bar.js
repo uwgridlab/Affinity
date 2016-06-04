@@ -20,7 +20,8 @@ var y = d3.scale.linear()
 
 var xAxis = d3.svg.axis()
     .scale(x)
-    .orient("bottom");
+    .orient("bottom")
+;
 
 var yAxis = d3.svg.axis()
     .scale(y)
@@ -46,7 +47,15 @@ svgbar.call(tip);
 svgbar.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
+    .call(xAxis)
+		.selectAll("text")	
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-65)" 
+                });
+
 
 svgbar.append("g")
     .attr("class", "y axis")
@@ -113,9 +122,14 @@ var plotBars = function(dataset,si,ti) {
 
     //Update X axis
     svgbar.select(".x.axis")
-        .transition()
-        .duration(1000)
-        .call(xAxis);
+        .call(xAxis)
+        		.selectAll("text")	
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-65)" 
+                });
 
     //Update Y axis
     svgbar.select(".y.axis")
