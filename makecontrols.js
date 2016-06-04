@@ -7,6 +7,9 @@ var colormap = d3.scale.linear();
 var colormapangle = d3.scale.linear();
 var colormode = "colorfile";
 
+// define variable to allow for temporary title demonstrating directions for bar graph
+var directions_bar = true;
+
 // update function for slider
 var updateThreshSlide = function(thresh) {
 
@@ -131,8 +134,10 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
 
     //temporary values to initialize bar
     var temp_bar = math.zeros(numFreqs,numLocs,numLocs,2);
+
+
     //plot bar
-    plotBars(temp_bar,0, 0);
+    plotBars(temp_bar,0, 0,directions_bar);
 
     // buttonFreq
     //         .on("click",function(){

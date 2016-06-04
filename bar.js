@@ -82,13 +82,20 @@ var title = svgbar.append("g")
     .style("font-size", "16px")
     .style("text-decoration", "underline");
 
-var plotBars = function(dataset,si,ti){
+var plotBars = function(dataset,si,ti) {
 // put a title on it
+    if (directions_bar == true) {
+        title
+            .text("Click on a chord to plot a bar graph across frequencies");
+    }
+    else{
+        title
+            .text("Connectivity strengths across frequencies for Channels " + si + " and " + ti);
+    }
 
-    title
-        .text("Connectivity strengths across frequencies for Channels " + si + " and " + ti);
-
-
+    // change directionsbars to be false
+    directions_bar = false;
+    
     var indexFreqR_b= math.index(math.range(0,numFreqs),si,ti,0);
     var indexFreqI_b= math.index(math.range(0,numFreqs),si,ti,1);
     var matrixR_b = dataset.subset(indexFreqR_b);
