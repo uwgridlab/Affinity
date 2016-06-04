@@ -137,7 +137,7 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
 
 
     //plot bar
-    plotBars(temp_bar,0, 0,directions_bar);
+    plotBars(temp_bar,0, 0);
 
     // buttonFreq
     //         .on("click",function(){
