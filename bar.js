@@ -1,10 +1,11 @@
 // define bar graph
 
 // Define bar visualization
-var margin = {top: 40, right: 40, bottom: 60, left: 40},
+var margin = {top: 40, right: 40, bottom: 60, left: 60},
     width = 800 - margin.left - margin.right,
     height = 200 - margin.top - margin.bottom,
-    padding = 30;
+    paddingx = 40;
+    paddingy = 30;
 
 var svgbar = d3.select("body").select("div.barchart").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -67,7 +68,7 @@ svgbar.append("g")
     .attr("class", "y axis")
     .append("text") // just for the title (ticks are automatic)
     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-    .attr("transform", "translate("+ (padding/2) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+    .attr("transform", "translate("+ (paddingy/2) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
     .style("font-size", "14px")
     .text("Connectivity");
 
@@ -77,7 +78,7 @@ svgbar.append("g")
     .attr("class", "x axis")
     .append("text") // just for the title (ticks are automatic)
     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-    .attr("transform", "translate("+ (width/2) +","+(height+padding+10)+")")  // centre below axis
+    .attr("transform", "translate("+ (width/2) +","+(height+paddingx+10)+")")  // centre below axis
     .style("font-size", "14px")
     .text("Frequency bins");
 
