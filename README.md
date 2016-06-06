@@ -56,8 +56,8 @@ http://cse512-16s.github.io/fp-davidjuliancaldwell-jamesbrains/
 
 Alternatively, follow the link below to directly run the visualization.
 
-http://cse512-16s.github.io/fp-davidjuliancaldwell-jamesbrains/main
+http://cse512-16s.github.io/fp-davidjuliancaldwell-jamesbrains/main.html
 
-Or download the repository, and run (if you have python 3) `python -m http.server 8888` and access this from http://localhost:8888/main. If you have python 2, run `python -m SimpleHTTPServer 8888` and access this from http://localhost:8888/main.
+Or download the repository, and run (if you have python 3) `python -m http.server 8888` and access this from http://localhost:8888/main.html . If you have python 2, run `python -m SimpleHTTPServer 8888` and access this from http://localhost:8888/main.html . 
 
 
