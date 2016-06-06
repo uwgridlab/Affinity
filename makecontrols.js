@@ -82,12 +82,15 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
         .domain(math.multiply(
             [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
             numLocs).valueOf())
-        .range(["#FF5C63","#FF9958","#FFE155",
-            "#D1FF51","#84FF4E","#4AFF61",
-            "#47FFAE","#43FFFE","#40ACFF","#3D57FF","#D140FF"]);
+        .range(["#EA2A00","#AA6D00","#557F00","#008D4B","#009A88",
+            "#00A5CD","#0098E3","#007FDA","#7300BD","#DD008F","#F90054"]);
+            // L*c*h equal luminance
     colormapangle
-        .domain([-math.pi, 0, math.pi])
-        .range(["blue", "white", "red"]);
+        .domain([-math.pi, -math.pi*2/3, -math.pi/3,
+            0, math.pi/3, math.pi*2/3, math.pi])
+        .range(["#2166ac", "#67a9cf", "#d1e5f0",
+        "#f7f7f7", "#fddbc7", "#ef8a62", "#b2182b"]);
+            // Colorbrewer 7-class diverging pallette
         
     // construct number sequence as labeling option
     for (var i = 0; i < numLocs; i++){
