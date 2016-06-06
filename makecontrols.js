@@ -1,6 +1,6 @@
 // initialize global parameter values
 var numFreqs, numLocs;
-var matrixMeanArray, matrixAngleArray;
+var matrixData, matrixMeanArray, matrixAngleArray;
 var regions_seq = [], regions_file, regions_global;
 // Define generic color scale
 var colormap = d3.scale.linear();
@@ -69,7 +69,7 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
     matrixMeanArray = allfreqmean;
     
     //parse the JSON with the math.js reviver
-    a = JSON.parse(fulldata, math.json.reviver);
+    var a = JSON.parse(fulldata, math.json.reviver);
 
     // use math.js to make a matrix
     matrixData = math.matrix(a);
