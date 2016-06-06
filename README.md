@@ -1,7 +1,5 @@
 # Pairwise Connectivity Visualization 
-
 ===============
-
 ## Team Members
 
 1. David Caldwell (davidjuliancaldwell)
