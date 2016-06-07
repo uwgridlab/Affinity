@@ -17,7 +17,7 @@
     <!--for tip -->
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <!--for fileupload-->
-    <script src="filedrop-min.js"></script>
+    <script src="depends/filedrop-min.js"></script>
 
 </head>
 
@@ -72,6 +72,7 @@
 
     <select id = "colormode">
         <option value="colorseq" selected>Color from seq</option>
+        <option value="colorgrid">Color from grid</option>
         <option value="colorfile">Color from file</option>
         <option value="colorangle" id="colorangle" disabled>Color with angle</option>
     </select>
@@ -91,17 +92,16 @@
 
 <div class="circlechart"></div>
 <div class="barchart"></div>
-<script src="makecontrols.js"></script>
-<script src="plotchords.js"></script>
-<script src="bar.js"></script>
-<script src="filedroppage.js"></script>
+<script src="jscode/makecontrols.js"></script>
+<script src="jscode/plotchords.js"></script>
+<script src="jscode/bar.js"></script>
+<script src="jscode/filedroppage.js"></script>
 
 <script>
 // Load files and start
 d3_queue.queue()
-    .defer(d3.csv, "regions.csv")
-    .defer(d3.json, "allfreqmean.json")
-    .defer(d3.json, "dataFULL.txt")
+    .defer(d3.csv, "data/regions.csv")
+    .defer(d3.json, "data/data2.txt")
     .await(initializeRender);
 </script>
 </div>
