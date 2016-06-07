@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <title>Interactive Web App For Multispectral Neural Connectivity</title>
+    <meta name="robots" content="index,follow" />
+    <link rel="stylesheet" type="text/css" href="http://courses.cs.washington.edu/courses/cse512/16sp/style.css"/>
+
+</head>
+
+<body>
+<div class='content wider'>
+
+    <div class='title'>
+        <a href="http://courses.cs.washington.edu/courses/cse512/16sp/"><strong>CSE512</strong></a>
+        Interactive Web App For Multispectral Neural Connectivity
+    </div>
+    <br/>
+
+    <div class='pub' data-spy="scroll" data-target=".navbar">
+
+        <h1 class="title"><em>Affinity:</em> Connectivity Rapid Exploration Tool</h1>
+        <div class="authors">
+            <a href="students.washington.edu/djcald/wordpress">David Caldwell</a>,
+            <a href="">James Wu</a>
+        </div>
+
+        <div class="figure">
+            <img src="summary.png" width="75%"/>
+            <div class="caption">Global connections between nodes in an example network. Bar graph with connections across measurements for connectivity.</div>
+        </div>
+
+        <p>
+            Acknowledgement: This work was done in collaboration with Dr. Nick Foti and Dr. Emily Fox from the Department of Statistics.
+        </p>
+
+        <h2>Abstract</h2>
+        <p>
+            Neural connectivity data often exists in a high dimensional space, with multivariate attributes for each edge between different brain regions. Visualizing a connectivity matrix, looking for trends and patterns of interest, and subsequently dynamically manipulating and drilling down these values is a challenge for scientists dealing with data from various modalities such as MEG and ECoG. There exists a need for a lightweight, open-source, easy to use visualization tool to allow for the rapid exploration of these connectivity matrices. Here we present a visualization tool written entirely in HTML/CSS/JS that allows for the loading in of user defined files, and subsequent manipulations in the browser to allow for the exploration of brain connectivity. User feedback from domain experts suggests that this will be a valuable tool for revealing underlying trends in connectivity data, and presenting these results to others in the field.
+        </p>
+        <h2>Software</h2>
+        <p>
+            Try our visualization online <a href="main.html">here</a>.
+        </p>
+
+        <h2>Tutorial</h2>
+        <p>
+            The online visualization is preloaded with a data file, but using the drag and drop interface, a user can input a desired file of choice. Included in the code repository is a .py file that will process a python numpy connectivity matrix file and output a text file in appropriate JSON format for loading into the browser.
+        </p>
+        <p>
+            The user selects a frequency range of interest, a statistical measure of interest (absolute value or magnitude and phase information if present), the inclusion or exclusion of self connections, and then presses the "re-slice matrix and render" button to submit the query and update the chord diagram.
+        </p>
+        <p>
+            The user then can select a threshold cut-off value. This in real time dynamically prunes connections below a certain strength from the diagram.
+        </p>
+        <p>
+            The user then has the option to color the chord diagram based off of anatomic locations from a file (if present), or in a constant luminance scheme based off sequential order.
+        </p>
+        <p>
+            Once the chord diagram has been setup for visualization, the user can hover over a node or a chord to display connection strengths for that node, or between the two nodes specified by a given chord.
+        </p>
+        <p>
+            Upon clicking a chord, a bar graph will dynamically update which displays connection strengths across all frequencies for the two nodes of interest. By hovering over any bar in the chart, the connectivity strength will be displayed.
+        </p>
+
+
+        <h2>Materials</h2>
+        <div class="links">
+            <a href="final/paper-djcald-jiwu.pdf" >PDF</a>
+            |
+            <a href="final/poster-djcald-jiwu.pdf" >Poster</a>
+            |
+            <a href="https://github.com/CSE512-16S/fp-davidjuliancaldwell-jamesbrains/">Code</a>
+        </div>
+
+        <div class='footer'>
+            <a href='http://cs.washington.edu'>Computer Science &amp; Engineering</a> -
+            <a href='http://www.washington.edu'>University of Washington</a>
+        </div>
+    </div>
+    <br/>
+    <br/>
+
+
+</div>
+</body>
+
+</html>
