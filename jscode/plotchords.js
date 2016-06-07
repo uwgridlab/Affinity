@@ -77,8 +77,10 @@ var renderChord = function(regions, allfreqmean, colormode) {
             return regions[d.index].color;
           else if (colormode == "colorseq")
             return colormap(d.index);
+          else if (colormode == "colorgrid")
+            return colormapgrid(d.index);
           else if (colormode == "colorangle")
-            return regions[d.index].color;
+            return colormap(d.index);
         })
       .transition().duration(500)
       .attrTween("d", arcTween(layout_old));
@@ -128,6 +130,8 @@ var renderChord = function(regions, allfreqmean, colormode) {
                         return regions[d.source.index].color;
                     else if (colormode == "colorseq")
                         return colormap(d.source.index);
+                    else if (colormode == "colorgrid")
+                        return colormapgrid(d.source.index);
                     else if (colormode == "colorangle")
                         return colormapangle(matrixAngleArray[d.source.index][d.target.index]);                        
                     })
