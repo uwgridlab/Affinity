@@ -1,5 +1,4 @@
 # Interactive Web App For Multispectral Neural Connectivity
-===============
 
 ## <em>Affinity:</em> Connectivity Rapid Exploration Tool 
 
