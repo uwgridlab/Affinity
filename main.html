@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Generate Pairwise Interactive Circle Networks</title>
     <link rel="stylesheet" href="styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
     <!--Load D3-->
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="//d3js.org/d3-queue.v2.min.js"></script>
@@ -21,12 +22,13 @@
 </head>
 
 <body>
+<div class="allcontent">
 <div class="box" id="controlpanel">
     <table>
         
-    <tr>
-        <th class="slow">Frequency</th>
-        <th class="slow">Metric</th>
+    <tr class="header">
+        <th>Frequency</th>
+        <th>Metric</th>
         <th>Display options</th>
     </tr>
     
@@ -102,7 +104,7 @@ d3_queue.queue()
     .defer(d3.json, "dataFULL.txt")
     .await(initializeRender);
 </script>
-
+</div>
 </body>
 
 </html>

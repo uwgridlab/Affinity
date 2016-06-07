@@ -1,20 +1,53 @@
 body {
-    font-family: "Helvetica Neue", "Roboto Light", sans-serif;
+    font-family: "Helvetica Neue", "Roboto", sans-serif;
     font-size: 12px;
+    background-color: slategray;
+}
+.allcontent {
+    position: absolute;
+    left: 50%;
+    width: 820px;
+    margin-left: -410px;
+    background-color: white;
 }
 .box {
-    width: 800px;
-    padding: 0em 1em;
+    position: relative;
+    left: 50%;
+    margin-left: -410px;
+    width: 820px;
     display: block;
+    background-color: #f0f0fb;
 }
 .subbox {
     padding: 0em 1em;
     width: 250px;
 }
-
+.header {
+    font-size: 11pt;
+    background-color: #d0d0e5;
+}
+input {
+    font-family: "Helvetica Neue", "Roboto", sans-serif;
+}
+select {
+    font-family: "Helvetica Neue", "Roboto", sans-serif;
+}
+#freqrange {
+    background-color: #f0f0fb;
+}
 #circle circle {
     fill: none;
     pointer-events: all;
+}
+.circlechart {
+    position: relative;
+    left: 50%;
+    margin-left: -350px;
+}
+.barchart {
+    position: relative;
+    left: 50%;
+    margin-left: -400px;
 }
 path.chord {
     stroke: #000;
@@ -34,7 +67,8 @@ path.chord {
 }
 
 .axis {
-    font: 10px sans-serif;
+    font-family: "Helvetica Neue", "Roboto", sans-serif;
+    font-size: 11px;
 }
 
 .axis path,
@@ -45,7 +79,7 @@ path.chord {
 }
 
 .axis text {
-    font-family: sans-serif;
+    font-family: "Helvetica Neue", "Roboto", sans-serif;
     font-size: 11px;
     color: darkgray;
 }
