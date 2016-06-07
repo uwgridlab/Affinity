@@ -22,7 +22,7 @@
         <h1 class="title">Pairwise Connectivity Visualization</h1>
         <div class="authors">
             <a href="students.washington.edu/djcald/wordpress">David Caldwell</a>,
-            <a href="">James Wu</a>,
+            <a href="">James Wu</a>
         </div>
 
         <div class="figure">
@@ -36,11 +36,29 @@
 
         <h2>Software</h2>
         <p>
-            Try it online <a href="http://cse512-16s.github.io/fp-davidjuliancaldwell-jamesbrains/main">here</a>.
-            (Put detailed running instructions here if you don't have an online version available.
-
-            If your software requires some learning before using, you might want to put a short tutorial here.
+            Try our visualization online <a href="http://cse512-16s.github.io/fp-davidjuliancaldwell-jamesbrains/main">here</a>.
         </p>
+
+        <h2>Tutorial</h2>
+        <p>
+            The online visualization is preloaded with a data file, but using the drag and drop interface, a user can input a desired file of choice. Included in the code repository is a .py file that will process a python numpy connectivity matrix file and output a text file in appropriate JSON format for loading into the browser.
+        </p>
+        <p>
+            The user selects a frequency range of interest, a statistical measure of interest (absolute value or magnitude and phase information if present), the inclusion or exclusion of self connections, and then presses the "re-slice matrix and render" button to submit the query and update the chord diagram.
+        </p>
+        <p>
+            The user then can select a threshold cut-off value. This in real time dynamically prunes connections below a certain strength from the diagram.
+        </p>
+        <p>
+            The user then has the option to color the chord diagram based off of anatomic locations from a file (if present), or in a constant luminance scheme based off sequential order.
+        </p>
+        <p>
+            Once the chord diagram has been setup for visualization, the user can hover over a node or a chord to display connection strengths for that node, or between the two nodes specified by a given chord.
+        </p>
+        <p>
+            Upon clicking a chord, a bar graph will dynamically update which displays connection strengths across all frequencies for the two nodes of interest. By hovering over any bar in the chart, the connectivity strength will be displayed.
+        </p>
+
 
         <h2>Materials</h2>
         <div class="links">
