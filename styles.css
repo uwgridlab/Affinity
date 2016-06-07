@@ -26,7 +26,7 @@ path.chord {
 }
 
 .bar {
-    fill: steelblue;
+    fill: darkgray;
 }
 
 .bar:hover {
@@ -40,13 +40,14 @@ path.chord {
 .axis path,
 .axis line {
     fill: none;
-    stroke: #000;
+    stroke: darkgray;
     shape-rendering: crispEdges;
 }
 
 .axis text {
     font-family: sans-serif;
     font-size: 11px;
+    color: darkgray;
 }
 
 .x.axis path {
@@ -86,26 +87,26 @@ path.chord {
     left: 0;
 }
 
-    .fd-zone {
-      position: relative;
-      overflow: hidden;
-      width: 15em;
-      margin: 0 auto;
-      text-align: center;
-    }
+.fd-zone {
+    position: relative;
+    overflow: hidden;
+    width: 15em;
+    margin: 0 auto;
+    text-align: center;
+}
 
-    .fd-file {
-      opacity: 0;
-      font-size: 118px;
-      position: absolute;
-      right: 0;
-      top: 0;
-      z-index: 1;
-      padding: 0;
-      margin: 0;
-      cursor: pointer;
-      filter: alpha(opacity=0);
-      font-family: sans-serif;
-    }
+.fd-file {
+    opacity: 0;
+    font-size: 118px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    filter: alpha(opacity=0);
+    font-family: sans-serif;
+}
 
-    .fd-zone.over { border-color: maroon; background: #eee; }
+.fd-zone.over { border-color: maroon; background: #eee; }

@@ -38,7 +38,7 @@ var tip = d3.tip()
     .html(function(d) {
         // fix the number of decimal points
         n = d.toFixed(3);
-        return "<strong>Connectivity </strong> <span style='color:red'>" + n + "</span>";
+        return "<strong>Connectivity </strong> <span style='color:pink'>" + n + "</span>";
     });
 
 // call the tip
@@ -89,8 +89,8 @@ var title = svgbar.append("g")
     .attr("x", (width / 2))
     .attr("y", 0 - (margin.top / 2))
     .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .style("text-decoration", "underline");
+    .style("font-size", "16px");
+    // .style("text-decoration", "underline");
 
 var plotBars = function(dataset,si,ti) {
 // put a title on it

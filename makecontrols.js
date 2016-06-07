@@ -5,7 +5,7 @@ var regions_seq = [], regions_file, regions_global;
 // Define generic color scale
 var colormap = d3.scale.linear();
 var colormapangle = d3.scale.linear();
-var colormode = "colorfile";
+var colormode = "colorseq";
 
 // define variable to allow for temporary title demonstrating directions for bar graph
 var directions_bar = true;
