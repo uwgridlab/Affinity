@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Generate Pairwise Interactive Circle Networks</title>
     <link rel="stylesheet" href="styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
     <!--Load D3-->
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="//d3js.org/d3-queue.v2.min.js"></script>
@@ -21,13 +22,14 @@
 </head>
 
 <body>
+<div class="allcontent">
 <div class="box" id="controlpanel">
     <table>
         
-    <tr>
-        <th class="slow">Frequency</th>
-        <th class="slow">Metric</th>
-        <th>Prune threshold</th>
+    <tr class="header">
+        <th>Frequency</th>
+        <th>Metric</th>
+        <th>Display options</th>
     </tr>
     
     <tr>
@@ -57,9 +59,9 @@
         <p>
             <label for="thresh"
                 style="display: inline-block; text-align: left">
-                cutoff = <span id="thresh-value">0</span>
+                Prune threshold = <span id="thresh-value">0</span>
             </label>
-            <input type="range" min="0" max="1" step="0.01" value="0" id="thresh">
+            <input type="range" min="0" max="1" step="0.01" value="0" style="width: 220px;" id="thresh">
         </p>
     
     <p>
@@ -69,8 +71,8 @@
     </select>
 
     <select id = "colormode">
-        <option value="colorseq">Color from seq</option>
-        <option value="colorfile" selected>Color from file</option>
+        <option value="colorseq" selected>Color from seq</option>
+        <option value="colorfile">Color from file</option>
         <option value="colorangle" id="colorangle" disabled>Color with angle</option>
     </select>
     </p>
@@ -102,7 +104,7 @@ d3_queue.queue()
     .defer(d3.json, "dataFULL.txt")
     .await(initializeRender);
 </script>
-
+</div>
 </body>
 
 </html>

@@ -1,20 +1,53 @@
 body {
-    font-family: "Helvetica Neue", "Roboto Light", sans-serif;
+    font-family: "Helvetica Neue", "Roboto", sans-serif;
     font-size: 12px;
+    background-color: #33333f;
+}
+.allcontent {
+    position: absolute;
+    left: 50%;
+    width: 820px;
+    margin-left: -410px;
+    background-color: white;
 }
 .box {
-    width: 800px;
-    padding: 0em 1em;
+    position: relative;
+    left: 50%;
+    margin-left: -410px;
+    width: 820px;
     display: block;
+    background-color: #f0f0fb;
 }
 .subbox {
     padding: 0em 1em;
-    width: 200px;
+    width: 250px;
 }
-
+.header {
+    font-size: 11pt;
+    background-color: #d0d0e5;
+}
+input {
+    font-family: "Helvetica Neue", "Roboto", sans-serif;
+}
+select {
+    font-family: "Helvetica Neue", "Roboto", sans-serif;
+}
+#freqrange {
+    background-color: #f0f0fb;
+}
 #circle circle {
     fill: none;
     pointer-events: all;
+}
+.circlechart {
+    position: relative;
+    left: 50%;
+    margin-left: -350px;
+}
+.barchart {
+    position: relative;
+    left: 50%;
+    margin-left: -400px;
 }
 path.chord {
     stroke: #000;
@@ -26,7 +59,7 @@ path.chord {
 }
 
 .bar {
-    fill: steelblue;
+    fill: darkgray;
 }
 
 .bar:hover {
@@ -34,19 +67,21 @@ path.chord {
 }
 
 .axis {
-    font: 10px sans-serif;
+    font-family: "Helvetica Neue", "Roboto", sans-serif;
+    font-size: 11px;
 }
 
 .axis path,
 .axis line {
     fill: none;
-    stroke: #000;
+    stroke: darkgray;
     shape-rendering: crispEdges;
 }
 
 .axis text {
-    font-family: sans-serif;
+    font-family: "Helvetica Neue", "Roboto", sans-serif;
     font-size: 11px;
+    color: darkgray;
 }
 
 .x.axis path {
@@ -86,26 +121,26 @@ path.chord {
     left: 0;
 }
 
-    .fd-zone {
-      position: relative;
-      overflow: hidden;
-      width: 15em;
-      margin: 0 auto;
-      text-align: center;
-    }
+.fd-zone {
+    position: relative;
+    overflow: hidden;
+    width: 15em;
+    margin: 0 auto;
+    text-align: center;
+}
 
-    .fd-file {
-      opacity: 0;
-      font-size: 118px;
-      position: absolute;
-      right: 0;
-      top: 0;
-      z-index: 1;
-      padding: 0;
-      margin: 0;
-      cursor: pointer;
-      filter: alpha(opacity=0);
-      font-family: sans-serif;
-    }
+.fd-file {
+    opacity: 0;
+    font-size: 118px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    filter: alpha(opacity=0);
+    font-family: sans-serif;
+}
 
-    .fd-zone.over { border-color: maroon; background: #eee; }
+.fd-zone.over { border-color: maroon; background: #eee; }

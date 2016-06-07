@@ -38,7 +38,7 @@ var tip = d3.tip()
     .html(function(d) {
         // fix the number of decimal points
         n = d.toFixed(3);
-        return "<strong>Connectivity </strong> <span style='color:red'>" + n + "</span>";
+        return "<strong>Connectivity </strong> <span style='color:pink'>" + n + "</span>";
     });
 
 // call the tip
@@ -68,7 +68,7 @@ svgbar.append("g")
     .attr("class", "y axis")
     .append("text") // just for the title (ticks are automatic)
     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-    .attr("transform", "translate("+ (paddingy/2) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+    .attr("transform", "translate("+ (paddingy/3) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
     .style("font-size", "14px")
     .text("Connectivity");
 
@@ -89,8 +89,8 @@ var title = svgbar.append("g")
     .attr("x", (width / 2))
     .attr("y", 0 - (margin.top / 2))
     .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .style("text-decoration", "underline");
+    .style("font-size", "16px");
+    // .style("text-decoration", "underline");
 
 var plotBars = function(dataset,si,ti) {
 // put a title on it
