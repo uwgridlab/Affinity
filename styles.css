@@ -2,19 +2,14 @@ body {
     font-family: "Helvetica Neue", "Roboto", sans-serif;
     font-size: 12px;
     background-color: #33333f;
+    margin: 0 auto 0 auto;
+    padding: 0;
+    width: 840px;
 }
 .allcontent {
-    position: absolute;
-    left: 50%;
-    width: 820px;
-    margin-left: -410px;
     background-color: white;
 }
 .box {
-    position: relative;
-    left: 50%;
-    margin-left: -410px;
-    width: 820px;
     display: block;
     background-color: #f0f0fb;
 }
@@ -40,14 +35,11 @@ select {
     pointer-events: all;
 }
 .circlechart {
-    position: relative;
-    left: 50%;
-    margin-left: -350px;
+    margin: 0 auto 0 auto;
+    width: 700px;
 }
 .barchart {
-    position: relative;
-    left: 50%;
-    margin-left: -400px;
+    margin-left: 30px;
 }
 path.chord {
     stroke: #000;
