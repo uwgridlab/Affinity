@@ -61,13 +61,11 @@ var update = function() {
 };
 
 // read in data, using initial guys
-var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
+var initializeRender = function(error, regions_in, fulldata) {
     if (error) throw error;
     
     regions_file = regions_in;
     regions_global = regions_file;
-    
-    matrixMeanArray = allfreqmean;
     
     //parse the JSON with the math.js reviver
     var a = JSON.parse(fulldata, math.json.reviver);
@@ -151,14 +149,15 @@ var initializeRender = function(error, regions_in, allfreqmean, fulldata) {
         " - " + $( "#freqslider" ).slider( "values", 1 ) );
     });
     
-    renderChord(regions_global, matrixMeanArray, colormode);
+    update();
+    // renderChord(regions_global, matrixMeanArray, colormode);
 
     //temporary values to initialize bar
     var temp_bar = math.zeros(numFreqs,numLocs,numLocs,2);
 
 
     //plot bar
-    plotBars(temp_bar,0, 0);
+    plotBars(temp_bar, 0, 0);
 
     // buttonFreq
     //         .on("click",function(){

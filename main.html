@@ -101,8 +101,7 @@
 // Load files and start
 d3_queue.queue()
     .defer(d3.csv, "data/regions.csv")
-    .defer(d3.json, "data/allfreqmean.json")
-    .defer(d3.json, "data/dataFULL.txt")
+    .defer(d3.json, "data/data2.txt")
     .await(initializeRender);
 </script>
 </div>
