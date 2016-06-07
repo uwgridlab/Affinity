@@ -1,5 +1,7 @@
-# Pairwise Connectivity Visualization 
-===============
+# Interactive Web App For Multispectral Neural Connectivity
+
+## <em>Affinity:</em> Connectivity Rapid Exploration Tool 
+
 ## Team Members
 
 1. David Caldwell (davidjuliancaldwell)
