@@ -21,8 +21,22 @@ def arr2json(arr):
     
     
 # load data 
-data = scipy.io.loadmat('dataMATLAB.mat')
-data_a = np.array(data['a'])
+data = scipy.io.loadmat('matlabSubjData.mat')
+#data = scipy.io.loadmat('d_854490.mat')
+#data = scipy.io.loadmat('d.mat')
+
+# subjects
+
+#Columns 1 through 6
+
+ #   '854490'    '8adc5c'    '979eab'    '9ab7ab'    '9d10c8'    'a3da50'
+
+ # Columns 7 through 8
+
+  #  'a9952e'    'd5cd55'
+
+
+data_a = np.array(data['data_d5cd55'])
 data_a_complex = np.add(data_a,0.j)
 data_a_complex_trans = np.transpose(data_a_complex,[2,0,1])
 
@@ -39,6 +53,6 @@ dataList = data_a_complex_trans.tolist()
 dataEncode = ComplexEncoder().encode(dataList)
 
 # write out to file 
-with open('dataFULLmatlab.txt', 'w') as outfile:
+with open('data_d5cd55.txt', 'w') as outfile:
     json.dump(dataEncode, outfile)
     
