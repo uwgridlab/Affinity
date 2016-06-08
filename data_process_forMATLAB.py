@@ -40,8 +40,16 @@ data_a = np.array(data['data_d5cd55'])
 data_a_complex = np.add(data_a,0.j)
 data_a_complex_trans = np.transpose(data_a_complex,[2,0,1])
 
+#B = A + A.T - np.diag(np.diag(A))
+
+
 # conver to list
-dataList = data_a_complex_trans.tolist()
+data_reflect = data_a_complex_trans
+for i in range(0,len(data_a_complex_trans)):
+    data_reflect[i] = data_a_complex_trans[i] + data_a_complex_trans[i].T -np.diag(np.diag(data_a_complex_trans[i]))
+     
+    
+dataList = data_reflect.tolist()
 
 # iterate through list, make fake complex
 #for i in range(0,len(dataList)):
