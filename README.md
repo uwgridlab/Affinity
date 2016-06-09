@@ -37,9 +37,11 @@ David developed the initial methods of converting the python data file (.npy) pr
 
 David also developed the initial framework for slicing and manipulating the JSON data matrix, and created the first set of sliders and dropdown boxes that allowed for subselections and updates. David using the math.js package created the format to allow for all of the mathematical calculations including calculating the absolute value of connectivity signals from complex numbers, taking the average across arbitrary dimensions, and slicing the data matrix in different dimensions. 
 
-From this data, David implemented an "on-click" feature to the chord diagram which allowed for the plotting of connectivity strengths across all frequencies in a dynamic bar graph which rendered below the chord diagram. 
+From this data, David implemented an "on-click" feature to the chord diagram which allowed for the plotting of connectivity strengths across all frequencies in a dynamic bar graph which rendered below the chord diagram..
 
-James ...
+James adapted *d3.svg.arc* and *d3.layout.chord* to visualize the pairwise relationships and update on user selection, and to prune with a single slider and resize by tweening. He also implemented coloring chords sequentially in 2D <code>L*a*b</code> and 1D <code>L*c*h</code> color sequences to convey spatial spacing of sensor locations.
+
+James also designed the aesthetics of the control panel and overall page CSS, as well as drag and drop data matrix loading. 
 
 David and James both worked on the background literature review for the project. Both also sought user feedback from collaborators and lab members, and implemented stylistic and design changes based off of this feedback. Both contributed to the progress report, final poster, and final paper. 
 
@@ -62,4 +64,5 @@ http://cse512-16s.github.io/fp-davidjuliancaldwell-jamesbrains/main.html
 
 Or download the repository, and run (if you have python 3) `python -m http.server 8888` and access this from http://localhost:8888/main.html . If you have python 2, run `python -m SimpleHTTPServer 8888` and access this from http://localhost:8888/main.html . 
 
+Additionally, download [more real-patient data](https://github.com/CSE512-16S/fp-davidjuliancaldwell-jamesbrains/tree/master/data) to explore different network datasets in the visualizer via drag and drop file loading.
 
