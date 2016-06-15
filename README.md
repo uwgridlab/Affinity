@@ -5,7 +5,7 @@
 ## Team Members
 
 1. David Caldwell (davidjuliancaldwell)
-3. James Wu (jamesbrains)
+3. James Wu (analogist)
 
 ## Breakdown
 
@@ -51,20 +51,20 @@ David and James both worked on the background literature review for the project.
 
 This is an example repository for the final project submission.  Put your abstract from your final paper here.
 
-[Poster](https://github.com/CSE512-16S/fp-davidjuliancaldwell-jamesbrains/raw/master/final/poster-djcald-jiwu.pdf),
-[Final Paper](https://github.com/CSE512-16S/fp-davidjuliancaldwell-jamesbrains/raw/master/final/paper-djcald-jiwu.pdf)
+[Poster](https://github.com/CSE512-16S/fp-davidjuliancaldwell-analogist/raw/master/final/poster-djcald-jiwu.pdf),
+[Final Paper](https://github.com/CSE512-16S/fp-davidjuliancaldwell-analogist/raw/master/final/paper-djcald-jiwu.pdf)
 
 ## Running Instructions
 
 Follow the link below to arrive to the project homepage, from which the project can be run.
 
-http://cse512-16s.github.io/fp-davidjuliancaldwell-jamesbrains/
+http://cse512-16s.github.io/fp-davidjuliancaldwell-analogist/
 
 Alternatively, follow the link below to directly run the visualization.
 
-http://cse512-16s.github.io/fp-davidjuliancaldwell-jamesbrains/main.html
+http://cse512-16s.github.io/fp-davidjuliancaldwell-analogist/main.html
 
 Or download the repository, and run (if you have python 3) `python -m http.server 8888` and access this from http://localhost:8888/main.html . If you have python 2, run `python -m SimpleHTTPServer 8888` and access this from http://localhost:8888/main.html . 
 
-Additionally, download [more real-patient data](https://github.com/CSE512-16S/fp-davidjuliancaldwell-jamesbrains/tree/master/data) to explore different network datasets in the visualizer via drag and drop file loading.
+Additionally, download [more real-patient data](https://github.com/CSE512-16S/fp-davidjuliancaldwell-analogist/tree/master/data) to explore different network datasets in the visualizer via drag and drop file loading.
 
