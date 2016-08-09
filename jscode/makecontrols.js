@@ -60,6 +60,36 @@ var update = function() {
     renderChord(regions_global, matrixMeanArray, colormode);
 };
 
+var genLabels = function() {
+    // construct number sequence as labeling option
+    regions_seq = [];
+    for (var i = 0; i < numLocs; i++){
+        regions_seq.push({
+            color: colormap(i),
+            fullname: i,
+            name: i
+        });
+    }
+
+    // Make grid similarity color map
+    colormapgrid
+        .domain(math.multiply(math.range(0, 64), (numLocs-1)/63).valueOf())
+        .range(["#0084A6","#00778A","#006D71","#006861","#006350","#005E38",
+            "#005800","#386200","#0083B4","#007393","#006370","#005955",
+            "#005340","#004D1C","#2F5400","#4A5F00","#0082BF","#006D9A",
+            "#005870","#00484A","#00452D","#1E4500","#415200","#565E00",
+            "#0082CC","#006AA4","#004D74","#003644","#203B18","#3D4600",
+            "#535300","#635E00","#0084DB","#0067B0","#003B79","#3B2548",
+            "#633727","#6D3E00","#794D00","#845900","#0080E1","#004EAF",
+            "#44007A","#730054","#960330","#9B1300","#A43300","#AB4400",
+            "#006AD9","#3A00A6","#7F0084","#A30067","#C70057","#CA0045",
+            "#CC0033","#CE0014","#0032CD","#7F00AE","#AE0091","#D0007C",
+            "#F60075","#F8006A","#F90060","#FB0055"]);
+            // L*a*b equal luminance
+    
+    regions_global = regions_seq;
+}
+
 // read in data, using initial guys
 var initializeRender = function(error, regions_in, fulldata) {
     if (error) throw error;
@@ -85,30 +115,7 @@ var initializeRender = function(error, regions_in, fulldata) {
             "#00A5CD","#0098E3","#007FDA","#7300BD","#DD008F","#F90054"]);
             // L*c*h equal luminance
     
-    // construct number sequence as labeling option
-    for (var i = 0; i < numLocs; i++){
-        regions_seq.push({
-            color: colormap(i),
-            fullname: i,
-            name: i
-        });
-    }
-
-    // Make grid similarity color map
-    colormapgrid
-        .domain(math.multiply(math.range(0, 64), (numLocs-1)/63).valueOf())
-        .range(["#0084A6","#00778A","#006D71","#006861","#006350","#005E38",
-            "#005800","#386200","#0083B4","#007393","#006370","#005955",
-            "#005340","#004D1C","#2F5400","#4A5F00","#0082BF","#006D9A",
-            "#005870","#00484A","#00452D","#1E4500","#415200","#565E00",
-            "#0082CC","#006AA4","#004D74","#003644","#203B18","#3D4600",
-            "#535300","#635E00","#0084DB","#0067B0","#003B79","#3B2548",
-            "#633727","#6D3E00","#794D00","#845900","#0080E1","#004EAF",
-            "#44007A","#730054","#960330","#9B1300","#A43300","#AB4400",
-            "#006AD9","#3A00A6","#7F0084","#A30067","#C70057","#CA0045",
-            "#CC0033","#CE0014","#0032CD","#7F00AE","#AE0091","#D0007C",
-            "#F60075","#F8006A","#F90060","#FB0055"]);
-            // L*a*b equal luminance
+    genLabels();
 
     colormapangle
         .domain([-math.pi, -math.pi*2/3, -math.pi/3,
