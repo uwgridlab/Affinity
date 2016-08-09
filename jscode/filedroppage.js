@@ -30,6 +30,7 @@ zone.event('send', function (files) {
                     $( "#freqrange" ).val($( "#freqslider" ).slider( "values", 0 ) +
                     " - " + $( "#freqslider" ).slider( "values", 1 ) );
                 });
+                genLabels();
                 update();
             },
             function(e) {alert('Error reading matrix file!')},
