@@ -66,8 +66,8 @@ var genLabels = function() {
     for (var i = 0; i < numLocs; i++){
         regions_seq.push({
             color: colormap(i),
-            fullname: i,
-            name: i
+            fullname: i+1,
+            name: i+1
         });
     }
 
