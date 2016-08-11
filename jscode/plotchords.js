@@ -81,6 +81,8 @@ var renderChord = function(regions, allfreqmean, colormode) {
             return colormapgrid(d.index);
           else if (colormode == "colorangle")
             return colormap(d.index);
+          else if (colormode == "colorsign")
+            return regions[d.index].color;
         })
       .transition().duration(500)
       .attrTween("d", arcTween(layout_old));
@@ -134,6 +136,8 @@ var renderChord = function(regions, allfreqmean, colormode) {
                         return colormapgrid(d.source.index);
                     else if (colormode == "colorangle")
                         return colormapangle(matrixAngleArray[d.source.index][d.target.index]);                        
+                    else if (colormode == "colorsign")
+                        return colormapsign(matrixAngleArray[d.source.index][d.target.index]);                        
                     })
       .transition().duration(500)
       .attr("opacity", 1)
