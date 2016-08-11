@@ -6,6 +6,7 @@ var regions_seq = [], regions_file, regions_global;
 var colormode = "colorseq";
 var colormap = d3.scale.linear();
 var colormapangle = d3.scale.linear();
+var colormapsign = d3.scale.linear();
 var colormapgrid = d3.scale.linear();
 
 // define variable to allow for temporary title demonstrating directions for bar graph
@@ -24,6 +25,12 @@ var updateThreshSlide = function(thresh) {
 var update = function() {
     // Regrab controls values
     var freqrange = d3.select("#freqrange").property("value").split(" - ");
+    var mapsignangle = d3.scale.linear();
+    mapsignangle
+        .domain([-1, -2/3, -1/3,
+            0, 1/3, 2/3, 1])
+        .range([-math.pi, -math.pi*2/3, -math.pi/3,
+            0, math.pi/3, math.pi*2/3, math.pi]);
     
     var f1 = freqrange[0],
         f2 = freqrange[1],
@@ -37,23 +44,34 @@ var update = function() {
     var matrixR = matrixData.subset(indexR);
     var matrixI = matrixData.subset(indexI);
 
-    // if (typeNum == "AbsVal")
-    var subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
-    matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
-
-    if (typeNum == "Angle") {
-        d3.select("#colorangle").property("disabled", false);
+    if (typeNum == "Sign") {
+        d3.select("#colorsign").property("disabled", false);
         d3.select("#colorblurb").attr("style", "display: none;");
-        var subsetMatrixAngle = math.atan2(matrixI, matrixR);
+        var subsetMatrix = math.abs(matrixR);
+        matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
+        var subsetMatrixAngle = matrixI;
         matrixAngleArray = math.squeeze(math.mean(subsetMatrixAngle,0)).valueOf();
     }
     else {
-        d3.select("#colorblurb").attr("style", "color: red;");
-        d3.select("#colorangle").property("disabled", true);
+        // if (typeNum == "AbsVal")
+        var subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
+        matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
+
+        if (typeNum == "Angle") {
+            d3.select("#colorangle").property("disabled", false);
+            d3.select("#colorblurb").attr("style", "display: none;");
+            var subsetMatrixAngle = math.atan2(matrixI, matrixR);
+            matrixAngleArray = math.squeeze(math.mean(subsetMatrixAngle,0)).valueOf();
+        }
+        else {
+            d3.select("#colorblurb").attr("style", "color: red;");
+            d3.select("#colorangle").property("disabled", true);
+        }
     }
 
+
     if(showSelf == "NOshowSelf"){
-        for (i = 0; i < 64; i++){
+        for (i = 0; i < numLocs; i++){
             matrixMeanArray[i][i] = 0;
         }
     }
@@ -116,6 +134,13 @@ var initializeRender = function(error, regions_in, fulldata) {
             // L*c*h equal luminance
     
     genLabels();
+
+    colormapsign
+        .domain([-1, -2/3, -1/3,
+            0, 1/3, 2/3, 1])
+        .range(["#2166ac", "#67a9cf", "#d1e5f0",
+        "#f7f7f7", "#fddbc7", "#ef8a62", "#b2182b"]);
+            // Colorbrewer 7-class diverging pallette
 
     colormapangle
         .domain([-math.pi, -math.pi*2/3, -math.pi/3,
