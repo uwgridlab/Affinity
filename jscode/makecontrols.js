@@ -9,17 +9,12 @@ var colormapangle = d3.scale.linear();
 var colormapsign = d3.scale.linear();
 var colormapgrid = d3.scale.linear();
 
+// upper and lower bounds
+var upperBound, lowerBound;
+
+
 // define variable to allow for temporary title demonstrating directions for bar graph
 var directions_bar = true;
-
-// update function for slider
-var updateThreshSlide = function(thresh) {
-
-    // adjust the text on the range slider
-    // of note, it looksl ike thresh.value is a STRING, might need to be converted to a floating point for calculations 
-    d3.select("#thresh-value").text(thresh);
-    slideVal = parseFloat(thresh)
-};
 
 // overall update function
 var update = function() {
@@ -124,6 +119,10 @@ var initializeRender = function(error, regions_in, fulldata) {
     numFreqs = sizeMatrix[0];
     numLocs = sizeMatrix[1];
 
+    // upper and lower bounds for slider from data
+    upperBound = math.max(matrixData);
+    lowerBound = math.min(matrixData);
+
     // construct default color map
     colormap
         .domain(math.multiply(
@@ -153,13 +152,6 @@ var initializeRender = function(error, regions_in, fulldata) {
     d3.select("#rerender")
         .on("click", update);
 
-    // update slider on input to slider
-    d3.select("#thresh")
-        .on("input", function() {
-            updateThreshSlide(+this.value);
-            threshChords(+this.value);
-        });
-    
     d3.select("#labelmode")
         .on("input", function() {
             labelRegion(this.value);
@@ -180,7 +172,24 @@ var initializeRender = function(error, regions_in, fulldata) {
         $( "#freqrange" ).val($( "#freqslider" ).slider( "values", 0 ) +
         " - " + $( "#freqslider" ).slider( "values", 1 ) );
     });
-    
+
+
+    // Dynamic slider generation
+    $(function() {
+        $( "#pruneslider" ).slider({
+            range: true, min: lowerBound, max: upperBound, step: 0.01, values: [ lowerBound, upperBound ],
+            slide: function( event, ui ) {
+                $( "#prunerange" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                var prune= d3.select("#prunerange").property("value").split(" - ");
+                threshChords(prune);
+
+            }
+        });
+        $( "#prunerange" ).val($( "#pruneslider" ).slider( "values", 0 ) +
+            " - " + $( "#pruneslider" ).slider( "values", 1 ) );
+    });
+
+
     update();
     // renderChord(regions_global, matrixMeanArray, colormode);
 
