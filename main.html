@@ -29,7 +29,7 @@
     <tr class="header">
         <th>Frequency</th>
         <th>Metric</th>
-        <th>Display options</th>
+        <th>Prune Threshold & Display options</th>
     </tr>
     
     <tr>
@@ -57,12 +57,9 @@
     </td>
     
     <td class="right subbox">
+        <input type="text" id="prunerange" readonly style="border: none;" />
+        <div id="pruneslider"></div>
         <p>
-            <label for="thresh"
-                style="display: inline-block; text-align: left">
-                Prune threshold = <span id="thresh-value">0</span>
-            </label>
-            <input type="range" min="0" max="1" step="0.01" value="0" style="width: 220px;" id="thresh">
         </p>
     
     <p>
