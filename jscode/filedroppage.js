@@ -21,6 +21,14 @@ zone.event('send', function (files) {
                 sizeMatrix = matrixData.size();
                 numFreqs = sizeMatrix[0];
                 numLocs = sizeMatrix[1];
+
+
+                // add in new upper and lower bounds
+
+                // upper and lower bounds for slider from data
+                upperBound = math.max(matrixData);
+                lowerBound = math.min(matrixData);
+
                 $(function() {
                     $( "#freqslider" ).slider({
                     range: true, min: 0, max: numFreqs, step: 1, values: [ 0, numFreqs ],
@@ -30,6 +38,24 @@ zone.event('send', function (files) {
                     $( "#freqrange" ).val($( "#freqslider" ).slider( "values", 0 ) +
                     " - " + $( "#freqslider" ).slider( "values", 1 ) );
                 });
+
+
+                // prune slider
+                $(function() {
+                    $( "#pruneslider" ).slider({
+                        range: true, min: lowerBound, max: upperBound, step: 0.01, values: [ lowerBound, upperBound ],
+                        slide: function( event, ui ) {
+                            $( "#prunerange" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                            var prune= d3.select("#prunerange").property("value").split(" - ");
+                            threshChords(prune);
+
+                        }
+                    });
+                    $( "#prunerange" ).val($( "#pruneslider" ).slider( "values", 0 ) +
+                        " - " + $( "#pruneslider" ).slider( "values", 1 ) );
+                });
+
+                genLabels();
                 update();
             },
             function(e) {alert('Error reading matrix file!')},

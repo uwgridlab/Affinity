@@ -6,16 +6,16 @@
     <link rel="stylesheet" href="styles.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
     <!--Load D3-->
-    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="//d3js.org/d3-queue.v2.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3-queue.v2.min.js"></script>
     <!--Load jQuery for slider controls-->
-    <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <!--Load math.js for matrix manipulation-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.min.js"></script>
-    <!--for tip -->
-    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.min.js"></script>
+    <!--for tip --> <!--no longer linked from website - now in depends -->
+    <script src="depends/d3-tip.js"></script>
     <!--for fileupload-->
     <script src="depends/filedrop-min.js"></script>
 
@@ -29,7 +29,7 @@
     <tr class="header">
         <th>Frequency</th>
         <th>Metric</th>
-        <th>Display options</th>
+        <th>Prune Threshold & Display options</th>
     </tr>
     
     <tr>
@@ -47,6 +47,7 @@
         <select id = "opts">
             <option value="AbsVal" selected>Absolute magnitude</option>
             <option value="Angle">Magnitude + Angle</option>
+            <option value="Sign">Real + Sign</option>
         </select>
         <select id = "showSelf">
             <option value="showSelf">Show self</option>
@@ -56,18 +57,15 @@
     </td>
     
     <td class="right subbox">
+        <input type="text" id="prunerange" readonly style="border: none;" />
+        <div id="pruneslider"></div>
         <p>
-            <label for="thresh"
-                style="display: inline-block; text-align: left">
-                Prune threshold = <span id="thresh-value">0</span>
-            </label>
-            <input type="range" min="0" max="1" step="0.01" value="0" style="width: 220px;" id="thresh">
         </p>
     
     <p>
     <select id = "labelmode">
-        <option value="labelseq">Label with seq</option>
-        <option value="labelfile" selected>Label from file</option>
+        <option value="labelseq" selected>Label with seq</option>
+        <option value="labelfile">Label from file</option>
     </select>
 
     <select id = "colormode">
@@ -75,6 +73,7 @@
         <option value="colorgrid">Color from grid</option>
         <option value="colorfile">Color from file</option>
         <option value="colorangle" id="colorangle" disabled>Color with angle</option>
+        <option value="colorsign" id="colorsign" disabled>Color with sign</option>
     </select>
     </p>
     </td>

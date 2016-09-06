@@ -81,6 +81,8 @@ var renderChord = function(regions, allfreqmean, colormode) {
             return colormapgrid(d.index);
           else if (colormode == "colorangle")
             return colormap(d.index);
+          else if (colormode == "colorsign")
+            return regions[d.index].color;
         })
       .transition().duration(500)
       .attrTween("d", arcTween(layout_old));
@@ -134,6 +136,8 @@ var renderChord = function(regions, allfreqmean, colormode) {
                         return colormapgrid(d.source.index);
                     else if (colormode == "colorangle")
                         return colormapangle(matrixAngleArray[d.source.index][d.target.index]);                        
+                    else if (colormode == "colorsign")
+                        return colormapsign(matrixAngleArray[d.source.index][d.target.index]);                        
                     })
       .transition().duration(500)
       .attr("opacity", 1)
@@ -171,22 +175,21 @@ var renderChord = function(regions, allfreqmean, colormode) {
   layout_old = chordlayout;
 }
 
+// threshold chords from lo and hi value from the dynamic slider
 var threshChords = function(threshslide) {
-  var threshval = threshslide * math.max(
-          chordlayout.chords()
-          .map(function(d)
-              {return d.source.value}
-              ))
+    var threshvalLo = threshslide[0]
+    var threshvalHi = threshslide[1]
 
-  // PRUNE METHOD
-  var matrixprune =
-    matrixMeanArray.map(function(d) { 
-        return d.map(function(e) {
-            return e >= threshval ? e : 0;
-        })
-    });
+    // PRUNE METHOD
+    var matrixprune =
+        matrixMeanArray.map(function(d) {
+            return d.map(function(e) {
+                return (e >= threshvalLo & e <= threshvalHi) ? e : 0;
+
+            })
+        });
     renderChord(regions_global, matrixprune, colormode);
-    
+
     /*
 //   FADE METHOD: preserve as feature maybe
   chord = svgcircle.selectAll(".chord")

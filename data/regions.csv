@@ -1,66 +1,12 @@
 fullname,name,color
-precentral gyrus,PreCG,#E50012
-superior frontal gyrus-dorsolateral,SFGdor,#E50200
-superior frontal gyrus-orbital part,ORBsup,#E61800
-middle frontal gyrus,MFG,#E62D00
-middle frontal gyrus-orbital part,ORBmid,#E74300
-inferior frontal gyrus-opercular part,IFGoperc,#E75900
-inferior frontal gyrus-triangular part,IFGtriang,#E86F00
-inferior frontal gyrus-orbital part,ORBinf,#E98500
-rolandic operculum,ROL,#E99C00
-supplementary motor area,SMA,#EAB200
-olfactory cortex,OLF,#EAC900
-superior frontal gyrus-medial,SFGmed,#EBDF00
-superior frontal gyrus-medial orbital,ORBsupmed,#E1EC00
-gyrus rectus,REC,#CBEC00
-insula,INS,#B6ED00
-anterior cingulate and paracingulate gyri,ACG,#A0ED00
-median cingulate and paracingulate gyri,DCG,#8AEE00
-posterior cingulate gyrus,PCG,#74EF00
-hippocampus,HIP,#5DEF00
-parahippocampal gyrus,PHG,#47F000
-amygdala,AMYG,#31F000
-calcarine fissure and surrounding cortex,CAL,#1AF100
-cuneus,CUN,#03F200
-lingual gyrus,LING,#00F212
-superior occipital gyrus,SOG,#00F329
-middle occipital gyrus,MOG,#00F340
-inferior occipital gyrus,IOG,#00F457
-fusiform gyrus,FFG,#00F46F
-postcentral gyrus,PoCG,#00F586
-superior parietal gyrus,SPG,#00F69D
-inferior parietal-but not supramarginal and angular gyri,IPL,#00F6B5
-supramarginal gyrus,SMG,#00F7CD
-angular gyrus,ANG,#00F7E4
-precuneus,PCUN,#00F4F8
-paracentral lobule,PCL,#00DDF9
-caudate nucleus,CAU,#00C6F9
-lenticular nucleus-putamen,PUT,#00AFFA
-lenticular nucleus-pallidum,PAL,#0098FA
-thalamus,THA,#0080FB
-Heschl’s gyrus,HES,#0069FC
-superior temporal gyrus,STG,#0052FC
-temporal pole: superior temporal gyrus,TPOsup,#003AFD
-middle temporal gyrus,MTG,#0022FD
-temporal pole: middle temporal gyrus,TPOmid,#000AFE
-inferior temporal gyrus,ITG,#0C00FF
-precentral gyrus,2PreCG,#E50012
-superior frontal gyrus-dorsolateral,2SFGdor,#E50200
-superior frontal gyrus-orbital part,2ORBsup,#E61800
-middle frontal gyrus,2MFG,#E62D00
-middle frontal gyrus-orbital part,2ORBmid,#E74300
-inferior frontal gyrus-opercular part,2IFGoperc,#E75900
-inferior frontal gyrus-triangular part,2IFGtriang,#E86F00
-inferior frontal gyrus-orbital part,2ORBinf,#E98500
-rolandic operculum,2ROL,#E99C00
-supplementary motor area,2SMA,#EAB200
-olfactory cortex,2OLF,#EAC900
-superior frontal gyrus-medial,2SFGmed,#EBDF00
-superior frontal gyrus-medial orbital,2ORBsupmed,#E1EC00
-gyrus rectus,2REC,#CBEC00
-insula,2INS,#B6ED00
-anterior cingulate and paracingulate gyri,2ACG,#A0ED00
-median cingulate and paracingulate gyri,2DCG,#8AEE00
-posterior cingulate gyrus,2PCG,#74EF00
-hippocampus,2HIP,#5DEF00
-
+a,2,#a6cee3
+b,6,#1f78b4
+c,18,#b2df8a
+d,19,#33a02c
+e,20,#fb9a99
+f,21,#e31a1c
+g,22,#fdbf6f
+h,37,#ff7f00
+i,39,#cab2d6
+j,40,#6a3d9a
+k,42,#ffff99
