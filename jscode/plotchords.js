@@ -158,9 +158,7 @@ var renderChord = function(regions, allfreqmean, colormode) {
     // add on click
     chord
         .on("click", function(d){
-
             plotBars(matrixData,d.source.index,d.target.index)
-
         });
 
   // Pair chord fade nonhighlight

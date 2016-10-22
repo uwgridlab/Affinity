@@ -71,6 +71,7 @@ var update = function() {
         }
     }
     renderChord(regions_global, matrixMeanArray, colormode);
+
 };
 
 var genLabels = function() {
@@ -150,7 +151,11 @@ var initializeRender = function(error, regions_in, fulldata) {
         
     // update button on click
     d3.select("#rerender")
-        .on("click", update);
+        .on("click", function() {
+            update();
+            plotHistUpdate(matrixMeanArray)
+            }
+        );
 
     d3.select("#labelmode")
         .on("input", function() {
@@ -189,7 +194,34 @@ var initializeRender = function(error, regions_in, fulldata) {
             " - " + $( "#pruneslider" ).slider( "values", 1 ) );
     });
 
+    ///////////////////////////////
 
+    var freqrange = d3.select("#freqrange").property("value").split(" - ");
+    var mapsignangle = d3.scale.linear();
+    mapsignangle
+        .domain([-1, -2/3, -1/3,
+            0, 1/3, 2/3, 1])
+        .range([-math.pi, -math.pi*2/3, -math.pi/3,
+            0, math.pi/3, math.pi*2/3, math.pi]);
+
+    var f1 = freqrange[0],
+        f2 = freqrange[1],
+        typeNum = d3.select("#opts").node().value,
+        showSelf = d3.select('#showSelf').node().value;
+
+    freqRange = math.range(f1,f2);
+    var locsRange = math.range(0,numLocs);
+    var indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
+    var indexI =  math.index(freqRange,locsRange,locsRange,math.range(1,2));
+    var matrixR = matrixData.subset(indexR);
+    var matrixI = matrixData.subset(indexI);
+
+    var subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
+    matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
+
+    plotHistInitialize(matrixMeanArray);
+
+    //////////////
     update();
     // renderChord(regions_global, matrixMeanArray, colormode);
 
