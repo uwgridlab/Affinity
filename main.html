@@ -53,7 +53,15 @@
                         <option value="showSelf">Show self</option>
                         <option value="NOshowSelf" selected>Exclude self</option>
                     </select>
-                    <p><input id="rerender" type="button" value="Re-slice matrix and render (slow)" /></p>
+                     <p><input id="rerender" type="button" value="Re-slice matrix and render (slow)" /></p>
+
+
+        <form name="myform" onSubmit="return handleClick()">
+            <input name="Submit"  type="submit" value="Change bin size " />
+            <input type="number" id="myVal"/>
+        </form>
+
+                     </P>
                 </td>
 
                 <td class="right subbox">

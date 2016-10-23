@@ -22,7 +22,7 @@ var formatCount = d3.format(",.0f");
 
 
 
-var plotHistInitialize = function(mean_freqs) {
+var plotHistInitialize = function(mean_freqs,bin_size) {
     var size_data = math.size(mean_freqs);
     var index_1 = size_data[0];
     var index_2 = size_data[1];
@@ -41,7 +41,7 @@ var plotHistInitialize = function(mean_freqs) {
         .domain([min, max])
         .range([0, width]);
      data = d3.layout.histogram()
-        .bins(x.ticks(20))
+        .bins(x.ticks(bin_size))
         (values);
 
     var yMax = d3.max(data, function(d){return d.length});
@@ -58,19 +58,19 @@ var plotHistInitialize = function(mean_freqs) {
         .scale(x)
         .orient("bottom");
 
-    var bar = svghist.selectAll(".bar").data(data);
+    var barh = svghist.selectAll(".bar").data(data);
 
-    bar.enter().append("g")
+    barh.enter().append("g")
         .attr("class", "bar")
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
-    bar.append("rect")
+    barh.append("rect")
         .attr("x", 1)
         .attr("width", (x(data[0].dx) - x(0)) - 1)
         .attr("height", function(d) { return height - y(d.y); })
         .attr("fill", function(d) { return colorScale(d.y) });
 
-    bar.append("text")
+    barh.append("text")
         .attr("dy", ".75em")
         .attr("y", -12)
         .attr("x", (x(data[0].dx) - x(0)) / 2)
@@ -130,28 +130,26 @@ svghist.append("g")
 
     // .style("text-decoration", "underline");
     ///////////////////
-    bar.transition()
+    barh.transition()
         .duration(1000)
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
-    bar.select("rect")
+    barh.select("rect")
         .transition()
         .duration(1000)
         .attr("height", function(d) { return height - y(d.y); })
         .attr("fill", function(d) { return colorScale(d.y) });
 
-    bar.select("text")
+    barh.select("text")
         .transition()
         .duration(1000)
         .text(function(d) { return formatCount(d.y); });
-bar
-                .on('mouseover', tip.show)
-        .on('mouseout', tip.hide);
+
 
 };
 
-var plotHistUpdate = function(mean_freqs) {
-
+var plotHistUpdate = function(mean_freqs,bin_size) {
+    console.log(bin_size)
     var size_data = math.size(mean_freqs);
     var index_1 = size_data[0];
     var index_2 = size_data[1];
@@ -170,7 +168,7 @@ var plotHistUpdate = function(mean_freqs) {
         .domain([min, max])
         .range([0, width]);
     data = d3.layout.histogram()
-        .bins(x.ticks(20))
+        .bins(x.ticks(bin_size))
         (values);
 
     var yMax = d3.max(data, function(d){return d.length});
@@ -187,23 +185,38 @@ var plotHistUpdate = function(mean_freqs) {
         .scale(x)
         .orient("bottom");
 
-    var bar = svghist.selectAll(".bar").data(data);
 
-    bar.exit().remove();
+        svghist.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis);
 
-    bar.transition()
+
+    var barh = svghist.selectAll(".bar").data(data);
+
+    barh.exit().remove();
+
+    barh.transition()
         .duration(1000)
-        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
+        ;
 
-    bar.select("rect")
+    barh.select("rect")
         .transition()
         .duration(1000)
+        .attr("x", 1)
+        .attr("width", (x(data[0].dx) - x(0)) - 1)
         .attr("height", function(d) { return height - y(d.y); })
         .attr("fill", function(d) { return colorScale(d.y) });
 
-    bar.select("text")
+
+    barh.select("text")
         .transition()
         .duration(1000)
+                .attr("dy", ".75em")
+        .attr("y", -12)
+        .attr("x", (x(data[0].dx) - x(0)) / 2)
+        .attr("text-anchor", "middle")
         .text(function(d) { return formatCount(d.y); });
 
 

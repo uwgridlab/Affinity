@@ -16,6 +16,14 @@ var upperBound, lowerBound;
 // define variable to allow for temporary title demonstrating directions for bar graph
 var directions_bar = true;
 
+
+function handleClick(event){
+                var bin_size = (document.getElementById("myVal").value)
+                plotHistUpdate(matrixMeanArray,bin_size)
+                return false;
+            }
+
+
 // overall update function
 var update = function() {
     // Regrab controls values
@@ -153,7 +161,7 @@ var initializeRender = function(error, regions_in, fulldata) {
     d3.select("#rerender")
         .on("click", function() {
             update();
-            plotHistUpdate(matrixMeanArray)
+            plotHistUpdate(matrixMeanArray,bin_size)
             }
         );
 
@@ -166,6 +174,14 @@ var initializeRender = function(error, regions_in, fulldata) {
             colormode = this.value;
             renderChord(regions_global, matrixMeanArray, colormode);
         });
+
+        /*
+    d3.select("#myVal")
+    .on("input", function(){
+        bin_size = this.value
+        plotHistUpdate(matrixMeanArray,bin_size)
+    });
+ */
         
     // Dynamic slider generation
     $(function() {
@@ -219,7 +235,9 @@ var initializeRender = function(error, regions_in, fulldata) {
     var subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
     matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
 
-    plotHistInitialize(matrixMeanArray);
+    var bin_size = 20; 
+
+    plotHistInitialize(matrixMeanArray,bin_size);
 
     //////////////
     update();
