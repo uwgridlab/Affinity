@@ -21,6 +21,7 @@ var color = "steelblue";
 var formatCount = d3.format(",.0f");
 
 
+
 var plotHistInitialize = function(mean_freqs) {
     var size_data = math.size(mean_freqs);
     var index_1 = size_data[0];
@@ -76,6 +77,59 @@ var plotHistInitialize = function(mean_freqs) {
         .attr("text-anchor", "middle")
         .text(function(d) { return formatCount(d.y); });
 
+        svghist.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis);
+///////////////
+// from http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
+/*    svghist.append("text")
+        .attr("transform", "translate(" + (width / 2 + 30) + " ," + (height + margin.bottom- 20 ) + ")")
+        .style("text-anchor", "middle")
+        .text("Connectivity Strength");
+
+            // Add the text label for the Y axis
+    svghist.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left + 30)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Number");*/
+//////////
+
+/////////
+// append axis title - from https://bl.ocks.org/RandomEtc/cff3610e7dd47bef2d01 and http://bl.ocks.org/phoebebright/3061203
+svghist.append("g")
+    .attr("class", "y axis")
+    .append("text") // just for the title (ticks are automatic)
+    .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+    .attr("transform", "translate("+ (paddingy/3 - 20) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+    .style("font-size", "14px")
+    .text("Number");
+
+// append axis title
+
+svghist.append("g")
+    .attr("class", "x axis")
+    .append("text") // just for the title (ticks are automatic)
+    .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+    .attr("transform", "translate("+ (width/2) +","+(height+paddingx)+")")  // centre below axis
+    .style("font-size", "14px")
+    .text("Connectivity Value");
+
+// add a title
+svghist.append("g")
+    .attr("class", "title")
+    .append("text")
+    .attr("x", (width / 2))
+    .attr("y", 0 - (margin.top / 2) )
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+        .text("Histogram of Connectivity Strengths");
+
+    // .style("text-decoration", "underline");
+    ///////////////////
     bar.transition()
         .duration(1000)
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
@@ -90,6 +144,9 @@ var plotHistInitialize = function(mean_freqs) {
         .transition()
         .duration(1000)
         .text(function(d) { return formatCount(d.y); });
+bar
+                .on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
 
 };
 
