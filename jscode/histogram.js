@@ -149,7 +149,6 @@ svghist.append("g")
 };
 
 var plotHistUpdate = function(mean_freqs,bin_size) {
-    console.log(bin_size)
     var size_data = math.size(mean_freqs);
     var index_1 = size_data[0];
     var index_2 = size_data[1];
@@ -184,13 +183,6 @@ var plotHistUpdate = function(mean_freqs,bin_size) {
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom");
-
-
-        svghist.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
-
 
     var barh = svghist.selectAll(".bar").data(data);
 
