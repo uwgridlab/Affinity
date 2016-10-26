@@ -40,8 +40,8 @@ var plotHistInitialize = function(mean_freqs,bin_size) {
     var x = d3.scale.linear()
         .domain([min, max])
         .range([0, width]);
-     data = d3.layout.histogram()
-        .bins(x.ticks(bin_size))
+     var data = d3.layout.histogram()
+        .bins(bin_size)
         (values);
 
     var yMax = d3.max(data, function(d){return d.length});
@@ -128,27 +128,15 @@ svghist.append("g")
     .style("font-size", "16px")
         .text("Histogram of Connectivity Strengths");
 
-    // .style("text-decoration", "underline");
-    ///////////////////
-    barh.transition()
-        .duration(1000)
-        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
-    barh.select("rect")
-        .transition()
-        .duration(1000)
-        .attr("height", function(d) { return height - y(d.y); })
-        .attr("fill", function(d) { return colorScale(d.y) });
-
-    barh.select("text")
-        .transition()
-        .duration(1000)
-        .text(function(d) { return formatCount(d.y); });
 
 
 };
 
 var plotHistUpdate = function(mean_freqs,bin_size) {
+    var transitionDuration = 1000;
+      var t = d3.transition()
+      .duration(transitionDuration);
     var size_data = math.size(mean_freqs);
     var index_1 = size_data[0];
     var index_2 = size_data[1];
@@ -166,8 +154,8 @@ var plotHistUpdate = function(mean_freqs,bin_size) {
     var x = d3.scale.linear()
         .domain([min, max])
         .range([0, width]);
-    data = d3.layout.histogram()
-        .bins(x.ticks(bin_size))
+    var data = d3.layout.histogram()
+        .bins(bin_size)
         (values);
 
     var yMax = d3.max(data, function(d){return d.length});
@@ -184,32 +172,36 @@ var plotHistUpdate = function(mean_freqs,bin_size) {
         .scale(x)
         .orient("bottom");
 
-    var barh = svghist.selectAll(".bar").data(data);
+// inspired by http://stackoverflow.com/questions/37534399/dynamically-changing-bins-and-height-of-a-d3-js-histogram
 
-    barh.exit().remove();
+  svghist.selectAll(".bar").remove();
 
-    barh.transition()
-        .duration(1000)
-        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
-        ;
+  var barh = svghist.selectAll(".bar").data(data)
 
-    barh.select("rect")
-        .transition()
-        .duration(1000)
+  barh
+    .enter().append("g")
+    .transition().duration(1000)
+    .attr("class","bar")
+    .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+
+
+    barh.append("rect")
+        .transition().duration(2000)
         .attr("x", 1)
         .attr("width", (x(data[0].dx) - x(0)) - 1)
         .attr("height", function(d) { return height - y(d.y); })
         .attr("fill", function(d) { return colorScale(d.y) });
 
 
-    barh.select("text")
-        .transition()
-        .duration(1000)
-                .attr("dy", ".75em")
+
+    barh.append("text")
+        .transition().duration(2000)
+        .attr("dy", ".75em")
         .attr("y", -12)
         .attr("x", (x(data[0].dx) - x(0)) / 2)
         .attr("text-anchor", "middle")
         .text(function(d) { return formatCount(d.y); });
+
 
 
 };
