@@ -30,8 +30,11 @@ var plotHistInitialize = function(mean_freqs,bin_size) {
     var stacked_freqs = [];
     for (i = 0; i < index_1; i++){
         for (j = 0; j < index_2; j++){
-            stacked_freqs[k] = mean_freqs[i][j];
-            k = k + 1;
+            // assuming upper triangular matrix of interest
+            if (j>i) {
+                stacked_freqs[k] = mean_freqs[i][j];
+                k = k + 1;
+            }
         }
     }
     var values = stacked_freqs;
@@ -144,8 +147,12 @@ var plotHistUpdate = function(mean_freqs,bin_size) {
     var stacked_freqs = [];
     for (i = 0; i < index_1; i++){
         for (j = 0; j < index_2; j++){
-            stacked_freqs[k] = mean_freqs[i][j];
-            k = k + 1;
+            // assuming upper triangular matrix
+
+            if (j>i) {
+                stacked_freqs[k] = mean_freqs[i][j];
+                k = k + 1;
+            }
         }
     }
     var values = stacked_freqs;
