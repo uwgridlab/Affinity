@@ -111,7 +111,7 @@
         // Load files and start
         d3_queue.queue()
                 .defer(d3.csv, "data/regions.csv")
-                .defer(d3.json, "data/data2.txt")
+                .defer(d3.json, "data/ICCplv.txt")
                 .await(initializeRender);
     </script>
 </div>
