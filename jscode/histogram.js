@@ -37,7 +37,6 @@ var plotHistInitialize = function(mean_freqs,bin_size) {
             }
         }
     }
-    console.log("hello");
     var values = stacked_freqs;
     var max = (d3.max(values));
     var min = (d3.min(values));
