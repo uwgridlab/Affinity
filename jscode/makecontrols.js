@@ -18,8 +18,8 @@ var directions_bar = true;
 
 
 function handleClick(event){
-                var bin_size = (document.getElementById("myVal").value)
-                var bin_size = math.floor(bin_size) //necessary so it doesn't think it's a floating point??
+                bin_size = (document.getElementById("myVal").value)
+             bin_size = math.floor(bin_size) //necessary so it doesn't think it's a floating point??
                 var freqrange = d3.select("#freqrange").property("value").split(" - ");
     var mapsignangle = d3.scale.linear();
         var freqrange = d3.select("#freqrange").property("value").split(" - ");
@@ -45,6 +45,7 @@ function handleClick(event){
     var subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
     var matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
                 plotHistUpdate(matrixMeanArray,bin_size)
+                var handleClickOnce = true;
                 return false;
             }
 
@@ -97,13 +98,13 @@ var update = function() {
         }
     }
 
-
     if(showSelf == "NOshowSelf"){
         for (i = 0; i < numLocs; i++){
             matrixMeanArray[i][i] = 0;
         }
     }
     renderChord(regions_global, matrixMeanArray, colormode);
+
 };
 
 var genLabels = function() {
@@ -185,7 +186,41 @@ var initializeRender = function(error, regions_in, fulldata) {
     d3.select("#rerender")
         .on("click", function() {
             update();
-            plotHistUpdate(matrixMeanArray,bin_size)
+            
+                freqrange = d3.select("#freqrange").property("value").split(" - ");
+    mapsignangle = d3.scale.linear();
+        freqrange = d3.select("#freqrange").property("value").split(" - ");
+
+    mapsignangle
+        .domain([-1, -2/3, -1/3,
+            0, 1/3, 2/3, 1])
+        .range([-math.pi, -math.pi*2/3, -math.pi/3,
+            0, math.pi/3, math.pi*2/3, math.pi]);
+    
+    f1 = freqrange[0],
+        f2 = freqrange[1],
+        typeNum = d3.select("#opts").node().value,
+        showSelf = d3.select('#showSelf').node().value;
+                
+    freqRange = math.range(f1,f2);
+    locsRange = math.range(0,numLocs);
+     indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
+     indexI =  math.index(freqRange,locsRange,locsRange,math.range(1,2));
+     matrixR = matrixData.subset(indexR);
+     matrixI = matrixData.subset(indexI);
+
+     subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
+     matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
+
+/*
+     if(handleClickOnce==true){
+        var bin_size = (document.getElementById("myVal").value);
+        var bin_size = math.floor(bin_size); //necessary so it doesn't think it's a floating point??
+        console.log(bin_size)
+     }
+*/
+                plotHistUpdate(matrixMeanArray,bin_size);
+
             }
         );
 
@@ -259,10 +294,9 @@ var initializeRender = function(error, regions_in, fulldata) {
     var subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
     var matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
 
-    var bin_size = 15; 
-
+    bin_size = 15; 
+    var handleClickOnce = false;
     plotHistInitialize(matrixMeanArray,bin_size);
-
     //////////////
     update();
     // renderChord(regions_global, matrixMeanArray, colormode);

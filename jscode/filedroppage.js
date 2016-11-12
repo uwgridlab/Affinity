@@ -57,6 +57,35 @@ zone.event('send', function (files) {
 
                 genLabels();
                 update();
+
+                ////// 11-10-2016 - auto update histogram
+                   
+
+                       freqrange = d3.select("#freqrange").property("value").split(" - ");
+    mapsignangle = d3.scale.linear();
+    mapsignangle
+        .domain([-1, -2/3, -1/3,
+            0, 1/3, 2/3, 1])
+        .range([-math.pi, -math.pi*2/3, -math.pi/3,
+            0, math.pi/3, math.pi*2/3, math.pi]);
+
+     f1 = freqrange[0],
+        f2 = freqrange[1],
+        typeNum = d3.select("#opts").node().value,
+        showSelf = d3.select('#showSelf').node().value;
+
+    freqRange = math.range(f1,f2);
+    locsRange = math.range(0,numLocs);
+    indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
+     indexI =  math.index(freqRange,locsRange,locsRange,math.range(1,2));
+    matrixR = matrixData.subset(indexR);
+    matrixI = matrixData.subset(indexI);
+
+    subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
+    matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
+
+     plotHistUpdate(matrixMeanArray,bin_size);
+
             },
             function(e) {alert('Error reading matrix file!')},
             'text'
