@@ -9,17 +9,46 @@ var colormapangle = d3.scale.linear();
 var colormapsign = d3.scale.linear();
 var colormapgrid = d3.scale.linear();
 
+// upper and lower bounds
+var upperBound, lowerBound;
+
+
 // define variable to allow for temporary title demonstrating directions for bar graph
 var directions_bar = true;
 
-// update function for slider
-var updateThreshSlide = function(thresh) {
 
-    // adjust the text on the range slider
-    // of note, it looksl ike thresh.value is a STRING, might need to be converted to a floating point for calculations 
-    d3.select("#thresh-value").text(thresh);
-    slideVal = parseFloat(thresh)
-};
+function handleClick(event){
+                bin_size = (document.getElementById("myVal").value)
+             bin_size = math.floor(bin_size) //necessary so it doesn't think it's a floating point??
+                var freqrange = d3.select("#freqrange").property("value").split(" - ");
+    var mapsignangle = d3.scale.linear();
+        var freqrange = d3.select("#freqrange").property("value").split(" - ");
+
+    mapsignangle
+        .domain([-1, -2/3, -1/3,
+            0, 1/3, 2/3, 1])
+        .range([-math.pi, -math.pi*2/3, -math.pi/3,
+            0, math.pi/3, math.pi*2/3, math.pi]);
+    
+    var f1 = freqrange[0],
+        f2 = freqrange[1],
+        typeNum = d3.select("#opts").node().value,
+        showSelf = d3.select('#showSelf').node().value;
+                
+    freqRange = math.range(f1,f2);
+    var locsRange = math.range(0,numLocs);
+    var indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
+    var indexI =  math.index(freqRange,locsRange,locsRange,math.range(1,2));
+    var matrixR = matrixData.subset(indexR);
+    var matrixI = matrixData.subset(indexI);
+
+    var subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
+    var matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
+                plotHistUpdate(matrixMeanArray,bin_size)
+                var handleClickOnce = true;
+                return false;
+            }
+
 
 // overall update function
 var update = function() {
@@ -69,13 +98,13 @@ var update = function() {
         }
     }
 
-
     if(showSelf == "NOshowSelf"){
         for (i = 0; i < numLocs; i++){
             matrixMeanArray[i][i] = 0;
         }
     }
     renderChord(regions_global, matrixMeanArray, colormode);
+
 };
 
 var genLabels = function() {
@@ -124,6 +153,10 @@ var initializeRender = function(error, regions_in, fulldata) {
     numFreqs = sizeMatrix[0];
     numLocs = sizeMatrix[1];
 
+    // upper and lower bounds for slider from data
+    upperBound = math.max(matrixData);
+    lowerBound = math.min(matrixData);
+
     // construct default color map
     colormap
         .domain(math.multiply(
@@ -151,15 +184,46 @@ var initializeRender = function(error, regions_in, fulldata) {
         
     // update button on click
     d3.select("#rerender")
-        .on("click", update);
+        .on("click", function() {
+            update();
+            
+                freqrange = d3.select("#freqrange").property("value").split(" - ");
+    mapsignangle = d3.scale.linear();
+        freqrange = d3.select("#freqrange").property("value").split(" - ");
 
-    // update slider on input to slider
-    d3.select("#thresh")
-        .on("input", function() {
-            updateThreshSlide(+this.value);
-            threshChords(+this.value);
-        });
+    mapsignangle
+        .domain([-1, -2/3, -1/3,
+            0, 1/3, 2/3, 1])
+        .range([-math.pi, -math.pi*2/3, -math.pi/3,
+            0, math.pi/3, math.pi*2/3, math.pi]);
     
+    f1 = freqrange[0],
+        f2 = freqrange[1],
+        typeNum = d3.select("#opts").node().value,
+        showSelf = d3.select('#showSelf').node().value;
+                
+    freqRange = math.range(f1,f2);
+    locsRange = math.range(0,numLocs);
+     indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
+     indexI =  math.index(freqRange,locsRange,locsRange,math.range(1,2));
+     matrixR = matrixData.subset(indexR);
+     matrixI = matrixData.subset(indexI);
+
+     subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
+     matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
+
+/*
+     if(handleClickOnce==true){
+        var bin_size = (document.getElementById("myVal").value);
+        var bin_size = math.floor(bin_size); //necessary so it doesn't think it's a floating point??
+        console.log(bin_size)
+     }
+*/
+                plotHistUpdate(matrixMeanArray,bin_size);
+
+            }
+        );
+
     d3.select("#labelmode")
         .on("input", function() {
             labelRegion(this.value);
@@ -169,6 +233,14 @@ var initializeRender = function(error, regions_in, fulldata) {
             colormode = this.value;
             renderChord(regions_global, matrixMeanArray, colormode);
         });
+
+        /*
+    d3.select("#myVal")
+    .on("input", function(){
+        bin_size = this.value
+        plotHistUpdate(matrixMeanArray,bin_size)
+    });
+ */
         
     // Dynamic slider generation
     $(function() {
@@ -180,7 +252,52 @@ var initializeRender = function(error, regions_in, fulldata) {
         $( "#freqrange" ).val($( "#freqslider" ).slider( "values", 0 ) +
         " - " + $( "#freqslider" ).slider( "values", 1 ) );
     });
-    
+
+
+    // Dynamic slider generation
+    $(function() {
+        $( "#pruneslider" ).slider({
+            range: true, min: lowerBound, max: upperBound, step: 0.01, values: [ lowerBound, upperBound ],
+            slide: function( event, ui ) {
+                $( "#prunerange" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                var prune= d3.select("#prunerange").property("value").split(" - ");
+                threshChords(prune);
+
+            }
+        });
+        $( "#prunerange" ).val($( "#pruneslider" ).slider( "values", 0 ) +
+            " - " + $( "#pruneslider" ).slider( "values", 1 ) );
+    });
+
+    ///////////////////////////////
+
+    var freqrange = d3.select("#freqrange").property("value").split(" - ");
+    var mapsignangle = d3.scale.linear();
+    mapsignangle
+        .domain([-1, -2/3, -1/3,
+            0, 1/3, 2/3, 1])
+        .range([-math.pi, -math.pi*2/3, -math.pi/3,
+            0, math.pi/3, math.pi*2/3, math.pi]);
+
+    var f1 = freqrange[0],
+        f2 = freqrange[1],
+        typeNum = d3.select("#opts").node().value,
+        showSelf = d3.select('#showSelf').node().value;
+
+    freqRange = math.range(f1,f2);
+    var locsRange = math.range(0,numLocs);
+    var indexR =  math.index(freqRange,locsRange,locsRange,math.range(0,1));
+    var indexI =  math.index(freqRange,locsRange,locsRange,math.range(1,2));
+    var matrixR = matrixData.subset(indexR);
+    var matrixI = matrixData.subset(indexI);
+
+    var subsetMatrix = math.sqrt(math.add(math.square(matrixR),math.square(matrixI)));
+    var matrixMeanArray = math.squeeze(math.mean(subsetMatrix,0)).valueOf();
+
+    bin_size = 15; 
+    var handleClickOnce = false;
+    plotHistInitialize(matrixMeanArray,bin_size);
+    //////////////
     update();
     // renderChord(regions_global, matrixMeanArray, colormode);
 

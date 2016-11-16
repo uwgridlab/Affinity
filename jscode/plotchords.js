@@ -158,9 +158,7 @@ var renderChord = function(regions, allfreqmean, colormode) {
     // add on click
     chord
         .on("click", function(d){
-
             plotBars(matrixData,d.source.index,d.target.index)
-
         });
 
   // Pair chord fade nonhighlight
@@ -175,22 +173,21 @@ var renderChord = function(regions, allfreqmean, colormode) {
   layout_old = chordlayout;
 }
 
+// threshold chords from lo and hi value from the dynamic slider
 var threshChords = function(threshslide) {
-  var threshval = threshslide * math.max(
-          chordlayout.chords()
-          .map(function(d)
-              {return d.source.value}
-              ))
+    var threshvalLo = threshslide[0]
+    var threshvalHi = threshslide[1]
 
-  // PRUNE METHOD
-  var matrixprune =
-    matrixMeanArray.map(function(d) { 
-        return d.map(function(e) {
-            return e >= threshval ? e : 0;
-        })
-    });
+    // PRUNE METHOD
+    var matrixprune =
+        matrixMeanArray.map(function(d) {
+            return d.map(function(e) {
+                return (e >= threshvalLo & e <= threshvalHi) ? e : 0;
+
+            })
+        });
     renderChord(regions_global, matrixprune, colormode);
-    
+
     /*
 //   FADE METHOD: preserve as feature maybe
   chord = svgcircle.selectAll(".chord")
