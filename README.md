@@ -31,13 +31,16 @@ In order to facilitate user understanding of the graphs, options to label and co
 
 The next step was to implement a dynamically updated “on-click” bar graph which showed connectivity values across frequencies between two regions selected in the chord diagram. 
 
+The final step was to implement a dynamically updated histogram summarizing connectivities across frequencies.
 ### Member Contributions
 
 David developed the initial methods of converting the python data file (.npy) provided by the collaborator Dr. Nick Foti and Dr. Emily Fox representing connectivity between various brain regions, into a JSON format which both preserved the important quantitative information present in the file and allowed it to be easily and read in the JS/d3 implementation. The current design involves a .py file which can be offline by the user, and which outputs a .txt file. Using the drag and drop loading features developed by James, this file then can be subsequently loaded into the browser for visualization. 
 
 David also developed the initial framework for slicing and manipulating the JSON data matrix, and created the first set of sliders and dropdown boxes that allowed for subselections and updates. David using the *math.js* package created the format to allow for all of the matrix manipulations including calculating the absolute value of connectivity signals from complex numbers, taking the average across arbitrary dimensions, and slicing the data matrix in different dimensions. 
 
-From this data, David implemented an "on-click" feature to the chord diagram which allowed for the plotting of connectivity strengths across all frequencies in a dynamic bar graph which rendered below the chord diagram..
+From this data, David implemented an "on-click" feature to the chord diagram which allowed for the plotting of connectivity strengths across all frequencies in a dynamic bar graph which rendered below the chord diagram.
+
+David implemented a dynamic histogram displaying all of the connectivities for a given frequency range.
 
 James adapted *d3.svg.arc* and *d3.layout.chord* to visualize the pairwise relationships and update on user selection, and to prune with a single slider and resize by tweening. He made sure there was a consistent reusable set of function calls that would update the chords by resizing on data load, subselection, and pruning. 
 
@@ -47,22 +50,15 @@ James also designed the aesthetics of the control panel using native HTML input 
 
 David and James both worked on the background literature review for the project. Both also sought user feedback from collaborators and lab members, and implemented stylistic and design changes based off of this feedback. Both contributed to the progress report, final poster, and final paper. 
 
-## Project
-
-This is an example repository for the final project submission.  Put your abstract from your final paper here.
-
-[Poster](https://github.com/CSE512-16S/fp-davidjuliancaldwell-analogist/raw/master/final/poster-djcald-jiwu.pdf),
-[Final Paper](https://github.com/CSE512-16S/fp-davidjuliancaldwell-analogist/raw/master/final/paper-djcald-jiwu.pdf)
-
 ## Running Instructions
 
 Follow the link below to arrive to the project homepage, from which the project can be run.
 
-http://cse512-16s.github.io/fp-davidjuliancaldwell-analogist/
+http://uwgridlab.github.io/Affinity/
 
 Alternatively, follow the link below to directly run the visualization.
 
-http://cse512-16s.github.io/fp-davidjuliancaldwell-analogist/main.html
+http://uwgridlab.github.io/Affinity/main.html
 
 Or download the repository, and run (if you have python 3) `python -m http.server 8888` and access this from http://localhost:8888/main.html . If you have python 2, run `python -m SimpleHTTPServer 8888` and access this from http://localhost:8888/main.html . 
 
