@@ -12,7 +12,6 @@
 <div class='content wider'>
 
     <div class='title'>
-        <a href="http://courses.cs.washington.edu/courses/cse512/16sp/"><strong>CSE512</strong></a>
         Interactive Web App For Multispectral Neural Connectivity
     </div>
     <br/>
@@ -21,17 +20,17 @@
 
         <h1 class="title"><em>Affinity:</em> Connectivity Rapid Exploration Tool</h1>
         <div class="authors">
-            <a href="https://students.washington.edu/djcald/wordpress/">David Caldwell</a>,
-            <a href="http://analogist.net">James Wu</a>
+            <a href="https://students.washington.edu/djcald/wordpress/">David J Caldwell</a>,
+            <a href="http://analogist.net">Jing Wu</a>, Kaitlyn Casimo, Jeffrey G Ojemann, Rajesh PN Rao
         </div>
 
         <div class="figure">
-            <a href="main.html"><img src="summary.png" width="75%"/></a>
+            <a href="main.html"><img src="website_imagepng.png" width="75%"/></a>
             <div class="caption">Global connections between nodes in an example network. Bar graph with connections across measurements for connectivity.</div>
         </div>
 
         <p>
-            Acknowledgement: This work was done in collaboration with Dr. Nick Foti and Dr. Emily Fox from the Department of Statistics.
+            Acknowledgement: This work was begun in collaboration with Dr. Nick Foti and Dr. Emily Fox from the Department of Statistics, for the 2016 spring quarter class of CSE 512 taught by Professor Jeffrey Heer.
         </p>
 
         <h2>Abstract</h2>
@@ -45,13 +44,13 @@
 
         <h2>Tutorial</h2>
         <p>
-            The online visualization is preloaded with a data file, but using the drag and drop interface, a user can input a desired file of choice. Included in the code repository is a .py file that will process a python numpy connectivity matrix file and output a text file in appropriate JSON format for loading into the browser. Data is in standard JSON nested array format, and some real-world datasets from patients <a href="https://github.com/CSE512-16S/fp-davidjuliancaldwell-analogist/tree/master/data">are located here.</a>
+            The online visualization is preloaded with a data file, but using the drag and drop interface, a user can input a desired file of choice. Included in the code repository is a .py file that will process a python numpy connectivity matrix file and output a text file in appropriate JSON format for loading into the browser. Data is in standard JSON nested array format, and some real-world datasets from patients <a href="https://github.com/uwgridlab/Affinity/tree/master/data">are located here.</a>
         </p>
         <p>
             The user selects a frequency range of interest, a statistical measure of interest (absolute value or magnitude and phase information if present), the inclusion or exclusion of self connections, and then presses the "re-slice matrix and render" button to submit the query and update the chord diagram.
         </p>
         <p>
-            The user then can select a threshold cut-off value. This in real time dynamically prunes connections below a certain strength from the diagram.
+            The user then can select a range of threshold cut-off value. This in real time dynamically prunes connections below a certain strength from the diagram.
         </p>
         <p>
             The user then has the option to color the chord diagram based off of anatomic locations from a file (if present), or in a constant luminance scheme based off sequential order.
@@ -62,20 +61,22 @@
         <p>
             Upon clicking a chord, a bar graph will dynamically update which displays connection strengths across all frequencies for the two nodes of interest. By hovering over any bar in the chart, the connectivity strength will be displayed.
         </p>
+        <p>
+            A histogram displaying all the mean connectivity strengths for a given set of frequencies is generated after each "re-slice matrix and render", which displays to the user the total number of pairwise connectivities that fall within a user-specified number of bins
+
+        </p>
 
 
         <h2>Materials</h2>
         <div class="links">
-            <a href="final/paper-djcald-jiwu.pdf" >PDF</a>
-            |
-            <a href="final/poster-djcald-jiwu.pdf" >Poster</a>
-            |
-            <a href="https://github.com/CSE512-16S/fp-davidjuliancaldwell-analogist/">Code</a>
+            <a href="https://github.com/uwgridlab/Affinity">Code</a>
         </div>
 
         <div class='footer'>
             <a href='http://cs.washington.edu'>Computer Science &amp; Engineering</a> -
-            <a href='http://www.washington.edu'>University of Washington</a>
+            <a href='http://www.washington.edu'>University of Washington</a> -
+            <a href='http://www.csne-erc.org'>Center for Sensorimotor Neural Engineering</a>
+
         </div>
     </div>
     <br/>

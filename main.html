@@ -57,7 +57,7 @@
 
 
         <form name="myform" onSubmit="return handleClick()">
-            <input name="Submit"  type="submit" value="Change bin size " />
+            <input name="Submit"  type="submit" value="Change number of bins " />
             <input type="number" id="myVal"/>
         </form>
 
@@ -110,7 +110,7 @@
     <script>
         // Load files and start
         d3_queue.queue()
-                .defer(d3.csv, "data/regions.csv")
+                .defer(d3.csv, "data/regions_old.csv")
                 .defer(d3.json, "data/ICCplv.txt")
                 .await(initializeRender);
     </script>
