@@ -62,5 +62,5 @@ http://uwgridlab.github.io/Affinity/main.html
 
 Or download the repository, and run (if you have python 3) `python -m http.server 8888` and access this from http://localhost:8888/main.html . If you have python 2, run `python -m SimpleHTTPServer 8888` and access this from http://localhost:8888/main.html . 
 
-Additionally, download [more real-patient data](https://github.com/CSE512-16S/fp-davidjuliancaldwell-analogist/tree/master/data) to explore different network datasets in the visualizer via drag and drop file loading.
+Additionally, download [more real-patient data](https://github.com/uwgridlab/Affinity/tree/master/data) to explore different network datasets in the visualizer via drag and drop file loading.
 
